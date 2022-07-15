@@ -39,37 +39,38 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      //
+      // > The Widget AppBarWithSearchSwitch
+      //
       appBar: AppBarWithSearchSwitch(
-        // onChanged: (text) {
-        //   searchText.value = text;
-        // },
-        onSubmitted: (text) {
+        onChanged: (text) {
           searchText.value = text;
         },
-        appBarBuilder: (context) => AppBar(
-          title: Text(title),
-          actions: [
-            IconButton(
-              icon: Icon(AppBarWithSearchSwitch.of(context)?.text != ''
-                  ? Icons.search_off
-                  : Icons.search),
-              tooltip:
-                  'Last input text: ${AppBarWithSearchSwitch.of(context)?.text}',
-              color: AppBarWithSearchSwitch.of(context)?.text != ''
-                  ? Colors.tealAccent
-                  : null,
-              onPressed: () {
-                AppBarWithSearchSwitch.of(context)?.beginSearch();
-                dev.log(AppBarWithSearchSwitch.of(context)
-                        ?.isActive
-                        .value
-                        .toString() ??
-                    '');
-              },
-            ),
-          ],
-        ),
+        // onSubmitted: (text) {
+        //   searchText.value = text;
+        // },
+        appBarBuilder: (context) {
+          final appBar = AppBarWithSearchSwitch.of(context)!;
+
+          return AppBar(
+            title: Text(title),
+            actions: [
+              IconButton(
+                icon: Icon(appBar.text != '' ? Icons.search_off : Icons.search),
+                tooltip: 'Last input: ${appBar.text}',
+                color: appBar.text != '' ? Colors.tealAccent : null,
+                onPressed: () {
+                  appBar.beginSearch();
+                  dev.log(appBar.isActive.value.toString());
+                },
+              ),
+            ],
+          );
+        },
       ),
+      //
+      // > Just some random code to react to input from AppBarWithSearchSwitch.
+      //
       body: Center(
         child: AnimatedBuilder(
           animation: Listenable.merge([searchText, _counter]),
@@ -86,9 +87,6 @@ class MyHomePage extends StatelessWidget {
                       child: Card(
                         child: Column(
                           children: [
-                            // Text(
-                            //   '$i',
-                            // ),
                             Expanded(
                               child: Center(
                                 child: Text(

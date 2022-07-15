@@ -1,0 +1,11 @@
+screenshot.gif
+.idea/
+test/
+windows/
+linux/
+web/
+macos/
+ios/
+android/
+build/
+main*
