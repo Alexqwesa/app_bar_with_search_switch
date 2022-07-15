@@ -4,10 +4,10 @@
 
 import 'package:flutter/material.dart';
 
-/// The default AppBar constructed.
+/// The AppBar with switch into search field.
 ///
-/// Note: you should implement button to call [beginSearch] here.
-
+/// Use [appBarBuilder] property to build default AppBar, with
+/// a search button which will call [beginSearch].
 class AppBarWithSearchSwitch extends InheritedWidget
     implements PreferredSizeWidget {
   AppBarWithSearchSwitch({
@@ -54,12 +54,6 @@ class AppBarWithSearchSwitch extends InheritedWidget
   TextEditingController get textEditingController =>
       customTextEditingController ?? _fallBackController;
 
-  /// The [TextEditingController] to be used in the textField.
-  ///
-  /// If null, will be used default one.
-  /// Use [textEditingController] getter to access this field.
-  final TextEditingController? customTextEditingController;
-
   /// Indicator of whenever search bar is active.
   ///
   /// Can be set directly, like this:
@@ -68,6 +62,12 @@ class AppBarWithSearchSwitch extends InheritedWidget
   /// ```
   ValueNotifier<bool> get isActive =>
       customIsActiveNotifier ?? _fallBackSearchIsActive;
+
+  /// The [TextEditingController] to be used in the textField.
+  ///
+  /// If null, will be used default one.
+  /// Use [textEditingController] getter to access this field.
+  final TextEditingController? customTextEditingController;
 
   /// The [ValueNotifier] to be used to indicate: is text field visible.
   ///
