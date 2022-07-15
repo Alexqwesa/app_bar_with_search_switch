@@ -7,8 +7,8 @@ An AppBar with switch into search field.
 A simple usage example:
 
 ```dart
-class _MyHomePageState extends StatelessWidget {
-  const SettingsScreen({Key? key}) : super(key: key);
+class MyHomePage extends StatelessWidget {
+  const MyHomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +31,6 @@ class _MyHomePageState extends StatelessWidget {
                   : null,
               onPressed: () {
                 AppBarWithSearchSwitch.of(context)?.triggerSearch(context);
-                print(AppBarWithSearchSwitch.of(context)?.isActive.value);
               },
             ),
           ],
