@@ -7,16 +7,20 @@
 /// ```dart
 /// class MyHomePage extends StatelessWidget {
 ///   const MyHomePage({Key? key}) : super(key: key);
+///   final searchText = ValueNotifier<String>('');
 ///
 ///   @override
 ///   Widget build(BuildContext context) {
 ///      return Scaffold(
 ///       appBar: AppBarWithSearchSwitch(
 ///         onChanged: (text) {
-///           setState(() => searchText = text);
+///           // any provider/valueNotifier updated here, or via setState:
+///           // setState(() => searchText = text);          // for statefull widget
+///           // ref.provider(search.notifier).state = text; // for riverpod
+///           searchText.value = text;                       // for ValueNotifier
 ///         },
 ///         appBarBuilder: (context) => AppBar(
-///           title: Text(widget.title),
+///           title: Text('Example AppBarWithSearch'),
 ///           actions: [
 ///             IconButton(
 ///               icon: Icon(AppBarWithSearchSwitch.of(context)?.text != ''
@@ -34,7 +38,12 @@
 ///           ],
 ///         ),
 ///       ),
-///       body: Container(),
+///       body: AnimatedBuilder( // or ValueListenableBuilder() for one notifier.
+///           animation: Listenable.merge([searchText, ...someOtherNotifiers]),
+///           builder: (BuildContext context, _) {
+///             return ...; // you code here
+///           },
+///       ),
 ///     }
 ///   }
 /// }

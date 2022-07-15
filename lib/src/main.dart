@@ -45,7 +45,6 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       appBar: AppBarWithSearchSwitch(
         onChanged: (text) {
           setState(() => searchText = text);
@@ -63,7 +62,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ? Colors.tealAccent
                   : null,
               onPressed: () {
-                AppBarWithSearchSwitch.of(context)?.triggerSearch(context);
+                AppBarWithSearchSwitch.of(context)?.triggerSearch();
                 print(AppBarWithSearchSwitch.of(context)?.isActive.value);
               },
             ),
