@@ -3,13 +3,40 @@
 // is governed by a BSD-style license that can be found in the LICENSE file.
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
-/// The AppBar with switch into search field.
+/// The AppBar that can switch into search field.
 ///
 /// Use [appBarBuilder] property to build default AppBar, with
 /// a search button which will call [startSearch].
 ///
-/// Use one of callbacks to get text from [TextField].
+/// Use one of callbacks to get text from [TextField]:
+/// - onChanged,
+/// - onClosed,
+/// - onSubmitted,
+/// - onCleared,
+/// - or listen to textEditingController.
+///
+/// This widget support almost all property off [AppBar], but:
+/// - [leading] and [title] properties are now expect - `Widget Function(context)?`:
+///   - this is made in order to access `AppBarWithSearchSwitch.of(context)` methods,
+///   - don't change them unless it necessary and use templates if you need to change them.
+/// - [preferredSize] here is a method, you should set it via [toolbarWidth] and [toolbarHeight].
+///
+/// Here is a list of all other new properties(without mentioned above):
+///     this.tooltipForClearButton = 'Clear',
+///     this.fieldHintText = 'Search',
+///     this.keepAppBarColors = true,
+///     this.closeOnSubmit = true,
+///     this.clearOnSubmit = false,
+///     this.clearOnClose = false,
+///     this.showClearButton = true,
+///     this.closeOnClearTwice = true,
+///     this.keyboardType = TextInputType.text,
+///     this.toolbarWidth = double.infinity,
+///     // notifiers:
+///     this.customIsActiveNotifier,      // have default static value
+///     this.customTextEditingController, // have default static value
 class AppBarWithSearchSwitch extends InheritedWidget
     implements PreferredSizeWidget {
   AppBarWithSearchSwitch({
@@ -21,19 +48,48 @@ class AppBarWithSearchSwitch extends InheritedWidget
     this.onCleared,
     this.tooltipForClearButton = 'Clear',
     this.fieldHintText = 'Search',
-    this.keepBackgroundColor = true,
+    this.keepAppBarColors = true, // in progress
     this.closeOnSubmit = true,
     this.clearOnSubmit = false,
     this.clearOnClose = false,
     this.showClearButton = true,
     this.closeOnClearTwice = true,
     this.keyboardType = TextInputType.text,
-    this.preferredHeight = kToolbarHeight,
-    this.actionsForSearchBar,
-    this.leadingButton, // builder function
-    this.textField, // builder function
+    this.toolbarWidth = double.infinity,
+    //
+    // > Notifiers
+    //
     this.customIsActiveNotifier,
     this.customTextEditingController,
+    //
+    // > standard AppBar fields
+    //
+    this.leading, // converted to builder function
+    this.title, // converted to builder function
+    this.actions,
+    this.automaticallyImplyLeading = true,
+    this.flexibleSpace,
+    this.bottom,
+    this.elevation,
+    this.scrolledUnderElevation,
+    this.shadowColor,
+    this.surfaceTintColor,
+    this.shape,
+    this.backgroundColor,
+    this.foregroundColor,
+    this.iconTheme,
+    this.actionsIconTheme,
+    this.primary = true,
+    this.centerTitle,
+    this.excludeHeaderSemantics = false,
+    this.titleSpacing,
+    this.toolbarOpacity = 1.0,
+    this.bottomOpacity = 1.0,
+    this.toolbarHeight,
+    this.leadingWidth,
+    this.toolbarTextStyle,
+    this.titleTextStyle,
+    this.systemOverlayStyle,
   }) : super(
           key: key,
           child: _ListenerBuilder(
@@ -44,13 +100,133 @@ class AppBarWithSearchSwitch extends InheritedWidget
           ),
         );
 
+  /// See [AppBar] documentation for help.
+  ///
+  /// This parameter is used then search is active: [isActive] == true.
+  final bool automaticallyImplyLeading;
+
+  /// See [AppBar] documentation for help.
+  ///
+  /// This parameter is used then search is active: [isActive] == true.
+  final Widget? flexibleSpace;
+
+  /// See [AppBar] documentation for help.
+  ///
+  /// This parameter is used then search is active: [isActive] == true.
+  final PreferredSizeWidget? bottom;
+
+  /// See [AppBar] documentation for help.
+  ///
+  /// This parameter is used then search is active: [isActive] == true.
+  final double? elevation;
+
+  /// See [AppBar] documentation for help.
+  ///
+  /// This parameter is used then search is active: [isActive] == true.
+  final double? scrolledUnderElevation;
+
+  /// See [AppBar] documentation for help.
+  ///
+  /// This parameter is used then search is active: [isActive] == true.
+  final Color? shadowColor;
+
+  /// See [AppBar] documentation for help.
+  ///
+  /// This parameter is used then search is active: [isActive] == true.
+  final Color? surfaceTintColor;
+
+  /// See [AppBar] documentation for help.
+  ///
+  /// This parameter is used then search is active: [isActive] == true.
+  final ShapeBorder? shape;
+
+  /// See [AppBar] documentation for help.
+  ///
+  /// This parameter is used then search is active: [isActive] == true.
+  final Color? backgroundColor;
+
+  /// See [AppBar] documentation for help.
+  ///
+  /// This parameter is used then search is active: [isActive] == true.
+  final Color? foregroundColor;
+
+  /// See [AppBar] documentation for help.
+  ///
+  /// This parameter is used then search is active: [isActive] == true.
+  final IconThemeData? iconTheme;
+
+  /// See [AppBar] documentation for help.
+  ///
+  /// This parameter is used then search is active: [isActive] == true.
+  final IconThemeData? actionsIconTheme;
+
+  /// See [AppBar] documentation for help.
+  ///
+  /// This parameter is used then search is active: [isActive] == true.
+  final bool primary;
+
+  /// See [AppBar] documentation for help.
+  ///
+  /// This parameter is used then search is active: [isActive] == true.
+  final bool? centerTitle;
+
+  /// See [AppBar] documentation for help.
+  ///
+  /// This parameter is used then search is active: [isActive] == true.
+  final bool excludeHeaderSemantics;
+
+  /// See [AppBar] documentation for help.
+  ///
+  /// This parameter is used then search is active: [isActive] == true.
+  final double? titleSpacing;
+
+  /// See [AppBar] documentation for help.
+  ///
+  /// This parameter is used then search is active: [isActive] == true.
+  final double toolbarOpacity;
+
+  /// See [AppBar] documentation for help.
+  ///
+  /// This parameter is used then search is active: [isActive] == true.
+  final double bottomOpacity;
+
+  /// See [AppBar] documentation for help.
+  ///
+  /// This parameter is used then search is active: [isActive] == true.
+  final double? toolbarHeight;
+
+  /// See [AppBar] documentation for help.
+  ///
+  /// This parameter is used then search is active: [isActive] == true.
+  final double? leadingWidth;
+
+  /// See [AppBar] documentation for help.
+  ///
+  /// This parameter is used then search is active: [isActive] == true.
+  final TextStyle? toolbarTextStyle;
+
+  /// See [AppBar] documentation for help.
+  ///
+  /// This parameter is used then search is active: [isActive] == true.
+  final TextStyle? titleTextStyle;
+
+  /// See [AppBar] documentation for help.
+  ///
+  /// This parameter is used then search is active: [isActive] == true.
+  final SystemUiOverlayStyle? systemOverlayStyle;
+
+  /// See [AppBar] documentation for help.
+  ///
+  /// This parameter is used then search is active: [isActive] == true.
+  final List<Widget>? actions;
+
   /// Used if custom [customIsActiveNotifier] not provided.
   static final _fallBackSearchIsActive = ValueNotifier(false);
 
   /// Used if custom [customTextEditingController] not provided.
   static final _fallBackController = TextEditingController(text: '');
 
-  /// The textEditingController to be used in the textField.
+  /// The [TextEditingController] for the [TextField] in search app bar.
   ///
   /// By default, used one controller for all instances, which allow it
   /// to remember last input text and share it across all instances.
@@ -69,7 +245,7 @@ class AppBarWithSearchSwitch extends InheritedWidget
   ValueNotifier<bool> get isActive =>
       customIsActiveNotifier ?? _fallBackSearchIsActive;
 
-  /// The [TextEditingController] to be used in the textField.
+  /// The [TextEditingController] for the [TextField] in search app bar.
   ///
   /// If null, will be used default one.
   /// Use [textEditingController] getter to access this field.
@@ -95,11 +271,15 @@ class AppBarWithSearchSwitch extends InheritedWidget
     return isActive != oldWidget.isActive;
   }
 
-  /// Height of widget, defaults to [kToolbarHeight].
-  final double preferredHeight;
+  /// Width of AppBar, defaults to [double.infinity].
+  ///
+  /// Use this and [kToolbarHeight] to determinate [preferredSize].
+  /// Note: height of [preferredSize] is [toolbarHeight]+[bottom].preferredSize.height
+  final double toolbarWidth;
 
   @override
-  Size get preferredSize => Size(double.infinity, preferredHeight);
+  Size get preferredSize => Size(toolbarWidth,
+      (toolbarHeight ?? kToolbarHeight) + (bottom?.preferredSize.height ?? 0));
 
   /// Text in the field.
   ///
@@ -130,18 +310,13 @@ class AppBarWithSearchSwitch extends InheritedWidget
   ///        },
   final PreferredSizeWidget Function(BuildContext context) appBarBuilder;
 
-  /// Additional action widgets for search bar. Defaults to null.
-  ///
-  /// Shown only then search field is active.
-  final List<Widget>? actionsForSearchBar;
-
-  /// Builder function for [TextField] of search app bar. Defaults to null.
+  /// Builder function for title of search app bar, expected [TextField]. Defaults to null.
   ///
   /// You do NOT need to overwrite this. But if you still want to,
   /// please use snippet below as template:
   /// ```dart
   /// ...
-  /// textField: (context) {
+  /// title: (context) {
   ///     final mainWidget = AppBarWithSearchSwitch.of(context)!;
   ///     final controller = mainWidget.textEditingController;
   ///     final theme = Theme.of(context);
@@ -152,7 +327,7 @@ class AppBarWithSearchSwitch extends InheritedWidget
   ///         keyboardType: mainWidget.keyboardType,
   ///         decoration: InputDecoration(
   ///           hintText: mainWidget.fieldHintText,
-  ///           hintStyle: mainWidget.keepBackgroundColor
+  ///           hintStyle: mainWidget.keepAppBarColors
   ///               ? null
   ///               : TextStyle(
   ///                   color: theme.textTheme.headline4!.color,
@@ -181,20 +356,20 @@ class AppBarWithSearchSwitch extends InheritedWidget
   ///   }
   /// }
   /// ```
-  final Widget Function(BuildContext context)? textField;
+  final Widget Function(BuildContext context)? title;
 
   /// Builder function for leading button of search app bar. Defaults to null.
   ///
   /// You do NOT need to overwrite this. But if you still want to,
   /// don't forget to add [stopSearch] callback:
-  final Widget Function(BuildContext context)? leadingButton;
+  final Widget Function(BuildContext context)? leading;
 
   /// Clear TextEditController on close.
   final bool clearOnClose;
 
   /// Whether the text field should take place "in the existing app bar",
   /// meaning whether it has the same background or a flipped one. Defaults to true.
-  final bool keepBackgroundColor;
+  final bool keepAppBarColors;
 
   /// Whether or not the search bar should close on submit. Defaults to true.
   final bool closeOnSubmit;
@@ -219,7 +394,7 @@ class AppBarWithSearchSwitch extends InheritedWidget
 
   /// Whether or not the search bar should add a clear input button, defaults to true.
   ///
-  /// To add custom ClearButton - set this to false, and add you button via [actionsForSearchBar].
+  /// To add custom ClearButton - set this to false, and add you button via [actions].
   final bool showClearButton;
 
   /// What the hintText on the search bar should be. Defaults to 'Search'.
@@ -272,6 +447,12 @@ class AppBarWithSearchSwitch extends InheritedWidget
       startSearch();
     }
   }
+
+  /// Clear text in search field.
+  void clearText() {
+    textEditingController.text = '';
+    onCleared?.call();
+  }
 }
 
 class _ListenerBuilder extends StatefulWidget {
@@ -323,52 +504,127 @@ class _ListenerBuilderState extends State<_ListenerBuilder> {
     return ValueListenableBuilder(
       valueListenable: AppBarWithSearchSwitch.of(context)!.isActive,
       child: AppBarWithSearchSwitch.of(context)!.appBarBuilder(context),
-      builder: (context, _, child) {
+      builder: (context, _, defaultAppBarBuilder) {
         final mainWidget = AppBarWithSearchSwitch.of(context)!;
-        final controller = mainWidget.textEditingController;
         final theme = Theme.of(context);
         final buttonColor =
-            mainWidget.keepBackgroundColor ? null : theme.iconTheme.color;
+            mainWidget.keepAppBarColors ? null : theme.iconTheme.color;
         final isSearching = AppBarWithSearchSwitch.of(context)!.isActive.value;
 
         return !isSearching
-            ? child!
+            ? defaultAppBarBuilder!
             : AppBar(
-                leading: mainWidget.leadingButton != null
-                    ? mainWidget.leadingButton?.call(context)
+                leading: mainWidget.leading != null
+                    ? mainWidget.leading?.call(context)
                     : _IconBackButton(buttonColor: buttonColor),
-                title: mainWidget.textField != null
-                    ? mainWidget.textField?.call(context)
+                title: mainWidget.title != null
+                    ? mainWidget.title?.call(context)
                     : const _TextField(),
                 backgroundColor:
-                    mainWidget.keepBackgroundColor ? null : theme.canvasColor,
+                    mainWidget.keepAppBarColors ? null : theme.canvasColor,
+                // backgroundColor: mainWidget.backgroundColor,
+
+                automaticallyImplyLeading: mainWidget.automaticallyImplyLeading,
+                flexibleSpace: mainWidget.flexibleSpace,
+                bottom: mainWidget.bottom,
+                elevation: mainWidget.elevation,
+                scrolledUnderElevation: mainWidget.scrolledUnderElevation,
+                shadowColor: mainWidget.shadowColor,
+                surfaceTintColor: mainWidget.surfaceTintColor,
+                shape: mainWidget.shape,
+                foregroundColor: mainWidget.foregroundColor,
+                iconTheme: mainWidget.iconTheme,
+                actionsIconTheme: mainWidget.actionsIconTheme,
+                primary: mainWidget.primary,
+                centerTitle: mainWidget.centerTitle,
+                excludeHeaderSemantics: mainWidget.excludeHeaderSemantics,
+                titleSpacing: mainWidget.titleSpacing,
+                toolbarOpacity: mainWidget.toolbarOpacity,
+                bottomOpacity: mainWidget.bottomOpacity,
+                toolbarHeight: mainWidget.toolbarHeight,
+                leadingWidth: mainWidget.leadingWidth,
+                toolbarTextStyle: mainWidget.toolbarTextStyle,
+                titleTextStyle: mainWidget.titleTextStyle,
+                systemOverlayStyle: mainWidget.systemOverlayStyle,
                 actions: [
-                  if (mainWidget.showClearButton)
-                    IconButton(
-                      tooltip: mainWidget.tooltipForClearButton,
-                      icon: _hasText
-                          ? const Icon(Icons.backspace)
-                          : const Icon(Icons.close),
-                      color:
-                          mainWidget.keepBackgroundColor ? null : buttonColor,
-                      disabledColor: mainWidget.keepBackgroundColor
-                          ? null
-                          : theme.disabledColor,
-                      onPressed: () {
-                        if (_hasText) {
-                          controller.text = '';
-                          // controller.clear();
-                          mainWidget.onCleared?.call();
-                        } else if (mainWidget.closeOnClearTwice) {
-                          mainWidget.stopSearch();
-                        }
-                      },
+                  //
+                  // > clear button
+                  //
+                  if (mainWidget.showClearButton &&
+                      !mainWidget.closeOnClearTwice &&
+                      _hasText)
+                    _ClearIconButton(
+                      mainWidget: mainWidget,
+                      buttonColor: buttonColor,
                     ),
-                  if (mainWidget.actionsForSearchBar != null)
-                    ...mainWidget.actionsForSearchBar!
+                  //
+                  // > clear or close button
+                  //
+                  if (mainWidget.showClearButton &&
+                      mainWidget.closeOnClearTwice)
+                    _ClearOrCloseIconButton(
+                      mainWidget: mainWidget,
+                      hasText: _hasText,
+                      buttonColor: buttonColor,
+                    ),
+                  //
+                  // > other actions
+                  //
+                  if (mainWidget.actions != null) ...mainWidget.actions!
                 ],
               );
       },
+    );
+  }
+}
+
+class _ClearOrCloseIconButton extends StatelessWidget {
+  const _ClearOrCloseIconButton({
+    Key? key,
+    required this.mainWidget,
+    required bool hasText,
+    required this.buttonColor,
+  })  : _hasText = hasText,
+        super(key: key);
+
+  final AppBarWithSearchSwitch mainWidget;
+  final bool _hasText;
+  final Color? buttonColor;
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      tooltip: _hasText ? mainWidget.tooltipForClearButton : 'Close Search',
+      icon: _hasText ? const Icon(Icons.backspace) : const Icon(Icons.close),
+      color: mainWidget.keepAppBarColors ? null : buttonColor,
+      onPressed: () {
+        if (_hasText) {
+          mainWidget.clearText();
+        } else if (mainWidget.closeOnClearTwice) {
+          mainWidget.stopSearch();
+        }
+      },
+    );
+  }
+}
+
+class _ClearIconButton extends StatelessWidget {
+  const _ClearIconButton({
+    Key? key,
+    required this.mainWidget,
+    required this.buttonColor,
+  }) : super(key: key);
+
+  final AppBarWithSearchSwitch mainWidget;
+  final Color? buttonColor;
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      tooltip: mainWidget.tooltipForClearButton,
+      icon: const Icon(Icons.backspace),
+      color: mainWidget.keepAppBarColors ? null : buttonColor,
+      onPressed: mainWidget.clearText,
     );
   }
 }
@@ -411,7 +667,7 @@ class _TextField extends StatelessWidget {
         keyboardType: mainWidget.keyboardType,
         decoration: InputDecoration(
           hintText: mainWidget.fieldHintText,
-          hintStyle: mainWidget.keepBackgroundColor
+          hintStyle: mainWidget.keepAppBarColors
               ? null
               : TextStyle(
                   color: theme.textTheme.headline4!.color,
