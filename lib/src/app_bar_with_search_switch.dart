@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 /// The AppBar with switch into search field.
 ///
 /// Use [appBarBuilder] property to build default AppBar, with
-/// a search button which will call [beginSearch].
+/// a search button which will call [startSearch].
 ///
 /// Use one of callbacks to get text from [TextField].
 class AppBarWithSearchSwitch extends InheritedWidget
@@ -19,6 +19,7 @@ class AppBarWithSearchSwitch extends InheritedWidget
     this.onClosed,
     this.onSubmitted,
     this.onCleared,
+    this.tooltipForClearButton = 'Clear',
     this.fieldHintText = 'Search',
     this.keepBackgroundColor = true,
     this.closeOnSubmit = true,
@@ -29,7 +30,8 @@ class AppBarWithSearchSwitch extends InheritedWidget
     this.keyboardType = TextInputType.text,
     this.preferredHeight = kToolbarHeight,
     this.actionsForSearchBar,
-    this.textFieldBuilder,
+    this.leadingButton, // builder function
+    this.textField, // builder function
     this.customIsActiveNotifier,
     this.customTextEditingController,
   }) : super(
@@ -107,6 +109,25 @@ class AppBarWithSearchSwitch extends InheritedWidget
   /// Builder function for AppBar by default (when search is inactive).
   ///
   /// How it should look before search is activated.
+  /// Example:
+  /// ...
+  ///        appBarBuilder: (context) {
+  ///          final appBar = AppBarWithSearchSwitch.of(context)!;
+  ///
+  ///          return AppBar(
+  ///            title: Text('Your text here'),
+  ///            actions: [
+  ///              IconButton(
+  ///                icon: Icon(appBar.text != '' ? Icons.search_off : Icons.search),
+  ///                // tooltip: 'Last input: ${appBar.text}',
+  ///                // color: appBar.text != '' ? Colors.tealAccent : null,
+  ///                onPressed: () {
+  ///                  appBar.startSearch(); // required
+  ///                },
+  ///              ),
+  ///            ],
+  ///          );
+  ///        },
   final PreferredSizeWidget Function(BuildContext context) appBarBuilder;
 
   /// Additional action widgets for search bar. Defaults to null.
@@ -120,7 +141,7 @@ class AppBarWithSearchSwitch extends InheritedWidget
   /// please use snippet below as template:
   /// ```dart
   /// ...
-  /// textFieldBuilder: (context) {
+  /// textField: (context) {
   ///     final mainWidget = AppBarWithSearchSwitch.of(context)!;
   ///     final controller = mainWidget.textEditingController;
   ///     final theme = Theme.of(context);
@@ -160,7 +181,13 @@ class AppBarWithSearchSwitch extends InheritedWidget
   ///   }
   /// }
   /// ```
-  final Widget Function(BuildContext context)? textFieldBuilder;
+  final Widget Function(BuildContext context)? textField;
+
+  /// Builder function for leading button of search app bar. Defaults to null.
+  ///
+  /// You do NOT need to overwrite this. But if you still want to,
+  /// don't forget to add [stopSearch] callback:
+  final Widget Function(BuildContext context)? leadingButton;
 
   /// Clear TextEditController on close.
   final bool clearOnClose;
@@ -172,7 +199,7 @@ class AppBarWithSearchSwitch extends InheritedWidget
   /// Whether or not the search bar should close on submit. Defaults to true.
   final bool closeOnSubmit;
 
-  /// The click on clear button will hide search field, if text field is empty. Defaults to true.
+  /// The click on clear button will hide search field, if text field is already empty. Defaults to true.
   final bool closeOnClearTwice;
 
   /// Whether the text field should be cleared when it is submitted
@@ -198,6 +225,9 @@ class AppBarWithSearchSwitch extends InheritedWidget
   /// What the hintText on the search bar should be. Defaults to 'Search'.
   final String fieldHintText;
 
+  /// The tooltip for ClearButton of search text field. Defaults to 'Clear'.
+  final String tooltipForClearButton;
+
   /// The type of keyboard to use for editing the search bar text. Defaults to 'TextInputType.text'.
   final TextInputType keyboardType;
 
@@ -211,13 +241,13 @@ class AppBarWithSearchSwitch extends InheritedWidget
   ///     IconButton(
   ///       icon: Icon(Icons.search, semanticLabel: "Search"),
   ///       onPressed: () {
-  ///          AppBarWithSearchSwitch.of(context)?.beginSearch();
+  ///          AppBarWithSearchSwitch.of(context)?.startSearch();
   ///       },
   ///     ),
   ///   ],
   /// );
   /// ```
-  void beginSearch() {
+  void startSearch() {
     isActive.value = true;
   }
 
@@ -226,13 +256,21 @@ class AppBarWithSearchSwitch extends InheritedWidget
   /// Usually you don't need to call this method implicitly.
   void stopSearch() {
     isActive.value = false;
+    if (clearOnClose) {
+      textEditingController.text = '';
+    }
+    onClosed?.call();
   }
 
   /// Show/hide the search bar.
   ///
-  /// See example in docs of [beginSearch] method.
+  /// See example in docs of [startSearch] method.
   void triggerSearch() {
-    isActive.value = !isActive.value;
+    if (isActive.value) {
+      stopSearch();
+    } else {
+      startSearch();
+    }
   }
 }
 
@@ -296,17 +334,21 @@ class _ListenerBuilderState extends State<_ListenerBuilder> {
         return !isSearching
             ? child!
             : AppBar(
-                leading: _IconBackButton(
-                    buttonColor: buttonColor, closeSearchBar: closeSearchBar),
-                title: mainWidget.textFieldBuilder != null
-                    ? mainWidget.textFieldBuilder?.call(context)
+                leading: mainWidget.leadingButton != null
+                    ? mainWidget.leadingButton?.call(context)
+                    : _IconBackButton(buttonColor: buttonColor),
+                title: mainWidget.textField != null
+                    ? mainWidget.textField?.call(context)
                     : const _TextField(),
                 backgroundColor:
                     mainWidget.keepBackgroundColor ? null : theme.canvasColor,
                 actions: [
                   if (mainWidget.showClearButton)
                     IconButton(
-                      icon: const Icon(Icons.clear, semanticLabel: 'Clear'),
+                      tooltip: mainWidget.tooltipForClearButton,
+                      icon: _hasText
+                          ? const Icon(Icons.backspace)
+                          : const Icon(Icons.close),
                       color:
                           mainWidget.keepBackgroundColor ? null : buttonColor,
                       disabledColor: mainWidget.keepBackgroundColor
@@ -318,7 +360,7 @@ class _ListenerBuilderState extends State<_ListenerBuilder> {
                           // controller.clear();
                           mainWidget.onCleared?.call();
                         } else if (mainWidget.closeOnClearTwice) {
-                          closeSearchBar(context);
+                          mainWidget.stopSearch();
                         }
                       },
                     ),
@@ -329,26 +371,15 @@ class _ListenerBuilderState extends State<_ListenerBuilder> {
       },
     );
   }
-
-  closeSearchBar(context) {
-    final mainWidget = AppBarWithSearchSwitch.of(context)!;
-    mainWidget.isActive.value = false;
-    if (mainWidget.clearOnClose) {
-      mainWidget.textEditingController.text = '';
-    }
-    mainWidget.onClosed?.call();
-  }
 }
 
 class _IconBackButton extends StatelessWidget {
   const _IconBackButton({
     required this.buttonColor,
-    required this.closeSearchBar,
     Key? key,
   }) : super(key: key);
 
   final Color? buttonColor;
-  final void Function(BuildContext context) closeSearchBar;
 
   @override
   Widget build(BuildContext context) {
@@ -357,7 +388,7 @@ class _IconBackButton extends StatelessWidget {
       color: buttonColor,
       tooltip: MaterialLocalizations.of(context).backButtonTooltip,
       onPressed: () {
-        closeSearchBar(context);
+        AppBarWithSearchSwitch.of(context)?.stopSearch();
       },
     );
   }

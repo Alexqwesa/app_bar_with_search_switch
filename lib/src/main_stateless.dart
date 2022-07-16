@@ -60,7 +60,7 @@ class MyHomePage extends StatelessWidget {
                 tooltip: 'Last input: ${appBar.text}',
                 color: appBar.text != '' ? Colors.tealAccent : null,
                 onPressed: () {
-                  appBar.beginSearch();
+                  appBar.startSearch();
                   dev.log(appBar.isActive.value.toString());
                 },
               ),
