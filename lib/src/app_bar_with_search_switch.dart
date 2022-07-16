@@ -48,7 +48,7 @@ class AppBarWithSearchSwitch extends InheritedWidget
     this.onCleared,
     this.tooltipForClearButton = 'Clear',
     this.fieldHintText = 'Search',
-    this.keepAppBarColors = true, // in progress
+    this.keepAppBarColors = true,
     this.closeOnSubmit = true,
     this.clearOnSubmit = false,
     this.clearOnClose = false,
@@ -318,8 +318,6 @@ class AppBarWithSearchSwitch extends InheritedWidget
   /// ...
   /// title: (context) {
   ///     final mainWidget = AppBarWithSearchSwitch.of(context)!;
-  ///     final controller = mainWidget.textEditingController;
-  ///     final theme = Theme.of(context);
   ///
   ///     return Directionality(
   ///       textDirection: Directionality.of(context),
@@ -327,11 +325,6 @@ class AppBarWithSearchSwitch extends InheritedWidget
   ///         keyboardType: mainWidget.keyboardType,
   ///         decoration: InputDecoration(
   ///           hintText: mainWidget.fieldHintText,
-  ///           hintStyle: mainWidget.keepAppBarColors
-  ///               ? null
-  ///               : TextStyle(
-  ///                   color: theme.textTheme.headline4!.color,
-  ///                 ),
   ///           enabledBorder: InputBorder.none,
   ///           focusedBorder: InputBorder.none,
   ///           border: InputBorder.none,
@@ -339,18 +332,9 @@ class AppBarWithSearchSwitch extends InheritedWidget
   ///         // don't use onChanged: it don't catch cases then textEditController changed directly,
   ///         // instead we subscribe to textEditController in initState.
   ///         // onChanged: mainWidget.onChanged,
-  ///         onSubmitted: (val) async {
-  ///           if (mainWidget.closeOnSubmit) {
-  ///             AppBarWithSearchSwitch.of(context)?.stopSearch();
-  ///           }
-  ///
-  ///           if (mainWidget.clearOnSubmit) {
-  ///             mainWidget.textEditingController.text = '';
-  ///           }
-  ///           mainWidget.onSubmitted?.call(val);
-  ///         },
+  ///         onSubmitted: AppBarWithSearchSwitch.of(context)?.submitCallbackForTextField,
   ///         autofocus: true,
-  ///         controller: controller,
+  ///         controller: mainWidget.textEditingController,
   ///       ),
   ///     );
   ///   }
@@ -452,6 +436,19 @@ class AppBarWithSearchSwitch extends InheritedWidget
   void clearText() {
     textEditingController.text = '';
     onCleared?.call();
+  }
+
+  /// In case you implement you own [title] builder, use this as callback for [TextField].[onSubmitted].
+  ///
+  /// Otherwise [onSubmit], [closeOnSubmit] and [clearOnSubmit] would not work.
+  void submitCallbackForTextField(val) {
+    if (closeOnSubmit) {
+      stopSearch();
+    }
+    if (clearOnSubmit) {
+      textEditingController.text = '';
+    }
+    onSubmitted?.call(val);
   }
 }
 
@@ -658,39 +655,50 @@ class _TextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final mainWidget = AppBarWithSearchSwitch.of(context)!;
-    final controller = mainWidget.textEditingController;
     final theme = Theme.of(context);
 
     return Directionality(
       textDirection: Directionality.of(context),
-      child: TextField(
-        keyboardType: mainWidget.keyboardType,
-        decoration: InputDecoration(
-          hintText: mainWidget.fieldHintText,
-          hintStyle: mainWidget.keepAppBarColors
-              ? null
-              : TextStyle(
-                  color: theme.textTheme.headline4!.color,
+      child: Theme(
+        data: mainWidget.keepAppBarColors
+            ? theme.copyWith(
+                textSelectionTheme: TextSelectionThemeData(
+                  // didn't work, https://github.com/flutter/flutter/issues/74890
+                  selectionHandleColor: Colors.grey,
+                  selectionColor: theme.backgroundColor,
                 ),
-          enabledBorder: InputBorder.none,
-          focusedBorder: InputBorder.none,
-          border: InputBorder.none,
-        ),
-        // don't use onChanged: it don't catch cases then textEditController changed directly,
-        // instead we subscribe to textEditController in initState.
-        // onChanged: mainWidget.onChanged,
-        onSubmitted: (val) async {
-          if (mainWidget.closeOnSubmit) {
-            AppBarWithSearchSwitch.of(context)?.stopSearch();
-          }
+              )
+            : theme,
+        child: TextField(
+          cursorColor: mainWidget.keepAppBarColors
+              ? theme.canvasColor
+              : theme.textSelectionTheme.cursorColor,
 
-          if (mainWidget.clearOnSubmit) {
-            mainWidget.textEditingController.text = '';
-          }
-          mainWidget.onSubmitted?.call(val);
-        },
-        autofocus: true,
-        controller: controller,
+          style: theme.textTheme.headline6?.copyWith(
+            color: mainWidget.keepAppBarColors
+                ? theme.canvasColor
+                : theme.textTheme.headline6?.color,
+          ),
+          decoration: InputDecoration(
+            hintText: mainWidget.fieldHintText,
+            hintStyle: TextStyle(
+              color: mainWidget.keepAppBarColors
+                  ? theme.canvasColor
+                  : theme.textTheme.headline6?.color,
+            ),
+            enabledBorder: InputBorder.none,
+            focusedBorder: InputBorder.none,
+            border: InputBorder.none,
+          ),
+          // don't use onChanged: it don't catch cases then textEditController changed directly,
+          // instead we subscribe to textEditController in initState.
+          // onChanged: mainWidget.onChanged,
+          onSubmitted:
+              AppBarWithSearchSwitch.of(context)?.submitCallbackForTextField,
+          keyboardType: mainWidget.keyboardType,
+          autofocus: true,
+          controller: mainWidget.textEditingController,
+        ),
       ),
     );
   }
