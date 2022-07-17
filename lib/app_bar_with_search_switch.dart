@@ -35,15 +35,8 @@
 ///          return AppBar(
 ///            title: Text(title),
 ///            actions: [
-///              IconButton(
-///                icon: Icon(appBar.text != '' ? Icons.search_off : Icons.search),
-///                tooltip: 'Last input: ${appBar.text}',
-///                color: appBar.text != '' ? Colors.tealAccent : null,
-///                onPressed: () {
-///                  appBar.startSearch();
-///                  dev.log(appBar.isActive.value.toString());
-///                },
-///              ),
+///              AppBarSearchButton(),
+///              // or IconButton(onPressed: AppBarWithSearchSwitch.of(context)?startSearch, icon: Icon(Icons.search)),
 ///            ],
 ///          );
 ///        },
@@ -97,4 +90,5 @@
 /// ```
 library app_bar_with_search_switch;
 
+export 'package:app_bar_with_search_switch/src/app_bar_search_button.dart';
 export 'package:app_bar_with_search_switch/src/app_bar_with_search_switch.dart';

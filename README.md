@@ -19,7 +19,8 @@ This is complete rewrite of [flutter_search_bar](https://pub.dev/packages/flutte
 
 Use [appBarBuilder](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch/appBarBuilder.html)
 property to build default AppBar with a search button which will
-call [startSearch](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch/startSearch.html).
+call [startSearch](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch/startSearch.html)
+or just use [AppBarSearchButton](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarSearchButton-class.html).
 
 Use one of these callbacks to get text from [TextField](https://api.flutter.dev/flutter/material/TextField-class.html):
 
@@ -98,15 +99,9 @@ class MyHomePage extends StatelessWidget {
           return AppBar(
             title: Text(title),
             actions: [
-              IconButton(
-                icon: Icon(appBar.text != '' ? Icons.search_off : Icons.search),
-                tooltip: 'Last input: ${appBar.text}',
-                color: appBar.text != '' ? Colors.tealAccent : null,
-                onPressed: () {
-                  appBar.startSearch();
-                  dev.log(appBar.isActive.value.toString() ?? '');
-                },
-              ),
+              AppBarSearchButton(),
+              // or 
+              // IconButton(onPressed: AppBarWithSearchSwitch.of(context)?startSearch, icon: Icon(Icons.search)),
             ],
           );
         },

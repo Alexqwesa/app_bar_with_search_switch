@@ -42,8 +42,8 @@ import 'app_bar_builder.dart';
 /// - this.[keyboardType] = TextInputType.text,
 /// - this.[toolbarWidth] = double.infinity,
 /// - // And notifiers:
-/// - this.[customIsActiveNotifier],      // have default static value
-/// - this.[customTextEditingController], // have default static value
+/// - this.[customIsActiveNotifier],      // has default static value
+/// - this.[customTextEditingController], // has default static value
 class AppBarWithSearchSwitch extends InheritedWidget
     implements PreferredSizeWidget {
 
