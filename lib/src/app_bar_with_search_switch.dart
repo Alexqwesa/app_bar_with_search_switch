@@ -7,43 +7,43 @@ import 'package:flutter/services.dart';
 
 import 'app_bar_builder.dart';
 
-/// The AppBar that can switch into search field.
+/// The [AppBar] that can switch into search field.
 ///
-/// Use [appBarBuilder] property to build default AppBar, with
+/// Use [appBarBuilder] property to build default AppBar with
 /// a search button which will call [startSearch].
 ///
 /// Use one of these callbacks to get text from [TextField]:
-/// - onChanged,
-/// - onSubmitted,
-/// - or listen to textEditingController.
+/// - [onChanged],
+/// - [onSubmitted],
+/// - or listen to [textEditingController].
 ///
 /// Also, there are callbacks for:
-/// - onCleared,
-/// - onClosed.
+/// - [onCleared],
+/// - [onClosed].
 ///
-/// This widget support almost all property off [AppBar], but:
+/// This widget support almost ***all*** properties of [AppBar], but:
 /// - [leading] and [title] properties are now expect - `Widget Function(context)?`:
 ///   - this is made in order to access `AppBarWithSearchSwitch.of(context)` methods,
 ///   - don't change them unless it necessary and use templates if you need to change them.
 /// - [preferredSize] here is a method, you should set it via [toolbarWidth] and [toolbarHeight].
 ///
 /// Here is a list of all other new properties(without mentioned above):
-///     this.tooltipForClearButton = 'Clear',
-///     this.tooltipForCloseButton = 'Close search',
-///     this.closeSearchButton = Icons.close,
-///     this.clearSearchButton = Icons.backspace,
-///     this.fieldHintText = 'Search',
-///     this.keepAppBarColors = true,
-///     this.closeOnSubmit = true,
-///     this.clearOnSubmit = false,
-///     this.clearOnClose = false,
-///     this.showClearButton = true,
-///     this.closeOnClearTwice = true,
-///     this.keyboardType = TextInputType.text,
-///     this.toolbarWidth = double.infinity,
-///     // And notifiers:
-///     this.customIsActiveNotifier,      // have default static value
-///     this.customTextEditingController, // have default static value
+/// - this.[tooltipForClearButton] = 'Clear',
+/// - this.[tooltipForCloseButton] = 'Close search',
+/// - this.[closeSearchButton] = Icons.close,
+/// - this.[clearSearchButton] = Icons.backspace,
+/// - this.[fieldHintText] = 'Search',
+/// - this.[keepAppBarColors] = true,
+/// - this.[closeOnSubmit] = true,
+/// - this.[clearOnSubmit] = false,
+/// - this.[clearOnClose] = false,
+/// - this.[showClearButton] = true,
+/// - this.[closeOnClearTwice] = true,
+/// - this.[keyboardType] = TextInputType.text,
+/// - this.[toolbarWidth] = double.infinity,
+/// - // And notifiers:
+/// - this.[customIsActiveNotifier],      // have default static value
+/// - this.[customTextEditingController], // have default static value
 class AppBarWithSearchSwitch extends InheritedWidget
     implements PreferredSizeWidget {
 
