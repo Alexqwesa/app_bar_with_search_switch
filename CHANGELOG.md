@@ -2,8 +2,8 @@
 
 ## 1.2.2
 
-Added option:
-* searchInputDecoration ,
+Added options:
+* searchInputDecoration,
 * searchActiveButtonColor,
 
 ## 1.2.1
