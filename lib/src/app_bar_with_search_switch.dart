@@ -10,12 +10,14 @@ import 'package:flutter/services.dart';
 /// Use [appBarBuilder] property to build default AppBar, with
 /// a search button which will call [startSearch].
 ///
-/// Use one of callbacks to get text from [TextField]:
+/// Use one of these callbacks to get text from [TextField]:
 /// - onChanged,
-/// - onClosed,
 /// - onSubmitted,
-/// - onCleared,
 /// - or listen to textEditingController.
+///
+/// Also, there are callbacks for:
+/// - onCleared,
+/// - onClosed.
 ///
 /// This widget support almost all property off [AppBar], but:
 /// - [leading] and [title] properties are now expect - `Widget Function(context)?`:
@@ -25,6 +27,9 @@ import 'package:flutter/services.dart';
 ///
 /// Here is a list of all other new properties(without mentioned above):
 ///     this.tooltipForClearButton = 'Clear',
+///     this.tooltipForCloseButton = 'Close search',
+///     this.closeSearchButton = Icons.close,
+///     this.clearSearchButton = Icons.backspace,
 ///     this.fieldHintText = 'Search',
 ///     this.keepAppBarColors = true,
 ///     this.closeOnSubmit = true,
@@ -34,11 +39,12 @@ import 'package:flutter/services.dart';
 ///     this.closeOnClearTwice = true,
 ///     this.keyboardType = TextInputType.text,
 ///     this.toolbarWidth = double.infinity,
-///     // notifiers:
+///     // And notifiers:
 ///     this.customIsActiveNotifier,      // have default static value
 ///     this.customTextEditingController, // have default static value
 class AppBarWithSearchSwitch extends InheritedWidget
     implements PreferredSizeWidget {
+
   AppBarWithSearchSwitch({
     required this.appBarBuilder,
     Key? key,
@@ -47,6 +53,9 @@ class AppBarWithSearchSwitch extends InheritedWidget
     this.onSubmitted,
     this.onCleared,
     this.tooltipForClearButton = 'Clear',
+    this.tooltipForCloseButton = 'Close search',
+    this.closeSearchButton = Icons.close,
+    this.clearSearchButton = Icons.backspace,
     this.fieldHintText = 'Search',
     this.keepAppBarColors = true,
     this.closeOnSubmit = true,
@@ -92,7 +101,7 @@ class AppBarWithSearchSwitch extends InheritedWidget
     this.systemOverlayStyle,
   }) : super(
           key: key,
-          child: _ListenerBuilder(
+          child: _AppBarBuilder(
             showClearButton: showClearButton,
             controller: customTextEditingController ??
                 AppBarWithSearchSwitch._fallBackController,
@@ -286,9 +295,9 @@ class AppBarWithSearchSwitch extends InheritedWidget
   /// Just a shortcut for [textEditingController.text].
   String get text => textEditingController.text;
 
-  /// Builder function for AppBar by default (when search is inactive).
+  /// Builder function for [AppBar] by default (when search is inactive).
   ///
-  /// How it should look before search is activated.
+  /// Describe how [AppBar] should look before search is activated ([isActive] == false).
   /// Example:
   /// ...
   ///        appBarBuilder: (context) {
@@ -330,7 +339,7 @@ class AppBarWithSearchSwitch extends InheritedWidget
   ///           border: InputBorder.none,
   ///         ),
   ///         // don't use onChanged: it don't catch cases then textEditController changed directly,
-  ///         // instead we subscribe to textEditController in initState.
+  ///         // instead we already subscribed to textEditController in initState.
   ///         // onChanged: mainWidget.onChanged,
   ///         onSubmitted: AppBarWithSearchSwitch.of(context)?.submitCallbackForTextField,
   ///         autofocus: true,
@@ -386,6 +395,21 @@ class AppBarWithSearchSwitch extends InheritedWidget
 
   /// The tooltip for ClearButton of search text field. Defaults to 'Clear'.
   final String tooltipForClearButton;
+
+  /// Tooltip for button close search.
+  ///
+  /// Default: 'Close search'.
+  final String tooltipForCloseButton;
+
+  /// Icon for button close search.
+  ///
+  /// Default: Icons.close
+  final IconData? closeSearchButton;
+
+  /// Icon for button clear search.
+  ///
+  /// Default: Icons.backspace
+  final IconData? clearSearchButton;
 
   /// The type of keyboard to use for editing the search bar text. Defaults to 'TextInputType.text'.
   final TextInputType keyboardType;
@@ -452,8 +476,8 @@ class AppBarWithSearchSwitch extends InheritedWidget
   }
 }
 
-class _ListenerBuilder extends StatefulWidget {
-  const _ListenerBuilder({
+class _AppBarBuilder extends StatefulWidget {
+  const _AppBarBuilder({
     required this.controller,
     required this.showClearButton,
     required this.onChange,
@@ -465,10 +489,10 @@ class _ListenerBuilder extends StatefulWidget {
   final bool showClearButton;
 
   @override
-  State<_ListenerBuilder> createState() => _ListenerBuilderState();
+  State<_AppBarBuilder> createState() => _AppBarBuilderState();
 }
 
-class _ListenerBuilderState extends State<_ListenerBuilder> {
+class _AppBarBuilderState extends State<_AppBarBuilder> {
   bool _hasText = true;
 
   @override
@@ -513,10 +537,10 @@ class _ListenerBuilderState extends State<_ListenerBuilder> {
             : AppBar(
                 leading: mainWidget.leading != null
                     ? mainWidget.leading?.call(context)
-                    : _IconBackButton(buttonColor: buttonColor),
+                    : _LeadingIconBackButton(buttonColor: buttonColor),
                 title: mainWidget.title != null
                     ? mainWidget.title?.call(context)
-                    : const _TextField(),
+                    : const _SearchTextField(),
                 backgroundColor:
                     mainWidget.keepAppBarColors ? null : theme.canvasColor,
                 // backgroundColor: mainWidget.backgroundColor,
@@ -591,7 +615,9 @@ class _ClearOrCloseIconButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      tooltip: _hasText ? mainWidget.tooltipForClearButton : 'Close Search',
+      tooltip: _hasText
+          ? mainWidget.tooltipForClearButton
+          : mainWidget.tooltipForCloseButton,
       icon: _hasText ? const Icon(Icons.backspace) : const Icon(Icons.close),
       color: mainWidget.keepAppBarColors ? null : buttonColor,
       onPressed: () {
@@ -626,8 +652,8 @@ class _ClearIconButton extends StatelessWidget {
   }
 }
 
-class _IconBackButton extends StatelessWidget {
-  const _IconBackButton({
+class _LeadingIconBackButton extends StatelessWidget {
+  const _LeadingIconBackButton({
     required this.buttonColor,
     Key? key,
   }) : super(key: key);
@@ -647,8 +673,8 @@ class _IconBackButton extends StatelessWidget {
   }
 }
 
-class _TextField extends StatelessWidget {
-  const _TextField({
+class _SearchTextField extends StatelessWidget {
+  const _SearchTextField({
     Key? key,
   }) : super(key: key);
 
@@ -691,7 +717,7 @@ class _TextField extends StatelessWidget {
             border: InputBorder.none,
           ),
           // don't use onChanged: it don't catch cases then textEditController changed directly,
-          // instead we subscribe to textEditController in initState.
+          // instead we already subscribed to textEditController in initState.
           // onChanged: mainWidget.onChanged,
           onSubmitted:
               AppBarWithSearchSwitch.of(context)?.submitCallbackForTextField,
