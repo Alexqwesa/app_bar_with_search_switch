@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.2.2
+
+Added option:
+* searchInputDecoration ,
+* searchActiveButtonColor,
+
 ## 1.2.1
 
 * added example directory,

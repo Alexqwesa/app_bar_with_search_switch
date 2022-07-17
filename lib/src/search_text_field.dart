@@ -38,17 +38,18 @@ class SearchTextField extends StatelessWidget {
                 ? theme.canvasColor
                 : theme.textTheme.headline6?.color,
           ),
-          decoration: InputDecoration(
-            hintText: mainWidget.fieldHintText,
-            hintStyle: TextStyle(
-              color: mainWidget.keepAppBarColors
-                  ? theme.canvasColor
-                  : theme.textTheme.headline6?.color,
-            ),
-            enabledBorder: InputBorder.none,
-            focusedBorder: InputBorder.none,
-            border: InputBorder.none,
-          ),
+          decoration: mainWidget.searchInputDecoration ??
+              InputDecoration(
+                hintText: mainWidget.fieldHintText,
+                hintStyle: TextStyle(
+                  color: mainWidget.keepAppBarColors
+                      ? theme.canvasColor
+                      : theme.textTheme.headline6?.color,
+                ),
+                enabledBorder: InputBorder.none,
+                focusedBorder: InputBorder.none,
+                border: InputBorder.none,
+              ),
           // don't use onChanged: it don't catch cases then textEditController changed directly,
           // instead we already subscribed to textEditController in initState.
           // onChanged: mainWidget.onChanged,

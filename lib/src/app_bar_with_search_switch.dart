@@ -41,9 +41,11 @@ import 'app_bar_builder.dart';
 /// - this.[closeOnClearTwice] = true,
 /// - this.[keyboardType] = TextInputType.text,
 /// - this.[toolbarWidth] = double.infinity,
+/// - this.[searchInputDecoration],
 /// - // And notifiers:
 /// - this.[customIsActiveNotifier],      // has default static value
 /// - this.[customTextEditingController], // has default static value
+/// - this.[customHasText], // has default static value
 class AppBarWithSearchSwitch extends InheritedWidget
     implements PreferredSizeWidget {
   AppBarWithSearchSwitch({
@@ -66,6 +68,7 @@ class AppBarWithSearchSwitch extends InheritedWidget
     this.closeOnClearTwice = true,
     this.keyboardType = TextInputType.text,
     this.toolbarWidth = double.infinity,
+    this.searchInputDecoration,
     //
     // > Notifiers
     //
@@ -308,6 +311,26 @@ class AppBarWithSearchSwitch extends InheritedWidget
   /// Use this and [kToolbarHeight] to determinate [preferredSize].
   /// Note: height of [preferredSize] is [toolbarHeight]+[bottom].preferredSize.height
   final double toolbarWidth;
+
+  /// Custom [InputDecoration] for Search [TextField].
+  ///
+  /// This option has no effect if [title] is used.
+  ///
+  /// If null used default:
+  /// ```dart
+  ///              InputDecoration(
+  ///                 hintText: fieldHintText,
+  ///                 hintStyle: TextStyle(
+  ///                   color: keepAppBarColors
+  ///                       ? Theme.of(context).canvasColor
+  ///                       : Theme.of(context).textTheme.headline6?.color,
+  ///                 ),
+  ///                 enabledBorder: InputBorder.none,
+  ///                 focusedBorder: InputBorder.none,
+  ///                 border: InputBorder.none,
+  ///               ),
+  ///```
+  final InputDecoration? searchInputDecoration;
 
   /// Standard overridden method of [PreferredSizeWidget].
   ///

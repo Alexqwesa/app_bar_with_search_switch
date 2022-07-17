@@ -8,7 +8,7 @@ two different app bars based on whether search is active.
 
 This is complete rewrite of [flutter_search_bar](https://pub.dev/packages/flutter_search_bar) with support:
 
-- ***support Stateless widgets!***,
+- ***support [Stateless](https://api.flutter.dev/flutter/widgets/StatelessWidget-class.html) widgets!***,
 - work with [ValueNotifier](https://api.flutter.dev/flutter/foundation/ValueNotifier-class.html) inside, which can be
   used directly and it can easily work with any providers,
 - full customization,
@@ -62,9 +62,11 @@ Here is a list of all other new properties(without mentioned above) with their d
 - this.[closeOnClearTwice](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch/closeOnClearTwice.html) = true,
 - this.[keyboardType](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch/keyboardType.html) = TextInputType.text,
 - this.[toolbarWidth](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch/toolbarWidth.html) = double.infinity,
+- this.[searchInputDecoration](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch/searchInputDecoration.html),
 - // And notifiers:
 - this.[customIsActiveNotifier](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch/customIsActiveNotifier.html), // have default static value
 - this.[customTextEditingController](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch/customTextEditingController.html), // have default static value
+- this.[customHasText](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch/customHasText.html), // has default static value
 
 ## Example:
 
@@ -163,7 +165,7 @@ Add speech to text support.
 
 ## FAQ:
 
-How to change search state
+How to active search field (`isActive`=true)
 of [AppBarWithSearchSwitch](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch-class.html)
 from somewhere far away?
 
@@ -171,3 +173,7 @@ from somewhere far away?
   1. Initialise variable of type [ValueNotifier<bool>](https://api.flutter.dev/flutter/foundation/ValueNotifier-class.html) somewhere up in the widget tree,
   2. Set [customIsActiveNotifier](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch/customIsActiveNotifier.html) property of AppBarWithSearchSwitch with this variable,
   3. Set value of this [ValueNotifier](https://api.flutter.dev/flutter/foundation/ValueNotifier-class.html) to true to show Search AppBar, (Note: currently, if you stop search via this variable(by setting it false), `clearOnClose` will not work, and callBack `onClose` will not be called).
+
+## Known issues
+- textSelectionTheme: `selectionHandleColor` - has wrong color if `keepAppBarColors` = true,
+this is upstream issue https://github.com/flutter/flutter/issues/74890
