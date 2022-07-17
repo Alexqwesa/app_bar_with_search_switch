@@ -8,4 +8,12 @@ macos/
 ios/
 android/
 build/
-main*
+**/.idea/
+**/test/
+**/windows/
+**/linux/
+**/web/
+**/macos/
+**/ios/
+**/android/
+**/build/

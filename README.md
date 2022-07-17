@@ -74,11 +74,16 @@ class MyHomePage extends StatelessWidget {
 
   final String title;
   final searchText = ValueNotifier<String>('');
-  final _counter = ValueNotifier<int>(0);
+  final words = ("There is no justice in the laws of nature, no term for fairness in the equations of motion. "
+      "The Universe is neither evil, nor good, it simply does not care. "
+      "The stars don't care, or the Sun, or the sky. "
+      "But they don't have to! WE care! There IS light in the world, and it is US! "
+      "Why does any kind of cynicism appeal to people? Because it seems like a mark of maturity, of sophistication, like you’ve seen everything and know better. "
+      "Or because putting something down feels like pushing yourself up. "
+      "There is light in the world, and it is us! "
+      "World domination is such an ugly phrase. I prefer to call it world optimisation. ").split(' ')
+  ;
 
-  void _incrementCounter() {
-    _counter.value++;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -111,14 +116,12 @@ class MyHomePage extends StatelessWidget {
       // 
       body: Center(
         child: AnimatedBuilder(
-          animation: Listenable.merge([searchText, _counter]),
+          animation: Listenable.merge([searchText,]),
           builder: (BuildContext context, _) {
             return Wrap(
               children: [
-                for (var i = 0; i <= _counter.value; i++)
-                  if (abc
-                      .substring(i % 15, 1 + i % 15 + (i + 9) % 9)
-                      .contains(searchText.value))
+                for (var i = 0; i <= words.length; i++)
+                  if (words[i].contains(searchText.value))
                     SizedBox(
                       height: 110,
                       width: 110,
@@ -128,8 +131,7 @@ class MyHomePage extends StatelessWidget {
                             Expanded(
                               child: Center(
                                 child: Text(
-                                  abc.substring(
-                                      i % 15, 1 + i % 15 + (i + 9) % 9),
+                                  words[i],
                                   style: Theme.of(context).textTheme.headline4,
                                   textAlign: TextAlign.center,
                                 ),
@@ -144,11 +146,7 @@ class MyHomePage extends StatelessWidget {
           },
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
+
     );
   }
 }

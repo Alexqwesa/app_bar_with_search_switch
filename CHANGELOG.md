@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.2.1
+
+* added example directory,
+* added hasText Notifier,
+* updated documentation
+
 ## 1.2.0
 
 * added AppBarSearchButton

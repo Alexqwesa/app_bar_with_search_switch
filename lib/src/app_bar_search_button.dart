@@ -58,26 +58,56 @@ class AppBarSearchButton extends StatelessWidget {
     }
 
     final appBar = AppBarWithSearchSwitch.of(context)!;
+    if (!buttonHasTwoStates) {
+      return _StartSearchButton(
+        toolTipStartText: toolTipStartText,
+        appBar: appBar,
+      );
+    } else {
+      return ValueListenableBuilder(
+        valueListenable: appBar.hasText,
+        builder: ((context, value, child) {
+          return appBar.text == ''
+              ? _StartSearchButton(
+                  toolTipStartText: toolTipStartText,
+                  appBar: appBar,
+                )
+              : Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: FloatingActionButton(
+                    tooltip: '$toolTipLastText ${appBar.text}',
+                    elevation: 0,
+                    backgroundColor: Colors.redAccent,
+                    onPressed: () {
+                      appBar.triggerSearch();
+                    },
+                    child: const Icon(Icons.search_off),
+                  ),
+                );
+        }),
+      );
+    }
+  }
+}
 
-    return appBar.text == '' || !buttonHasTwoStates
-        ? IconButton(
-            icon: const Icon(Icons.search),
-            tooltip: toolTipStartText,
-            onPressed: () {
-              appBar.triggerSearch();
-            },
-          )
-        : Padding(
-            padding: const EdgeInsets.all(4.0),
-            child: FloatingActionButton(
-              tooltip: '$toolTipLastText ${appBar.text}',
-              elevation: 0,
-              backgroundColor: Colors.redAccent,
-              onPressed: () {
-                appBar.triggerSearch();
-              },
-              child: const Icon(Icons.search_off),
-            ),
-          );
+class _StartSearchButton extends StatelessWidget {
+  const _StartSearchButton({
+    Key? key,
+    required this.toolTipStartText,
+    required this.appBar,
+  }) : super(key: key);
+
+  final String toolTipStartText;
+  final AppBarWithSearchSwitch appBar;
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      icon: const Icon(Icons.search),
+      tooltip: toolTipStartText,
+      onPressed: () {
+        appBar.triggerSearch();
+      },
+    );
   }
 }

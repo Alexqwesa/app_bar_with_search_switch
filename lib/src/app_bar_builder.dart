@@ -14,12 +14,14 @@ class AppBarBuilder extends StatefulWidget {
     required this.controller,
     required this.showClearButton,
     required this.onChange,
+    required this.hasText,
     Key? key,
   }) : super(key: key);
 
   final void Function(String value)? onChange;
   final TextEditingController controller;
   final bool showClearButton;
+  final ValueNotifier<bool> hasText;
 
   @override
   State<AppBarBuilder> createState() => AppBarBuilderState();
@@ -31,7 +33,6 @@ class AppBarBuilderState extends State<AppBarBuilder> {
   @override
   void initState() {
     super.initState();
-
     if (widget.showClearButton) {
       widget.controller.addListener(onTextChanged);
     }
@@ -49,6 +50,7 @@ class AppBarBuilderState extends State<AppBarBuilder> {
       setState(() {
         _hasText = controller.text.isNotEmpty;
       });
+      widget.hasText.value = _hasText;
     }
     widget.onChange?.call(controller.text);
   }

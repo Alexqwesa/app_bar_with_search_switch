@@ -46,7 +46,6 @@ import 'app_bar_builder.dart';
 /// - this.[customTextEditingController], // has default static value
 class AppBarWithSearchSwitch extends InheritedWidget
     implements PreferredSizeWidget {
-
   AppBarWithSearchSwitch({
     required this.appBarBuilder,
     Key? key,
@@ -101,13 +100,19 @@ class AppBarWithSearchSwitch extends InheritedWidget
     this.toolbarTextStyle,
     this.titleTextStyle,
     this.systemOverlayStyle,
+    //
+    // > internal
+    //
+    this.customHasText,
   }) : super(
           key: key,
           child: AppBarBuilder(
             showClearButton: showClearButton,
             controller: customTextEditingController ??
-                AppBarWithSearchSwitch._fallBackController,
+                AppBarWithSearchSwitch._fallBackGlobalController,
             onChange: onChanged,
+            hasText:
+                customHasText ?? AppBarWithSearchSwitch._fallBackGlobalHasText,
           ),
         );
 
@@ -232,10 +237,25 @@ class AppBarWithSearchSwitch extends InheritedWidget
   final List<Widget>? actions;
 
   /// Used if custom [customIsActiveNotifier] not provided.
-  static final _fallBackSearchIsActive = ValueNotifier(false);
+  static final _fallBackGlobalSearchIsActive = ValueNotifier(false);
 
   /// Used if custom [customTextEditingController] not provided.
-  static final _fallBackController = TextEditingController(text: '');
+  static final _fallBackGlobalController = TextEditingController(text: '');
+
+  /// Used if custom [customHasText] not provided.
+  static final _fallBackGlobalHasText = ValueNotifier<bool>(true);
+
+  /// The [ValueNotifier] [hasText] for the [TextField] in search app bar.
+  ///
+  /// If null, will be used default one.
+  /// Use [hasText] getter to access or subscribe to this field.
+  final ValueNotifier<bool>? customHasText;
+
+  /// The [ValueNotifier] [hasText] for the [TextField] in search app bar.
+  ///
+  /// By default, used one [ValueNotifier] for all instances,
+  /// check [text] value in [ValueListenableBuilder] or provide custom [ValueNotifier].
+  ValueNotifier<bool> get hasText => customHasText ?? _fallBackGlobalHasText;
 
   /// The [TextEditingController] for the [TextField] in search app bar.
   ///
@@ -245,7 +265,7 @@ class AppBarWithSearchSwitch extends InheritedWidget
   /// - use clearOnSubmit=true OR
   /// - use customTextEditingController = you own controller.
   TextEditingController get textEditingController =>
-      customTextEditingController ?? _fallBackController;
+      customTextEditingController ?? _fallBackGlobalController;
 
   /// Indicator of whenever search bar is active.
   ///
@@ -254,7 +274,7 @@ class AppBarWithSearchSwitch extends InheritedWidget
   /// AppBarWithSearchSwitch.of(context).searchIsActive.value = true;
   /// ```
   ValueNotifier<bool> get isActive =>
-      customIsActiveNotifier ?? _fallBackSearchIsActive;
+      customIsActiveNotifier ?? _fallBackGlobalSearchIsActive;
 
   /// The [TextEditingController] for the [TextField] in search app bar.
   ///
@@ -277,6 +297,7 @@ class AppBarWithSearchSwitch extends InheritedWidget
         .dependOnInheritedWidgetOfExactType<AppBarWithSearchSwitch>());
   }
 
+  /// Currently rebuild is triggered only if [isActive] changed.
   @override
   bool updateShouldNotify(AppBarWithSearchSwitch oldWidget) {
     return isActive != oldWidget.isActive;
@@ -288,6 +309,11 @@ class AppBarWithSearchSwitch extends InheritedWidget
   /// Note: height of [preferredSize] is [toolbarHeight]+[bottom].preferredSize.height
   final double toolbarWidth;
 
+  /// Standard overridden method of [PreferredSizeWidget].
+  ///
+  /// return Size of this widget with:
+  /// - height = toolbarHeight + bottom.height
+  /// - width = toolbarWidth
   @override
   Size get preferredSize => Size(toolbarWidth,
       (toolbarHeight ?? kToolbarHeight) + (bottom?.preferredSize.height ?? 0));
@@ -476,5 +502,14 @@ class AppBarWithSearchSwitch extends InheritedWidget
     }
     onSubmitted?.call(val);
   }
-}
 
+// void _isActiveListener(bool value){
+//   if (!value){
+//
+//   }
+// }
+//
+// static void staticStartSearch() {
+//   _fallBackSearchIsActive.value = true;
+// }
+}
