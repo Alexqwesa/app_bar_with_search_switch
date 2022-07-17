@@ -26,8 +26,8 @@ class ClearOrCloseIconButton extends StatelessWidget {
           ? mainWidget.tooltipForClearButton
           : mainWidget.tooltipForCloseButton,
       icon: _hasText
-          ? Icon(mainWidget.clearSearchButton)
-          : Icon(mainWidget.closeSearchButton),
+          ? Icon(mainWidget.clearSearchIcon)
+          : Icon(mainWidget.closeSearchIcon),
       color: mainWidget.keepAppBarColors ? null : buttonColor,
       onPressed: () {
         if (_hasText) {
@@ -54,7 +54,7 @@ class ClearIconButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconButton(
       tooltip: mainWidget.tooltipForClearButton,
-      icon: Icon(mainWidget.clearSearchButton),
+      icon: Icon(mainWidget.clearSearchIcon),
       color: mainWidget.keepAppBarColors ? null : buttonColor,
       onPressed: mainWidget.clearText,
     );

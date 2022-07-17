@@ -23,15 +23,15 @@ import 'app_bar_builder.dart';
 ///
 /// This widget support almost ***all*** properties of [AppBar], but:
 /// - [leading] and [title] properties are now expect - `Widget Function(context)?`:
-///   - this is made in order to access `AppBarWithSearchSwitch.of(context)` methods,
+///   - this is made in order to access `AppBarWithSearchSwitch.of(context)` methods in them,
 ///   - don't change them unless it necessary and use templates if you need to change them.
 /// - [preferredSize] here is a method, you should set it via [toolbarWidth] and [toolbarHeight].
 ///
 /// Here is a list of all other new properties(without mentioned above):
 /// - this.[tooltipForClearButton] = 'Clear',
 /// - this.[tooltipForCloseButton] = 'Close search',
-/// - this.[closeSearchButton] = Icons.close,
-/// - this.[clearSearchButton] = Icons.backspace,
+/// - this.[closeSearchIcon] = Icons.close,
+/// - this.[clearSearchIcon] = Icons.backspace,
 /// - this.[fieldHintText] = 'Search',
 /// - this.[keepAppBarColors] = true,
 /// - this.[closeOnSubmit] = true,
@@ -56,8 +56,8 @@ class AppBarWithSearchSwitch extends InheritedWidget
     this.onCleared,
     this.tooltipForClearButton = 'Clear',
     this.tooltipForCloseButton = 'Close search',
-    this.closeSearchButton = Icons.close,
-    this.clearSearchButton = Icons.backspace,
+    this.closeSearchIcon = Icons.close,
+    this.clearSearchIcon = Icons.backspace,
     this.fieldHintText = 'Search',
     this.keepAppBarColors = true,
     this.closeOnSubmit = true,
@@ -406,12 +406,12 @@ class AppBarWithSearchSwitch extends InheritedWidget
   /// Icon for button close search.
   ///
   /// Default: Icons.close
-  final IconData? closeSearchButton;
+  final IconData? closeSearchIcon;
 
   /// Icon for button clear search.
   ///
   /// Default: Icons.backspace
-  final IconData? clearSearchButton;
+  final IconData? clearSearchIcon;
 
   /// The type of keyboard to use for editing the search bar text. Defaults to 'TextInputType.text'.
   final TextInputType keyboardType;
