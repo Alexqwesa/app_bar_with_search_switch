@@ -18,9 +18,9 @@ This is complete rewrite of [flutter_search_bar](https://pub.dev/packages/flutte
 ## Quick overview:
 
 Use [appBarBuilder](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch/appBarBuilder.html)
-property to build default AppBar with a search button which will
-call [startSearch](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch/startSearch.html)
-or just use [AppBarSearchButton](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarSearchButton-class.html).
+property to build default AppBar with: 
+- a search button which will call [startSearch](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch/startSearch.html)
+- or with standard search button [AppBarSearchButton](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarSearchButton-class.html).
 
 Use one of these callbacks to get text from [TextField](https://api.flutter.dev/flutter/material/TextField-class.html):
 
