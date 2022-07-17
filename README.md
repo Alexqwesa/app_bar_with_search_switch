@@ -68,25 +68,16 @@ Here is a list of all other new properties(without mentioned above) with their d
 - this.[customTextEditingController](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch/customTextEditingController.html), // have default static value
 - this.[customHasText](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch/customHasText.html), // has default static value
 
-## Example:
+## Examples:
 
+Full example of **Statefull** widget is here: [https://pub.dev/packages/app_bar_with_search_switch/example](https://pub.dev/packages/app_bar_with_search_switch/example).
+
+Full example of **Stateless** widget is [here: (github)](https://github.com/Alexqwesa/app_bar_with_search_switch/blob/master/example/lib/main_statefull.dart).
+
+And the fragment of example code is here: 
 ```dart
-class MyHomePage extends StatelessWidget {
-  MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  final String title;
-  final searchText = ValueNotifier<String>('');
-  final words = ("There is no justice in the laws of nature, no term for fairness in the equations of motion. "
-      "The Universe is neither evil, nor good, it simply does not care. "
-      "The stars don't care, or the Sun, or the sky. "
-      "But they don't have to! WE care! There IS light in the world, and it is US! "
-      "Why does any kind of cynicism appeal to people? Because it seems like a mark of maturity, of sophistication, like you’ve seen everything and know better. "
-      "Or because putting something down feels like pushing yourself up. "
-      "There is light in the world, and it is us! "
-      "World domination is such an ugly phrase. I prefer to call it world optimisation. ").split(' ')
-  ;
-
-
+final searchText = ValueNotifier<String>(''); // somewhere up in a widget tree
+//...
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -96,15 +87,10 @@ class MyHomePage extends StatelessWidget {
       appBar: AppBarWithSearchSwitch(
         onChanged: (text) {
           searchText.value = text;
-        },
-        // onSubmitted: (text) {
-        //   searchText.value = text;
-        // },
+        }, // onSubmitted: (text) => searchText.value = text,
         appBarBuilder: (context) {
-          final appBar = AppBarWithSearchSwitch.of(context)!;
-
           return AppBar(
-            title: Text(title),
+            title: Text('Example '),
             actions: [
               AppBarSearchButton(),
               // or 
@@ -113,51 +99,15 @@ class MyHomePage extends StatelessWidget {
           );
         },
       ),
-      // 
-      // > Just some random code to react to input from AppBarWithSearchSwitch.
-      // 
-      body: Center(
-        child: AnimatedBuilder(
-          animation: Listenable.merge([searchText,]),
-          builder: (BuildContext context, _) {
-            return Wrap(
-              children: [
-                for (var i = 0; i <= words.length; i++)
-                  if (words[i].contains(searchText.value))
-                    SizedBox(
-                      height: 110,
-                      width: 110,
-                      child: Card(
-                        child: Column(
-                          children: [
-                            Expanded(
-                              child: Center(
-                                child: Text(
-                                  words[i],
-                                  style: Theme.of(context).textTheme.headline4,
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-              ],
-            );
-          },
-        ),
-      ),
-
+      body: Container(),
     );
   }
-}
-
 ```
 
-## Screenshot
+## Screenshots
 
 <img align="center" src="https://raw.githubusercontent.com/alexqwesa/app_bar_with_search_switch/master/screenshot.gif">
+
 
 ## TODO:
 
@@ -175,5 +125,6 @@ from somewhere far away?
   3. Set value of this [ValueNotifier](https://api.flutter.dev/flutter/foundation/ValueNotifier-class.html) to true to show Search AppBar, (Note: currently, if you stop search via this variable(by setting it false), `clearOnClose` will not work, and callBack `onClose` will not be called).
 
 ## Known issues
+
 - textSelectionTheme: `selectionHandleColor` - has wrong color if `keepAppBarColors` = true,
 this is upstream issue https://github.com/flutter/flutter/issues/74890

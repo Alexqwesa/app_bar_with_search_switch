@@ -15,9 +15,8 @@ class MyApp extends StatelessWidget {
       title: 'AppBarWithSearch demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
-        // textSelectionTheme: TextSelectionThemeData(selectionHandleColor: Colors.green),
       ),
-      home: const MyHomePage(title: 'AppBarWithSearch widget'),
+      home: const MyHomePage(title: 'AppBarWithSearch Stateful widget'),
     );
   }
 }
