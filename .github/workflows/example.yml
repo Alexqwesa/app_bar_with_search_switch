@@ -45,9 +45,10 @@ jobs:
         run: flutter analyze
       - name: Build example
         working-directory: ./example
-        run: flutter build web --release
+        run: flutter build web --release  --base-href /app_bar_with_search_switch/
       - name: Move web to docs
         run: |
+          rm -rf docs/
           mv './example/build/web/' 'docs/'
       - name: Git add  docs
         run:  git add -A docs/
