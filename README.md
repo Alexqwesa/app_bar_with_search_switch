@@ -6,16 +6,27 @@ The [AppBarWithSearchSwitch](https://pub.dev/documentation/app_bar_with_search_s
 is replacement class for [AppBar](https://api.flutter.dev/flutter/material/AppBar-class.html), essentially, it returns
 two different app bars based on whether search is active.
 
+<img align="right" src="https://raw.githubusercontent.com/alexqwesa/app_bar_with_search_switch/master/screenshot.gif" width="262" height="540">
+
 This is complete rewrite of [flutter_search_bar](https://pub.dev/packages/flutter_search_bar) with support:
 
 - ***support [Stateless](https://api.flutter.dev/flutter/widgets/StatelessWidget-class.html) widgets!***,
 - work with [ValueNotifier](https://api.flutter.dev/flutter/foundation/ValueNotifier-class.html) inside, which can be
-  used directly and it can easily work with any providers,
+  used directly or can easily work with any providers,
 - full customization,
 - it work in place(no Navigation shenanigans),
 - don't need additional variables somewhere.
 
-## Quick overview:
+## Content
+
+- [Quick overview](#Quick_overview)
+- [Examples](#Examples)
+- [Screenshots](#Screenshots)
+- [TODO](#TODO)
+- [FAQ](#FAQ)
+- [Known issues](#Known_issues)
+
+## Quick overview
 
 Use [appBarBuilder](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch/appBarBuilder.html)
 property to build default AppBar with: 
@@ -68,11 +79,13 @@ Here is a list of all other new properties(without mentioned above) with their d
 - this.[customTextEditingController](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch/customTextEditingController.html), // have default static value
 - this.[customHasText](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch/customHasText.html), // has default static value
 
-## Examples:
+## Examples
 
 Full example of **Statefull** widget is here: [https://pub.dev/packages/app_bar_with_search_switch/example](https://pub.dev/packages/app_bar_with_search_switch/example).
 
 Full example of **Stateless** widget is [here: (github)](https://github.com/Alexqwesa/app_bar_with_search_switch/blob/master/example/lib/main_statefull.dart).
+
+**Online example** here: [https://alexqwesa.github.io/app_bar_with_search_switch/](https://alexqwesa.github.io/app_bar_with_search_switch/).
 
 And the fragment of example code is here: 
 ```dart
@@ -109,11 +122,12 @@ final searchText = ValueNotifier<String>(''); // somewhere up in a widget tree
 <img align="center" src="https://raw.githubusercontent.com/alexqwesa/app_bar_with_search_switch/master/screenshot.gif">
 
 
-## TODO:
+## TODO
 
-Add speech to text support.
+- Add speech to text support,
+- Add effective riverpod example,
 
-## FAQ:
+## FAQ
 
 How to active search field (`isActive`=true)
 of [AppBarWithSearchSwitch](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch-class.html)
@@ -126,5 +140,5 @@ from somewhere far away?
 
 ## Known issues
 
-- textSelectionTheme: `selectionHandleColor` - has wrong color if `keepAppBarColors` = true,
-this is upstream issue https://github.com/flutter/flutter/issues/74890
+- `keepAppBarColors = true` didn't change color of 'Text Selection Handles' (selection bubbles), this is because of 
+upstream issue https://github.com/flutter/flutter/issues/74890 with textSelectionTheme: `selectionHandleColor` 
