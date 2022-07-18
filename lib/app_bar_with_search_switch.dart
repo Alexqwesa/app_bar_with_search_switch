@@ -88,8 +88,11 @@
 ///  }
 ///}
 /// ```
+// Todo: rewrite this help
 library app_bar_with_search_switch;
 
+export 'package:app_bar_with_search_switch/src/app_bar_on_edit_listener.dart';
+export 'package:app_bar_with_search_switch/src/app_bar_on_submit_listener.dart';
 export 'package:app_bar_with_search_switch/src/app_bar_search_button.dart';
-export 'package:app_bar_with_search_switch/src/app_bar_with_search_switch.dart';
 export 'package:app_bar_with_search_switch/src/app_bar_with_search_finder.dart';
+export 'package:app_bar_with_search_switch/src/app_bar_with_search_switch.dart';

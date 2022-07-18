@@ -8,8 +8,13 @@ import 'app_bar_with_search_switch.dart';
 
 /// A default implementation of Search button for [AppBarWithSearchSwitch].
 ///
-/// It should be used inside of [appBarBuilder] method of [AppBarWithSearchSwitch].
-// Todo: also change state onSubmit
+/// It should be used inside of [Scaffold] with appBar: [AppBarWithSearchSwitch].
+///
+/// See also:
+///  * [AppBarWithSearchSwitch] - required to be in the same [Scaffold] as this widget,
+///  * [AppBarListener] - listen to [AppBarWithSearchSwitch],
+///
+// Todo: maybe change state onSubmit too?
 class AppBarSearchButton extends StatelessWidget {
   /// A toolTip for Search button then [AppBarWithSearchSwitch] has text.
   ///
@@ -27,6 +32,11 @@ class AppBarSearchButton extends StatelessWidget {
   ///
   /// Default: true.
   final bool buttonHasTwoStates;
+
+  /// If [buttonHasTwoStates] is true, change on submit event, otherwise on any edit.
+  ///
+  /// Default: false.
+  final bool changeOnlyOnSubmit;
 
   /// Icon for search button then [AppBarWithSearchSwitch] don't have text.
   ///
@@ -49,6 +59,7 @@ class AppBarSearchButton extends StatelessWidget {
     this.toolTipLastText = 'Last input text: ',
     this.toolTipStartText = 'Click here to start search',
     this.buttonHasTwoStates = true,
+    this.changeOnlyOnSubmit = false,
     this.searchIcon = Icons.search,
     this.searchActiveIcon = Icons.search_off,
     this.searchActiveButtonColor = Colors.redAccent,
@@ -56,17 +67,28 @@ class AppBarSearchButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (AppBarWithSearchSwitch.of(context) == null) {
-      return IconButton(
-        icon: const Icon(Icons.error_outline),
-        color: Colors.red,
-        tooltip:
-            'Error: This widget should be inside AppBarWithSearchSwitch widget',
-        onPressed: () {},
-      );
+    late final AppBarWithSearchSwitch appBar;
+
+    if (AppBarWithSearchSwitch.of(context) != null) {
+      appBar = AppBarWithSearchSwitch.of(context)!;
+    } else {
+      final scaffold = Scaffold.maybeOf(context);
+      if (scaffold != null &&
+          scaffold.hasAppBar &&
+          (scaffold.widget.appBar.runtimeType == AppBarWithSearchSwitch)) {
+        appBar = (scaffold.widget.appBar as AppBarWithSearchSwitch);
+      } else {
+        return IconButton(
+          icon: const Icon(Icons.error_outline),
+          color: Colors.red,
+          tooltip:
+              'Error: This widget should be inside AppBarWithSearchSwitch widget,'
+              'Or inside Scaffold that have AppBarWithSearchSwitch',
+          onPressed: () {},
+        );
+      }
     }
 
-    final appBar = AppBarWithSearchSwitch.of(context)!;
     if (!buttonHasTwoStates) {
       return _StartSearchButton(
         toolTipStartText: toolTipStartText,
@@ -77,7 +99,9 @@ class AppBarSearchButton extends StatelessWidget {
       return ValueListenableBuilder(
         valueListenable: appBar.hasText,
         builder: ((context, value, child) {
-          return appBar.text == ''
+          return (changeOnlyOnSubmit
+                  ? appBar.submitNotifier.value == ''
+                  : appBar.text == '')
               ? _StartSearchButton(
                   toolTipStartText: toolTipStartText,
                   appBar: appBar,

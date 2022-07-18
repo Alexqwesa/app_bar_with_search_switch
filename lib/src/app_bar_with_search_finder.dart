@@ -1,3 +1,7 @@
+// Copyright (c) 2022, Alexqwesa.
+// All rights reserved. Use of this source code
+// is governed by a BSD-style license that can be found in the LICENSE file.
+
 import 'package:app_bar_with_search_switch/app_bar_with_search_switch.dart';
 import 'package:flutter/material.dart';
 
@@ -11,22 +15,14 @@ import 'package:flutter/material.dart';
 /// This is just a [Builder] widget with helper method [of]
 /// witch return [AppBarWithSearchFinder]?.
 class AppBarWithSearchFinder extends StatelessWidget {
-  final Widget child;
+  final WidgetBuilder builder;
 
-  const AppBarWithSearchFinder({Key? key, required this.child})
+  const AppBarWithSearchFinder({Key? key, required this.builder})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    // final scaffold = Scaffold.maybeOf(context);
-    // if (scaffold != null &&
-    //     scaffold.hasAppBar &&
-    //     (scaffold.widget.appBar.runtimeType == AppBarWithSearchSwitch)) {
-    return Builder(builder: (context) {
-      return child; // recreate context for children
-    });
-    // }
-    // return child; // if context already has scaffold
+    return Builder(builder: builder);
   }
 
   /// Return [AppBarWithSearchSwitch] in children of [AppBarWithSearchFinder].

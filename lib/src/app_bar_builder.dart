@@ -15,6 +15,9 @@ class AppBarBuilder extends StatefulWidget {
     required this.showClearButton,
     required this.onChange,
     required this.hasText,
+    required this.isActive,
+    required this.textNotifier,
+    required this.submitNotifier,
     Key? key,
   }) : super(key: key);
 
@@ -22,14 +25,15 @@ class AppBarBuilder extends StatefulWidget {
   final TextEditingController controller;
   final bool showClearButton;
   final ValueNotifier<bool> hasText;
+  final ValueNotifier<bool> isActive;
+  final ValueNotifier<String> textNotifier;
+  final ValueNotifier<String> submitNotifier;
 
   @override
   State<AppBarBuilder> createState() => AppBarBuilderState();
 }
 
 class AppBarBuilderState extends State<AppBarBuilder> {
-  bool _hasText = true;
-
   @override
   void initState() {
     super.initState();
@@ -55,12 +59,12 @@ class AppBarBuilderState extends State<AppBarBuilder> {
 
   void onTextChanged() {
     final controller = widget.controller;
-    if (controller.text.isNotEmpty != _hasText) {
+    if (controller.text.isNotEmpty != widget.hasText.value) {
       setState(() {
-        _hasText = controller.text.isNotEmpty;
+        widget.hasText.value = controller.text.isNotEmpty;
       });
-      widget.hasText.value = _hasText;
     }
+    widget.textNotifier.value = controller.text;
     widget.onChange?.call(controller.text);
   }
 
@@ -69,7 +73,7 @@ class AppBarBuilderState extends State<AppBarBuilder> {
     return ValueListenableBuilder(
       valueListenable: AppBarWithSearchSwitch.of(context)!.isActive,
       child: AppBarWithSearchSwitch.of(context)!.appBarBuilder(context),
-      builder: (context, _, defaultAppBarBuilder) {
+      builder: (context, _, defaultAppBarWidget) {
         final mainWidget = AppBarWithSearchSwitch.of(context)!;
         final theme = Theme.of(context);
         final buttonColor =
@@ -77,7 +81,7 @@ class AppBarBuilderState extends State<AppBarBuilder> {
         final isSearching = AppBarWithSearchSwitch.of(context)!.isActive.value;
 
         return !isSearching
-            ? defaultAppBarBuilder!
+            ? defaultAppBarWidget!
             : AppBar(
                 leading: mainWidget.leading != null
                     ? mainWidget.leading?.call(context)
@@ -117,7 +121,7 @@ class AppBarBuilderState extends State<AppBarBuilder> {
                   //
                   if (mainWidget.showClearButton &&
                       !mainWidget.closeOnClearTwice &&
-                      _hasText)
+                      widget.hasText.value)
                     ClearIconButton(
                       mainWidget: mainWidget,
                       buttonColor: buttonColor,
@@ -129,7 +133,7 @@ class AppBarBuilderState extends State<AppBarBuilder> {
                       mainWidget.closeOnClearTwice)
                     ClearOrCloseIconButton(
                       mainWidget: mainWidget,
-                      hasText: _hasText,
+                      hasText: widget.hasText.value,
                       buttonColor: buttonColor,
                     ),
                   //

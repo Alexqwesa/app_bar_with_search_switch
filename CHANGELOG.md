@@ -1,8 +1,10 @@
 # Changelog
 
-## 1.2.5
+## 1.3.0
 
 * added AppBarWithSearchFinder - a class for accessing AppBarWithSearchSwitch everywhere in Scaffold 
+* added helpers: AppBarOnEditListener and AppBarOnSubmitListener (just simple wrappers for ValueListenableBuilder)
+* update documentation
 
 ## 1.2.4
 

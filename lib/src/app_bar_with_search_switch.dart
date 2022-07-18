@@ -72,6 +72,8 @@ class AppBarWithSearchSwitch extends InheritedWidget
     //
     // > [ValueNotifier]s
     //
+    this.customTextNotifier,
+    this.customSubmitNotifier,
     this.customIsActiveNotifier,
     this.customHasText,
     //
@@ -111,11 +113,13 @@ class AppBarWithSearchSwitch extends InheritedWidget
           key: key,
           child: AppBarBuilder(
             showClearButton: showClearButton,
-            controller: customTextEditingController ??
-                AppBarWithSearchSwitch._fallBackGlobalController,
             onChange: onChanged,
-            hasText:
-                customHasText ?? AppBarWithSearchSwitch._fallBackGlobalHasText,
+            hasText: customHasText ?? ValueNotifier<bool>(false),
+            isActive: customIsActiveNotifier ?? ValueNotifier<bool>(false),
+            textNotifier: customTextNotifier ?? ValueNotifier<String>(''),
+            submitNotifier: customSubmitNotifier ?? ValueNotifier<String>(''),
+            controller:
+                customTextEditingController ?? TextEditingController(text: ''),
           ),
         );
 
@@ -239,57 +243,70 @@ class AppBarWithSearchSwitch extends InheritedWidget
   /// This parameter is used then search is active: [isActive] == true.
   final List<Widget>? actions;
 
-  /// Used if custom [customIsActiveNotifier] not provided.
-  static final _fallBackGlobalSearchIsActive = ValueNotifier(false);
-
-  /// Used if custom [customTextEditingController] not provided.
-  static final _fallBackGlobalController = TextEditingController(text: '');
-
-  /// Used if custom [customHasText] not provided.
-  static final _fallBackGlobalHasText = ValueNotifier<bool>(true);
-
   /// The [ValueNotifier] [hasText] for the [TextField] in search app bar.
   ///
-  /// If null, will be used default one.
+  /// If null, will be created default one.
   /// Use [hasText] getter to access or subscribe to this field.
   final ValueNotifier<bool>? customHasText;
 
-  /// The [ValueNotifier] [hasText] for the [TextField] in search app bar.
+  /// The [ValueNotifier] [textNotifier] for the [TextField] in search app bar.
   ///
-  /// By default, used one [ValueNotifier] for all instances,
-  /// check [text] value in [ValueListenableBuilder] or provide custom [ValueNotifier].
-  ValueNotifier<bool> get hasText => customHasText ?? _fallBackGlobalHasText;
+  /// If null, will be created default one.
+  /// Use [textNotifier] getter to access or subscribe to this field.
+  final ValueNotifier<String>? customTextNotifier;
+
+  /// The [ValueNotifier] [submitNotifier] for the [TextField] in search app bar.
+  ///
+  /// If null, will be created default one.
+  /// Use [submitNotifier] getter to access or subscribe to this field.
+  final ValueNotifier<String>? customSubmitNotifier;
 
   /// The [TextEditingController] for the [TextField] in search app bar.
   ///
-  /// By default, used one controller for all instances, which allow it
-  /// to remember last input text and share it across all instances.
-  /// If this is not what you want:
-  /// - use clearOnSubmit=true OR
-  /// - use customTextEditingController = you own controller.
-  TextEditingController get textEditingController =>
-      customTextEditingController ?? _fallBackGlobalController;
-
-  /// Indicator of whenever search bar is active.
-  ///
-  /// Can be set directly, like this:
-  /// ```dart
-  /// AppBarWithSearchSwitch.of(context).searchIsActive.value = true;
-  /// ```
-  ValueNotifier<bool> get isActive =>
-      customIsActiveNotifier ?? _fallBackGlobalSearchIsActive;
-
-  /// The [TextEditingController] for the [TextField] in search app bar.
-  ///
-  /// If null, will be used default one.
+  /// If null, will be created default one.
   /// Use [textEditingController] getter to access this field.
   final TextEditingController? customTextEditingController;
 
   /// The [ValueNotifier] to be used to indicate: is text field visible.
   ///
-  /// If null, will be used default one.
+  /// If null, will be created default one.
   /// Use [isActive] getter to access this field.
   final ValueNotifier<bool>? customIsActiveNotifier;
+
+  /// The [ValueNotifier] [hasText] for the [TextField] in search app bar.
+  ///
+  /// Can be changed by parameter: [customHasText] = `ValueNotifier<bool>(false)`
+  ValueNotifier<bool> get hasText =>
+      customHasText ?? (super.child as AppBarBuilder).hasText;
+
+  /// The [ValueNotifier] [textNotifier] for the [TextField] in search app bar.
+  ///
+  /// Can be changed by parameter: [customTextNotifier] = `ValueNotifier<String>('')`
+  ValueNotifier<String> get textNotifier =>
+      customTextNotifier ?? (super.child as AppBarBuilder).textNotifier;
+
+  /// The [ValueNotifier] [submitNotifier] for the [TextField] in search app bar.
+  ///
+  /// Can be changed by parameter: [customSubmitNotifier] = `ValueNotifier<String>('')`
+  ValueNotifier<String> get submitNotifier =>
+      customSubmitNotifier ?? (super.child as AppBarBuilder).submitNotifier;
+
+  /// The [TextEditingController] for the [TextField] in search app bar.
+  ///
+  /// Can be changed by parameter: [customTextEditingController] = you own controller.
+  TextEditingController get textEditingController =>
+      customTextEditingController ?? (super.child as AppBarBuilder).controller;
+
+  /// Indicator of whenever search bar is active.
+  ///
+  /// Can be set directly, like this:
+  /// ```dart
+  /// AppBarWithSearchSwitch.of(context).isActive.value = true;
+  /// ``
+  /// Can be changed by parameter: [customIsActiveNotifier] = `ValueNotifier<bool>(false)`
+  // maybe searchIsActive?
+  ValueNotifier<bool> get isActive =>
+      customIsActiveNotifier ?? (super.child as AppBarBuilder).isActive;
 
   /// Standard getter of the class.
   ///
@@ -523,16 +540,7 @@ class AppBarWithSearchSwitch extends InheritedWidget
     if (clearOnSubmit) {
       textEditingController.text = '';
     }
+    submitNotifier.value = val;
     onSubmitted?.call(val);
   }
-
-// void _isActiveListener(bool value){
-//   if (!value){
-//
-//   }
-// }
-//
-// static void staticStartSearch() {
-//   _fallBackSearchIsActive.value = true;
-// }
 }
