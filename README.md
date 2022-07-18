@@ -19,12 +19,12 @@ This is complete rewrite of [flutter_search_bar](https://pub.dev/packages/flutte
 
 ## Content
 
-- [Quick overview](#Quick_overview)
-- [Examples](#Examples)
-- [Screenshots](#Screenshots)
-- [TODO](#TODO)
-- [FAQ](#FAQ)
-- [Known issues](#Known_issues)
+- [Quick overview](#quick-overview)
+- [Examples](#examples)
+- [Screenshots](#screenshots)
+- [TODO](#todo)
+- [FAQ](#faq)
+- [Known issues](#known-issues)
 
 ## Quick overview
 
@@ -126,6 +126,7 @@ final searchText = ValueNotifier<String>(''); // somewhere up in a widget tree
 
 - Add speech to text support,
 - Add effective riverpod example,
+- Add option for placement of SearchButton and MicrophoneButton outside of AppBar (optional GlobalKey?)
 
 ## FAQ
 
