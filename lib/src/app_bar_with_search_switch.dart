@@ -70,9 +70,13 @@ class AppBarWithSearchSwitch extends InheritedWidget
     this.toolbarWidth = double.infinity,
     this.searchInputDecoration,
     //
-    // > Notifiers
+    // > [ValueNotifier]s
     //
     this.customIsActiveNotifier,
+    this.customHasText,
+    //
+    // > [TextEditingController]
+    //
     this.customTextEditingController,
     //
     // > standard AppBar fields
@@ -103,10 +107,6 @@ class AppBarWithSearchSwitch extends InheritedWidget
     this.toolbarTextStyle,
     this.titleTextStyle,
     this.systemOverlayStyle,
-    //
-    // > internal
-    //
-    this.customHasText,
   }) : super(
           key: key,
           child: AppBarBuilder(

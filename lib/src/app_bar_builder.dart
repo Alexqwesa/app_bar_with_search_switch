@@ -44,6 +44,15 @@ class AppBarBuilderState extends State<AppBarBuilder> {
     super.dispose();
   }
 
+  @override
+  void didUpdateWidget(AppBarBuilder oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.controller != widget.controller) {
+      oldWidget.controller.removeListener(onTextChanged);
+      widget.controller.addListener(onTextChanged);
+    }
+  }
+
   void onTextChanged() {
     final controller = widget.controller;
     if (controller.text.isNotEmpty != _hasText) {

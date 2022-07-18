@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.5
+
+* added AppBarWithSearchFinder - a class for accessing AppBarWithSearchSwitch everywhere in Scaffold 
+
 ## 1.2.4
 
 * remove speech_to_text dependency (it will be reintroduced lately, in version 2)
