@@ -87,6 +87,7 @@ Here is a list of all other new properties(without mentioned above) with their d
 - this.[clearOnClose](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch/clearOnClose.html) = false,
 - this.[showClearButton](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch/showClearButton.html) = true,
 - this.[closeOnClearTwice](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch/closeOnClearTwice.html) = true,
+- this.[submitOnClearTwice](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch/submitOnClearTwice.html) = true,
 - this.[keyboardType](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch/keyboardType.html) = TextInputType.text,
 - this.[toolbarWidth](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch/toolbarWidth.html) = double.infinity,
 - this.[searchInputDecoration](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch/searchInputDecoration.html),
@@ -109,32 +110,33 @@ Full example of Stateless widget with **10000 elements** searched in place and w
 
 **Online example** here: [https://alexqwesa.github.io/app_bar_with_search_switch/](https://alexqwesa.github.io/app_bar_with_search_switch/).
 
-And the fragment of example code is here: 
+And the fragment of example code is here:
 ```dart
-final searchText = ValueNotifier<String>(''); // somewhere up in a widget tree
-//...
+  //...
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // 
-      // *** The Widget AppBarWithSearchSwitch 
-      // 
+      //
+      // *** The Widget AppBarWithSearchSwitch
+      //
       appBar: AppBarWithSearchSwitch(
         onChanged: (text) {
-          searchText.value = text;
+          // update you provider here
+          // searchText.value = text;
         }, // onSubmitted: (text) => searchText.value = text,
         appBarBuilder: (context) {
           return AppBar(
             title: Text('Example '),
             actions: [
               AppBarSearchButton(),
-              // or 
+              // or
               // IconButton(onPressed: AppBarWithSearchSwitch.of(context)?startSearch, icon: Icon(Icons.search)),
             ],
           );
         },
       ),
-      body: Container(), // your code here 
+      // search in body by any way you want, example:
+      body: AppBarOnEditListener(builder: (context) { /* your code here */  } ),
     );
   }
 ```
@@ -151,6 +153,7 @@ final searchText = ValueNotifier<String>(''); // somewhere up in a widget tree
 - Add option for placement of SearchButton and MicrophoneButton outside of AppBar (optional GlobalKey?)
 - Animation for Search app bar activation
 - use iconTheme for icons?
+- don't use shared default [ValueNotifier](https://api.flutter.dev/flutter/foundation/ValueNotifier-class.html) and [TextEditingController](https://api.flutter.dev/flutter/widgets/TextEditingController-class.html) ?
 
 ## FAQ
 
@@ -173,3 +176,8 @@ use [customIsSearchModeNotifier](https://pub.dev/documentation/app_bar_with_sear
 
 - `keepAppBarColors = true` didn't change color of 'Text Selection Handles' (selection bubbles), this is because of 
 upstream issue https://github.com/flutter/flutter/issues/74890 with textSelectionTheme: `selectionHandleColor` 
+- If for some reason you use more than one [AppBarWithSearchSwitch](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch-class.html)
+ **on the same page** (how? and why?) provide them with their own: [customIsSearchModeNotifier](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch/customIsSearchModeNotifier.html), 
+[customTextNotifier](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch/customTextNotifier.html), 
+[customTextEditingController](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch/customTextEditingController.html), 
+[customHasText](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch/customHasText.html)... 

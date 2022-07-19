@@ -2,7 +2,9 @@
 
 ## 1.3.1
 
-* isActive renamed to isSearchMode (old name supported, but mark as deprecated)
+* isActive renamed to isSearchMode (old name supported, but mark as deprecated),
+* fix: return global default Notifiers, and controller,
+* new parameter submitOnClearTwice
 
 ## 1.3.0
 

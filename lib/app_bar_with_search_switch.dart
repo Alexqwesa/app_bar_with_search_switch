@@ -4,90 +4,35 @@
 ///
 /// A simple usage example:
 ///
-/// ```dart
-///class MyHomePage extends StatelessWidget {
-///  MyHomePage({Key? key, required this.title}) : super(key: key);
-///
-///  final String title;
-///  final searchText = ValueNotifier<String>('');  // create notifier
-///  final _counter = ValueNotifier<int>(0);
-///
-///  void _incrementCounter() {
-///    _counter.value++;
-///  }
-///
+///```dart
+///  //...
 ///  @override
 ///  Widget build(BuildContext context) {
 ///    return Scaffold(
 ///      //
-///      // > The Widget AppBarWithSearchSwitch
+///      // *** The Widget AppBarWithSearchSwitch
 ///      //
 ///      appBar: AppBarWithSearchSwitch(
 ///        onChanged: (text) {
-///          searchText.value = text;
-///        },
-///        // onSubmitted: (text) {
-///        //   searchText.value = text;
-///        // },
+///          // update you provider here
+///          // searchText.value = text;
+///        }, // onSubmitted: (text) => searchText.value = text,
 ///        appBarBuilder: (context) {
-///          final appBar = AppBarWithSearchSwitch.of(context)!;
-///
 ///          return AppBar(
-///            title: Text(title),
+///            title: Text('Example '),
 ///            actions: [
 ///              AppBarSearchButton(),
-///              // or IconButton(onPressed: AppBarWithSearchSwitch.of(context)?startSearch, icon: Icon(Icons.search)),
+///              // or
+///              // IconButton(onPressed: AppBarWithSearchSwitch.of(context)?startSearch, icon: Icon(Icons.search)),
 ///            ],
 ///          );
 ///        },
 ///      ),
-///      //
-///      // > Just some random code to react to input from AppBarWithSearchSwitch.
-///      //
-///      body: Center(
-///        child: AnimatedBuilder(
-///          animation: Listenable.merge([searchText, _counter]),
-///          builder: (BuildContext context, _) {
-///            return Wrap(
-///              children: [
-///                for (var i = 0; i <= _counter.value; i++)
-///                  if (abc
-///                      .substring(i % 15, 1 + i % 15 + (i + 9) % 9)
-///                      .contains(searchText.value))
-///                    SizedBox(
-///                      height: 110,
-///                      width: 110,
-///                      child: Card(
-///                        child: Column(
-///                          children: [
-///                            Expanded(
-///                              child: Center(
-///                                child: Text(
-///                                  abc.substring(
-///                                      i % 15, 1 + i % 15 + (i + 9) % 9),
-///                                  style: Theme.of(context).textTheme.headline4,
-///                                  textAlign: TextAlign.center,
-///                                ),
-///                              ),
-///                            ),
-///                          ],
-///                        ),
-///                      ),
-///                    ),
-///              ],
-///            );
-///          },
-///        ),
-///      ),
-///      floatingActionButton: FloatingActionButton(
-///        onPressed: _incrementCounter,
-///        tooltip: 'Increment',
-///        child: const Icon(Icons.add),
-///      ),
+///      // search in body by any way you want, example:
+///      body: AppBarOnEditListener(builder: (context) { /* your code here */  } ),
 ///    );
 ///  }
-///}
-/// ```
+///```
 // Todo: rewrite this help
 library app_bar_with_search_switch;
 

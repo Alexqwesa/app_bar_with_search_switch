@@ -42,10 +42,13 @@ import 'app_bar_builder.dart';
 /// - this.[keyboardType] = TextInputType.text,
 /// - this.[toolbarWidth] = double.infinity,
 /// - this.[searchInputDecoration],
+/// - // And controller
+/// - this.[customTextEditingController], // has default static value
 /// - // And notifiers:
 /// - this.[customIsSearchModeNotifier],      // has default static value
-/// - this.[customTextEditingController], // has default static value
 /// - this.[customHasText], // has default static value
+/// - this.[customTextNotifier], // has default static value
+/// - this.[customSubmitNotifier], // has default static value
 class AppBarWithSearchSwitch extends InheritedWidget
     implements PreferredSizeWidget {
   AppBarWithSearchSwitch({
@@ -66,6 +69,7 @@ class AppBarWithSearchSwitch extends InheritedWidget
     this.clearOnClose = false,
     this.showClearButton = true,
     this.closeOnClearTwice = true,
+    this.submitOnClearTwice = true,
     this.keyboardType = TextInputType.text,
     this.toolbarWidth = double.infinity,
     this.searchInputDecoration,
@@ -115,14 +119,15 @@ class AppBarWithSearchSwitch extends InheritedWidget
           child: AppBarBuilder(
             showClearButton: showClearButton,
             onChange: onChanged,
-            hasText: customHasText ?? ValueNotifier<bool>(false),
+            hasText: customHasText ?? _hasTextGlobalFallBack,
             isSearchMode: customIsSearchModeNotifier ??
                 customIsActiveNotifier ??
-                ValueNotifier<bool>(false),
-            textNotifier: customTextNotifier ?? ValueNotifier<String>(''),
-            submitNotifier: customSubmitNotifier ?? ValueNotifier<String>(''),
-            controller:
-                customTextEditingController ?? TextEditingController(text: ''),
+                _isSearchModeGlobalFallBack,
+            textNotifier: customTextNotifier ?? _textNotifierGlobalFallBack,
+            submitNotifier:
+                customSubmitNotifier ?? _submitNotifierGlobalFallBack,
+            controller: customTextEditingController ??
+                _textEditingControllerGlobalFallBack,
           ),
         );
 
@@ -280,25 +285,38 @@ class AppBarWithSearchSwitch extends InheritedWidget
   ///
   /// Can be changed by parameter: [customHasText] = `ValueNotifier<bool>(false)`
   ValueNotifier<bool> get hasText =>
-      customHasText ?? (super.child as AppBarBuilder).hasText;
+      customHasText ??
+      _hasTextGlobalFallBack; //(super.child as AppBarBuilder).hasText;
+
+  static final _hasTextGlobalFallBack = ValueNotifier<bool>(false);
 
   /// The [ValueNotifier] [textNotifier] for the [TextField] in search app bar.
   ///
   /// Can be changed by parameter: [customTextNotifier] = `ValueNotifier<String>('')`
   ValueNotifier<String> get textNotifier =>
-      customTextNotifier ?? (super.child as AppBarBuilder).textNotifier;
+      customTextNotifier ??
+      _textNotifierGlobalFallBack; //(super.child as AppBarBuilder).textNotifier;
+
+  static final _textNotifierGlobalFallBack = ValueNotifier<String>('');
 
   /// The [ValueNotifier] [submitNotifier] for the [TextField] in search app bar.
   ///
   /// Can be changed by parameter: [customSubmitNotifier] = `ValueNotifier<String>('')`
   ValueNotifier<String> get submitNotifier =>
-      customSubmitNotifier ?? (super.child as AppBarBuilder).submitNotifier;
+      customSubmitNotifier ??
+      _submitNotifierGlobalFallBack; //(super.child as AppBarBuilder).submitNotifier;
+
+  static final _submitNotifierGlobalFallBack = ValueNotifier<String>('');
 
   /// The [TextEditingController] for the [TextField] in search app bar.
   ///
   /// Can be changed by parameter: [customTextEditingController] = you own controller.
   TextEditingController get textEditingController =>
-      customTextEditingController ?? (super.child as AppBarBuilder).controller;
+      customTextEditingController ??
+      _textEditingControllerGlobalFallBack; //(super.child as AppBarBuilder).controller;
+
+  static final _textEditingControllerGlobalFallBack =
+      TextEditingController(text: '');
 
   /// Indicator of whenever search bar is active.
   ///
@@ -309,6 +327,8 @@ class AppBarWithSearchSwitch extends InheritedWidget
   /// Can be changed by parameter: [customIsSearchModeNotifier] = `ValueNotifier<bool>(false)`
   ValueNotifier<bool> get isSearchMode =>
       customIsSearchModeNotifier ?? (super.child as AppBarBuilder).isSearchMode;
+
+  static final _isSearchModeGlobalFallBack = ValueNotifier<bool>(false);
 
   /// Standard getter of the class.
   ///
@@ -440,6 +460,9 @@ class AppBarWithSearchSwitch extends InheritedWidget
   /// The click on clear button will hide search field, if text field is already empty. Defaults to true.
   final bool closeOnClearTwice;
 
+  /// If [closeOnClearTwice]=true close button will also trigger [onSubmitted]. Defaults to true.
+  final bool submitOnClearTwice;
+
   /// Whether the text field should be cleared when it is submitted
   final bool clearOnSubmit;
 
@@ -550,8 +573,7 @@ class AppBarWithSearchSwitch extends InheritedWidget
   ///
   /// Indicator of whenever search bar is active.
   @Deprecated('Please, use isSearchMode')
-  ValueNotifier<bool> get isActive =>
-      customIsSearchModeNotifier ?? (super.child as AppBarBuilder).isSearchMode;
+  ValueNotifier<bool> get isActive => isSearchMode;
 
   /// Shortcut for [customIsSearchModeNotifier], for backward compatibility.
   ///

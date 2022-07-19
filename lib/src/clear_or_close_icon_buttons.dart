@@ -31,7 +31,10 @@ class ClearOrCloseIconButton extends StatelessWidget {
       color: mainWidget.keepAppBarColors ? null : buttonColor,
       onPressed: () {
         if (_hasText) {
-          mainWidget.clearText();
+          mainWidget.clearText(); //
+        } else if (mainWidget.submitOnClearTwice &&
+            mainWidget.closeOnClearTwice) {
+          mainWidget.submitCallbackForTextField('');
         } else if (mainWidget.closeOnClearTwice) {
           mainWidget.stopSearch();
         }
