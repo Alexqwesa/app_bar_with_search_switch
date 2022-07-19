@@ -1,37 +1,43 @@
 # AppBar with search switch
 
-An AppBar that can switch into search field.
-
-The [AppBarWithSearchSwitch](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch-class.html)
-is a replacement class for [AppBar](https://api.flutter.dev/flutter/material/AppBar-class.html), essentially, it returns
-two different app bars based on whether search is active.
-
 <img align="right" src="https://raw.githubusercontent.com/alexqwesa/app_bar_with_search_switch/master/screenshot.gif" width="262" height="540">
-
-This is complete rewrite of [flutter_search_bar](https://pub.dev/packages/flutter_search_bar) with support:
-
-- ***support [Stateless](https://api.flutter.dev/flutter/widgets/StatelessWidget-class.html) widgets!***,
-- work with [ValueNotifier](https://api.flutter.dev/flutter/foundation/ValueNotifier-class.html) inside, which can be
-  used directly or can easily work with any providers,
-- full customization,
-- it work in place(no Navigation shenanigans),
-- don't need additional variables somewhere.
-
-Also, there are a few helpers:
-- [AppBarSearchButton](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarSearchButton-class.html),
-- [AppBarOnEditListener](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarOnEditListener-class.html),
-- [AppBarOnSubmitListener](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarOnSubmitListener-class.html),
-- [AppBarWithSearchFinder](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchFinder-class.html),
-- AppBarSpeechButton - coming soon.
 
 ## Content
 
+- [Intro](#intro)
 - [Quick overview](#quick-overview)
 - [Examples](#examples)
 - [Screenshots](#screenshots)
 - [TODO](#todo)
 - [FAQ](#faq)
 - [Known issues](#known-issues)
+
+## Intro
+
+An AppBar that can switch into search field.
+
+The [AppBarWithSearchSwitch](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch-class.html)
+is a replacement class for [AppBar](https://api.flutter.dev/flutter/material/AppBar-class.html), essentially, it returns
+two different app bars based on whether search is active.
+
+
+This is complete rewrite of [flutter_search_bar](https://pub.dev/packages/flutter_search_bar) with support of these features:
+
+**Features**:
+
+- **support [Stateless](https://api.flutter.dev/flutter/widgets/StatelessWidget-class.html) widgets!**,
+- work with [ValueNotifier](https://api.flutter.dev/flutter/foundation/ValueNotifier-class.html) inside, which can be
+  used directly or can easily work with any providers,
+- full customization,
+- it work in place(no Navigation shenanigans),
+- don't need additional variables somewhere,
+- Also, there are a few **helpers(optional)**:
+  - [AppBarSearchButton](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarSearchButton-class.html),
+  - [AppBarOnEditListener](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarOnEditListener-class.html),
+  - [AppBarOnSubmitListener](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarOnSubmitListener-class.html),
+  - [AppBarWithSearchFinder](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchFinder-class.html),
+  - AppBarSpeechButton - coming soon.
+
 
 ## Quick overview
 
@@ -85,7 +91,7 @@ Here is a list of all other new properties(without mentioned above) with their d
 - this.[toolbarWidth](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch/toolbarWidth.html) = double.infinity,
 - this.[searchInputDecoration](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch/searchInputDecoration.html),
 - // And optional [ValueNotifier](https://api.flutter.dev/flutter/foundation/ValueNotifier-class.html) s: 
-- this.[customIsActiveNotifier](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch/customIsActiveNotifier.html), 
+- this.[customIsSearchModeNotifier](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch/customIsSearchModeNotifier.html), 
 - this.[customHasText](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch/customHasText.html), 
 - this.[customTextNotifier](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch/customTextNotifier.html),
 - this.[customSubmitNotifier](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch/customSubmitNotifier.html),
@@ -144,10 +150,11 @@ final searchText = ValueNotifier<String>(''); // somewhere up in a widget tree
 - Add effective riverpod example,
 - Add option for placement of SearchButton and MicrophoneButton outside of AppBar (optional GlobalKey?)
 - Animation for Search app bar activation
+- use iconTheme for icons?
 
 ## FAQ
 
-**How to activate search field (`isActive`=true)
+**How to activate search field (`isSearchMode=true`)
 of [AppBarWithSearchSwitch](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch-class.html)
 from somewhere far away?**
 
@@ -156,9 +163,9 @@ from somewhere far away?**
   2. call `AppBarWithSearchFinder.of(context)?.triggerSearch()` inside.
 
 - If it is outside of [Scaffold](https://api.flutter.dev/flutter/material/Scaffold-class.html),
-use [customIsActiveNotifier](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch/customIsActiveNotifier.html),
+use [customIsSearchModeNotifier](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch/customIsSearchModeNotifier.html),
   1. Initialise variable of type [ValueNotifier<bool>](https://api.flutter.dev/flutter/foundation/ValueNotifier-class.html) somewhere up in the widget tree,
-  2. Set [customIsActiveNotifier](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch/customIsActiveNotifier.html) property of AppBarWithSearchSwitch with this variable,
+  2. Set [customIsSearchModeNotifier](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch/customIsSearchModeNotifier.html) property of AppBarWithSearchSwitch with this variable,
   3. Set value of this [ValueNotifier](https://api.flutter.dev/flutter/foundation/ValueNotifier-class.html) to true to show Search AppBar, 
   4. (Note: currently, if you stop search via this variable(by setting it false), `clearOnClose` will not work, and callBack `onClose` will not be called), so use `GlobalKey` if you need them.
 

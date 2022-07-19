@@ -1,8 +1,12 @@
 # Changelog
 
+## 1.3.1
+
+* isActive renamed to isSearchMode (old name supported, but mark as deprecated)
+
 ## 1.3.0
 
-* added AppBarWithSearchFinder - a class for accessing AppBarWithSearchSwitch everywhere in Scaffold 
+* added AppBarWithSearchFinder - a class for accessing AppBarWithSearchSwitch everywhere in Scaffold
 * added helpers: AppBarOnEditListener and AppBarOnSubmitListener (just simple wrappers for ValueListenableBuilder)
 * update documentation
 
@@ -12,12 +16,13 @@
 
 ## 1.2.3
 
-* Added online example https://alexqwesa.github.io/app_bar_with_search_switch/ 
+* Added online example https://alexqwesa.github.io/app_bar_with_search_switch/
 * update documentation
 
 ## 1.2.2
 
 Added options:
+
 * searchInputDecoration,
 * searchActiveButtonColor,
 

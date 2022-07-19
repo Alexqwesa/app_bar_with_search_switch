@@ -43,7 +43,7 @@ import 'app_bar_builder.dart';
 /// - this.[toolbarWidth] = double.infinity,
 /// - this.[searchInputDecoration],
 /// - // And notifiers:
-/// - this.[customIsActiveNotifier],      // has default static value
+/// - this.[customIsSearchModeNotifier],      // has default static value
 /// - this.[customTextEditingController], // has default static value
 /// - this.[customHasText], // has default static value
 class AppBarWithSearchSwitch extends InheritedWidget
@@ -72,9 +72,10 @@ class AppBarWithSearchSwitch extends InheritedWidget
     //
     // > [ValueNotifier]s
     //
+    this.customIsSearchModeNotifier,
+    this.customIsActiveNotifier, // deprecated: use customIsSearchModeNotifier
     this.customTextNotifier,
     this.customSubmitNotifier,
-    this.customIsActiveNotifier,
     this.customHasText,
     //
     // > [TextEditingController]
@@ -115,7 +116,9 @@ class AppBarWithSearchSwitch extends InheritedWidget
             showClearButton: showClearButton,
             onChange: onChanged,
             hasText: customHasText ?? ValueNotifier<bool>(false),
-            isActive: customIsActiveNotifier ?? ValueNotifier<bool>(false),
+            isSearchMode: customIsSearchModeNotifier ??
+                customIsActiveNotifier ??
+                ValueNotifier<bool>(false),
             textNotifier: customTextNotifier ?? ValueNotifier<String>(''),
             submitNotifier: customSubmitNotifier ?? ValueNotifier<String>(''),
             controller:
@@ -125,122 +128,122 @@ class AppBarWithSearchSwitch extends InheritedWidget
 
   /// See [AppBar] documentation for help.
   ///
-  /// This parameter is used then search is active: [isActive] == true.
+  /// This parameter is used then search is active: [isSearchMode] == true.
   final bool automaticallyImplyLeading;
 
   /// See [AppBar] documentation for help.
   ///
-  /// This parameter is used then search is active: [isActive] == true.
+  /// This parameter is used then search is active: [isSearchMode] == true.
   final Widget? flexibleSpace;
 
   /// See [AppBar] documentation for help.
   ///
-  /// This parameter is used then search is active: [isActive] == true.
+  /// This parameter is used then search is active: [isSearchMode] == true.
   final PreferredSizeWidget? bottom;
 
   /// See [AppBar] documentation for help.
   ///
-  /// This parameter is used then search is active: [isActive] == true.
+  /// This parameter is used then search is active: [isSearchMode] == true.
   final double? elevation;
 
   /// See [AppBar] documentation for help.
   ///
-  /// This parameter is used then search is active: [isActive] == true.
+  /// This parameter is used then search is active: [isSearchMode] == true.
   final double? scrolledUnderElevation;
 
   /// See [AppBar] documentation for help.
   ///
-  /// This parameter is used then search is active: [isActive] == true.
+  /// This parameter is used then search is active: [isSearchMode] == true.
   final Color? shadowColor;
 
   /// See [AppBar] documentation for help.
   ///
-  /// This parameter is used then search is active: [isActive] == true.
+  /// This parameter is used then search is active: [isSearchMode] == true.
   final Color? surfaceTintColor;
 
   /// See [AppBar] documentation for help.
   ///
-  /// This parameter is used then search is active: [isActive] == true.
+  /// This parameter is used then search is active: [isSearchMode] == true.
   final ShapeBorder? shape;
 
   /// See [AppBar] documentation for help.
   ///
-  /// This parameter is used then search is active: [isActive] == true.
+  /// This parameter is used then search is active: [isSearchMode] == true.
   final Color? backgroundColor;
 
   /// See [AppBar] documentation for help.
   ///
-  /// This parameter is used then search is active: [isActive] == true.
+  /// This parameter is used then search is active: [isSearchMode] == true.
   final Color? foregroundColor;
 
   /// See [AppBar] documentation for help.
   ///
-  /// This parameter is used then search is active: [isActive] == true.
+  /// This parameter is used then search is active: [isSearchMode] == true.
   final IconThemeData? iconTheme;
 
   /// See [AppBar] documentation for help.
   ///
-  /// This parameter is used then search is active: [isActive] == true.
+  /// This parameter is used then search is active: [isSearchMode] == true.
   final IconThemeData? actionsIconTheme;
 
   /// See [AppBar] documentation for help.
   ///
-  /// This parameter is used then search is active: [isActive] == true.
+  /// This parameter is used then search is active: [isSearchMode] == true.
   final bool primary;
 
   /// See [AppBar] documentation for help.
   ///
-  /// This parameter is used then search is active: [isActive] == true.
+  /// This parameter is used then search is active: [isSearchMode] == true.
   final bool? centerTitle;
 
   /// See [AppBar] documentation for help.
   ///
-  /// This parameter is used then search is active: [isActive] == true.
+  /// This parameter is used then search is active: [isSearchMode] == true.
   final bool excludeHeaderSemantics;
 
   /// See [AppBar] documentation for help.
   ///
-  /// This parameter is used then search is active: [isActive] == true.
+  /// This parameter is used then search is active: [isSearchMode] == true.
   final double? titleSpacing;
 
   /// See [AppBar] documentation for help.
   ///
-  /// This parameter is used then search is active: [isActive] == true.
+  /// This parameter is used then search is active: [isSearchMode] == true.
   final double toolbarOpacity;
 
   /// See [AppBar] documentation for help.
   ///
-  /// This parameter is used then search is active: [isActive] == true.
+  /// This parameter is used then search is active: [isSearchMode] == true.
   final double bottomOpacity;
 
   /// See [AppBar] documentation for help.
   ///
-  /// This parameter is used then search is active: [isActive] == true.
+  /// This parameter is used then search is active: [isSearchMode] == true.
   final double? toolbarHeight;
 
   /// See [AppBar] documentation for help.
   ///
-  /// This parameter is used then search is active: [isActive] == true.
+  /// This parameter is used then search is active: [isSearchMode] == true.
   final double? leadingWidth;
 
   /// See [AppBar] documentation for help.
   ///
-  /// This parameter is used then search is active: [isActive] == true.
+  /// This parameter is used then search is active: [isSearchMode] == true.
   final TextStyle? toolbarTextStyle;
 
   /// See [AppBar] documentation for help.
   ///
-  /// This parameter is used then search is active: [isActive] == true.
+  /// This parameter is used then search is active: [isSearchMode] == true.
   final TextStyle? titleTextStyle;
 
   /// See [AppBar] documentation for help.
   ///
-  /// This parameter is used then search is active: [isActive] == true.
+  /// This parameter is used then search is active: [isSearchMode] == true.
   final SystemUiOverlayStyle? systemOverlayStyle;
 
   /// See [AppBar] documentation for help.
   ///
-  /// This parameter is used then search is active: [isActive] == true.
+  /// This parameter is used then search is active: [isSearchMode] == true.
   final List<Widget>? actions;
 
   /// The [ValueNotifier] [hasText] for the [TextField] in search app bar.
@@ -270,8 +273,8 @@ class AppBarWithSearchSwitch extends InheritedWidget
   /// The [ValueNotifier] to be used to indicate: is text field visible.
   ///
   /// If null, will be created default one.
-  /// Use [isActive] getter to access this field.
-  final ValueNotifier<bool>? customIsActiveNotifier;
+  /// Use [isSearchMode] getter to access this field.
+  final ValueNotifier<bool>? customIsSearchModeNotifier;
 
   /// The [ValueNotifier] [hasText] for the [TextField] in search app bar.
   ///
@@ -301,12 +304,11 @@ class AppBarWithSearchSwitch extends InheritedWidget
   ///
   /// Can be set directly, like this:
   /// ```dart
-  /// AppBarWithSearchSwitch.of(context).isActive.value = true;
+  /// AppBarWithSearchSwitch.of(context).isSearchMode.value = true;
   /// ``
-  /// Can be changed by parameter: [customIsActiveNotifier] = `ValueNotifier<bool>(false)`
-  // maybe searchIsActive?
-  ValueNotifier<bool> get isActive =>
-      customIsActiveNotifier ?? (super.child as AppBarBuilder).isActive;
+  /// Can be changed by parameter: [customIsSearchModeNotifier] = `ValueNotifier<bool>(false)`
+  ValueNotifier<bool> get isSearchMode =>
+      customIsSearchModeNotifier ?? (super.child as AppBarBuilder).isSearchMode;
 
   /// Standard getter of the class.
   ///
@@ -317,10 +319,10 @@ class AppBarWithSearchSwitch extends InheritedWidget
         .dependOnInheritedWidgetOfExactType<AppBarWithSearchSwitch>());
   }
 
-  /// Currently rebuild is triggered only if [isActive] changed.
+  /// Currently rebuild is triggered only if [isSearchMode] changed.
   @override
   bool updateShouldNotify(AppBarWithSearchSwitch oldWidget) {
-    return isActive != oldWidget.isActive;
+    return isSearchMode != oldWidget.isSearchMode;
   }
 
   /// Width of AppBar, defaults to [double.infinity].
@@ -365,7 +367,7 @@ class AppBarWithSearchSwitch extends InheritedWidget
 
   /// Builder function for [AppBar] by default (when search is inactive).
   ///
-  /// Describe how [AppBar] should look before search is activated ([isActive] == false).
+  /// Describe how [AppBar] should look before search is activated ([isSearchMode] == false).
   /// Example:
   /// ...
   ///        appBarBuilder: (context) {
@@ -499,14 +501,14 @@ class AppBarWithSearchSwitch extends InheritedWidget
   /// );
   /// ```
   void startSearch() {
-    isActive.value = true;
+    isSearchMode.value = true;
   }
 
   /// Hide the search bar.
   ///
   /// Usually you don't need to call this method implicitly.
   void stopSearch() {
-    isActive.value = false;
+    isSearchMode.value = false;
     if (clearOnClose) {
       textEditingController.text = '';
     }
@@ -517,7 +519,7 @@ class AppBarWithSearchSwitch extends InheritedWidget
   ///
   /// See example in docs of [startSearch] method.
   void triggerSearch() {
-    if (isActive.value) {
+    if (isSearchMode.value) {
       stopSearch();
     } else {
       startSearch();
@@ -543,4 +545,18 @@ class AppBarWithSearchSwitch extends InheritedWidget
     submitNotifier.value = val;
     onSubmitted?.call(val);
   }
+
+  /// Shortcut for [isSearchMode], for backward compatibility.
+  ///
+  /// Indicator of whenever search bar is active.
+  @Deprecated('Please, use isSearchMode')
+  ValueNotifier<bool> get isActive =>
+      customIsSearchModeNotifier ?? (super.child as AppBarBuilder).isSearchMode;
+
+  /// Shortcut for [customIsSearchModeNotifier], for backward compatibility.
+  ///
+  /// If null, will be created default one.
+  /// Use [isSearchMode] getter to access this field.
+  @Deprecated('Please, use customIsSearchModeNotifier')
+  final ValueNotifier<bool>? customIsActiveNotifier;
 }

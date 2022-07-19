@@ -15,7 +15,7 @@ class AppBarBuilder extends StatefulWidget {
     required this.showClearButton,
     required this.onChange,
     required this.hasText,
-    required this.isActive,
+    required this.isSearchMode,
     required this.textNotifier,
     required this.submitNotifier,
     Key? key,
@@ -25,7 +25,7 @@ class AppBarBuilder extends StatefulWidget {
   final TextEditingController controller;
   final bool showClearButton;
   final ValueNotifier<bool> hasText;
-  final ValueNotifier<bool> isActive;
+  final ValueNotifier<bool> isSearchMode;
   final ValueNotifier<String> textNotifier;
   final ValueNotifier<String> submitNotifier;
 
@@ -71,14 +71,14 @@ class AppBarBuilderState extends State<AppBarBuilder> {
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
-      valueListenable: AppBarWithSearchSwitch.of(context)!.isActive,
+      valueListenable: AppBarWithSearchSwitch.of(context)!.isSearchMode,
       child: AppBarWithSearchSwitch.of(context)!.appBarBuilder(context),
       builder: (context, _, defaultAppBarWidget) {
         final mainWidget = AppBarWithSearchSwitch.of(context)!;
         final theme = Theme.of(context);
         final buttonColor =
             mainWidget.keepAppBarColors ? null : theme.iconTheme.color;
-        final isSearching = AppBarWithSearchSwitch.of(context)!.isActive.value;
+        final isSearching = AppBarWithSearchSwitch.of(context)!.isSearchMode.value;
 
         return !isSearching
             ? defaultAppBarWidget!
