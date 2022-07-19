@@ -56,6 +56,6 @@ jobs:
         uses: actions-go/push@master
         with:
           create-commit: true
-          commit-message: '[Auto] documentation update'
+          commit-message: '[Auto] update online example'
           remote: origin
           fail-if-empty: true
