@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.3.2
+
+* textNotifier is now can change state of AppBarWithSearchSwitch
+* update FAQ: How to make android back button close search?
+
 ## 1.3.1
 
 * isActive renamed to isSearchMode (old name supported, but mark as deprecated),

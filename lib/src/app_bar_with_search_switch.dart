@@ -260,7 +260,7 @@ class AppBarWithSearchSwitch extends InheritedWidget
   /// The [ValueNotifier] [textNotifier] for the [TextField] in search app bar.
   ///
   /// If null, will be created default one.
-  /// Use [textNotifier] getter to access or subscribe to this field.
+  /// Use [textNotifier] getter to access, change or subscribe to this field.
   final ValueNotifier<String>? customTextNotifier;
 
   /// The [ValueNotifier] [submitNotifier] for the [TextField] in search app bar.
@@ -290,8 +290,9 @@ class AppBarWithSearchSwitch extends InheritedWidget
 
   static final _hasTextGlobalFallBack = ValueNotifier<bool>(false);
 
-  /// The [ValueNotifier] [textNotifier] for the [TextField] in search app bar.
+  /// The [ValueNotifier] for the [TextField] in search app bar.
   ///
+  /// Can be used to change text in [TextField] in search app bar.
   /// Can be changed by parameter: [customTextNotifier] = `ValueNotifier<String>('')`
   ValueNotifier<String> get textNotifier =>
       customTextNotifier ??

@@ -41,12 +41,14 @@ class AppBarBuilderState extends State<AppBarBuilder> {
     super.initState();
     if (widget.showClearButton) {
       widget.controller.addListener(onTextChanged);
+      widget.textNotifier.addListener(onTextNotifierChanged);
     }
   }
 
   @override
   void dispose() {
     widget.controller.removeListener(onTextChanged);
+    widget.textNotifier.removeListener(onTextNotifierChanged);
     super.dispose();
   }
 
@@ -57,13 +59,25 @@ class AppBarBuilderState extends State<AppBarBuilder> {
       oldWidget.controller.removeListener(onTextChanged);
       widget.controller.addListener(onTextChanged);
     }
+    if (oldWidget.textNotifier != widget.textNotifier) {
+      oldWidget.textNotifier.removeListener(onTextNotifierChanged);
+      widget.textNotifier.addListener(onTextNotifierChanged);
+    }
+  }
+
+  void onTextNotifierChanged() {
+    final controller = widget.controller;
+    final notifier = widget.textNotifier;
+    if (controller.text != notifier.value) {
+      controller.text = notifier.value;
+    }
   }
 
   void onTextChanged() {
     final controller = widget.controller;
     if (controller.text.isNotEmpty != hasText) {
+      hasText = controller.text.isNotEmpty;
       setState(() {
-        hasText = controller.text.isNotEmpty;
         widget.hasText.value = hasText;
       });
     }

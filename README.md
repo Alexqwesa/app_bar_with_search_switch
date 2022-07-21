@@ -91,10 +91,12 @@ Here is a list of all other new properties(without mentioned above) with their d
 - this.[keyboardType](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch/keyboardType.html) = TextInputType.text,
 - this.[toolbarWidth](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch/toolbarWidth.html) = double.infinity,
 - this.[searchInputDecoration](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch/searchInputDecoration.html),
-- // And optional [ValueNotifier](https://api.flutter.dev/flutter/foundation/ValueNotifier-class.html) s: 
-- this.[customIsSearchModeNotifier](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch/customIsSearchModeNotifier.html), 
+- // And optional [ValueNotifier](https://api.flutter.dev/flutter/foundation/ValueNotifier-class.html) s 
+ (can be used to control state of [AppBarWithSearchSwitch](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch-class.html)): 
+- this.[customIsSearchModeNotifier](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch/customIsSearchModeNotifier.html),
+- this.[customTextNotifier](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch/customTextNotifier.html), // Can be used to change text
+- // And optional [ValueNotifier](https://api.flutter.dev/flutter/foundation/ValueNotifier-class.html) s (read only):
 - this.[customHasText](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch/customHasText.html), 
-- this.[customTextNotifier](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch/customTextNotifier.html),
 - this.[customSubmitNotifier](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch/customSubmitNotifier.html),
 - // And optional [TextEditingController](https://api.flutter.dev/flutter/widgets/TextEditingController-class.html):
 - this.[customTextEditingController](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch/customTextEditingController.html), 
@@ -136,7 +138,7 @@ And the fragment of example code is here:
         },
       ),
       // search in body by any way you want, example:
-      body: AppBarOnEditListener(builder: (context) { /* your code here */  } ),
+      body: AppBarOnEditListener(builder: (context) { return /* your code here */  } ),
     );
   }
 ```
@@ -172,12 +174,49 @@ use [customIsSearchModeNotifier](https://pub.dev/documentation/app_bar_with_sear
   3. Set value of this [ValueNotifier](https://api.flutter.dev/flutter/foundation/ValueNotifier-class.html) to true to show Search AppBar, 
   4. (Note: currently, if you stop search via this variable(by setting it false), `clearOnClose` will not work, and callBack `onClose` will not be called), so use `GlobalKey` if you need them.
 
+**How to make android back button close search?** (instead of going to previous screen or exit app)
+
+1. Initialise variable of type [ValueNotifier<bool>](https://api.flutter.dev/flutter/foundation/ValueNotifier-class.html) somewhere up in the widget tree,
+2. Wrap [Scaffold](https://api.flutter.dev/flutter/material/Scaffold-class.html) in [WillPopScope](https://api.flutter.dev/flutter/material/WillPopScope-class.html) widget, 
+ and define parameter `onWillPop` as in example below:
+
+```dart
+... // inside a widget
+  final isSearchMode = ValueNotifier<bool>(false);
+  final searchText = ValueNotifier<String>(''); 
+
+@override
+  Widget build(BuildContext context) {
+
+    return WillPopScope(
+      onWillPop: () async { // android back button handler
+        if (searchText.value != '') {
+          isSearchMode.value = false;
+          searchText.value = ''; 
+          return false;
+        }
+        return true;
+      },
+      child: Scaffold(
+        //
+        // *** The Widget AppBarWithSearchSwitch
+        //
+        appBar: AppBarWithSearchSwitch(
+          customIsSearchModeNotifier: isSearchMode,
+          customTextNotifier: searchText,
+          appBarBuilder: (context) {
+            return AppBar(
+... // you code here
+```
+
+
 ## Known issues
 
 - `keepAppBarColors = true` didn't change color of 'Text Selection Handles' (selection bubbles), this is because of 
 upstream issue https://github.com/flutter/flutter/issues/74890 with textSelectionTheme: `selectionHandleColor` 
-- If for some reason you use more than one [AppBarWithSearchSwitch](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch-class.html)
+- If for some reason you use **more than one** [AppBarWithSearchSwitch](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch-class.html)
  **on the same page** (how? and why?) provide them with their own: [customIsSearchModeNotifier](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch/customIsSearchModeNotifier.html), 
 [customTextNotifier](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch/customTextNotifier.html), 
 [customTextEditingController](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch/customTextEditingController.html), 
 [customHasText](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch/customHasText.html)... 
+ 
