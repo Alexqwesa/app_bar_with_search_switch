@@ -76,10 +76,10 @@ class AppBarBuilderState extends State<AppBarBuilder> {
   void onTextChanged() {
     final controller = widget.controller;
     if (controller.text.isNotEmpty != hasText) {
-      hasText = controller.text.isNotEmpty;
       setState(() {
-        widget.hasText.value = hasText;
+        hasText = controller.text.isNotEmpty;
       });
+      widget.hasText.value = hasText;
     }
     widget.textNotifier.value = controller.text;
     widget.onChange?.call(controller.text);

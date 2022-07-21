@@ -52,7 +52,8 @@ Use one of these callbacks to get text from [TextField](https://api.flutter.dev/
 
 - [onChanged](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch/onChanged.html),
 - [onSubmitted](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch/onSubmitted.html),
-- or listen to [textEditingController](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch/textEditingController.html).
+- or listen to [textEditingController](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch/textEditingController.html),
+- or just [ValueNotifier](https://api.flutter.dev/flutter/foundation/ValueNotifier-class.html): [textNotifier](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch/textNotifier.html) ...
 
 Also, there are callbacks for:
 
@@ -111,7 +112,7 @@ Full example of **Stateless** widget is [here: (github)](https://github.com/Alex
 Full example of Stateless widget with **10000 elements** searched in place and with search button outside of app bar is 
 [here: (github)](https://github.com/Alexqwesa/app_bar_with_search_switch/blob/master/example/lib/main_in_place_effective.dart).
 
-Full example of Stateless widget there **android back button close search** is [here: (github)](https://github.com/Alexqwesa/app_bar_with_search_switch/blob/master/example/lib/main_android_back_button_clear_search.dart).
+Full example of Stateless widget there **android back button will close search** is [here: (github)](https://github.com/Alexqwesa/app_bar_with_search_switch/blob/master/example/lib/main_android_back_button_clear_search.dart).
 
 And the fragment of example code is here:
 ```dart
@@ -207,6 +208,30 @@ use [customIsSearchModeNotifier](https://pub.dev/documentation/app_bar_with_sear
         appBar: AppBarWithSearchSwitch(
           customIsSearchModeNotifier: isSearchMode,
           customTextNotifier: searchText,
+          appBarBuilder: (context) {
+            return AppBar(
+... // you code here
+```
+
+**How to add autocompletion to search field?**
+
+* Use [Autocomplete](https://api.flutter.dev/flutter/material/Autocomplete-class.html) widget in [title](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch/title.html) 
+ parameter:
+
+```dart
+... // inside a widget
+@override
+  Widget build(BuildContext context) {
+
+    return Scaffold(
+        appBar: AppBarWithSearchSwitch(
+          title:  (context) {
+                return Autocomplete<String>(
+                  optionsBuilder: (TextEditingValue textEditingValue) {
+                    // your code here
+                  },
+                ); 
+          }
           appBarBuilder: (context) {
             return AppBar(
 ... // you code here
