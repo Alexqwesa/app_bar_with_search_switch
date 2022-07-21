@@ -20,7 +20,6 @@ The [AppBarWithSearchSwitch](https://pub.dev/documentation/app_bar_with_search_s
 is a replacement class for [AppBar](https://api.flutter.dev/flutter/material/AppBar-class.html), essentially, it returns
 two different app bars based on whether search is active.
 
-
 This is complete rewrite of [flutter_search_bar](https://pub.dev/packages/flutter_search_bar) with support of these features:
 
 **Features**:
@@ -94,7 +93,7 @@ Here is a list of all other new properties(without mentioned above) with their d
 - // And optional [ValueNotifier](https://api.flutter.dev/flutter/foundation/ValueNotifier-class.html) s 
  (can be used to control state of [AppBarWithSearchSwitch](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch-class.html)): 
 - this.[customIsSearchModeNotifier](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch/customIsSearchModeNotifier.html),
-- this.[customTextNotifier](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch/customTextNotifier.html), // Can be used to change text
+- this.[customTextNotifier](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch/customTextNotifier.html),
 - // And optional [ValueNotifier](https://api.flutter.dev/flutter/foundation/ValueNotifier-class.html) s (read only):
 - this.[customHasText](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch/customHasText.html), 
 - this.[customSubmitNotifier](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch/customSubmitNotifier.html),
@@ -103,14 +102,16 @@ Here is a list of all other new properties(without mentioned above) with their d
 
 ## Examples
 
-Full example of **Statefull** widget is here: [https://pub.dev/packages/app_bar_with_search_switch/example](https://pub.dev/packages/app_bar_with_search_switch/example).
+**Online example** here: [https://alexqwesa.github.io/app_bar_with_search_switch/](https://alexqwesa.github.io/app_bar_with_search_switch/).
+
+Full example of **Stateful** widget is here: [https://pub.dev/packages/app_bar_with_search_switch/example](https://pub.dev/packages/app_bar_with_search_switch/example).
 
 Full example of **Stateless** widget is [here: (github)](https://github.com/Alexqwesa/app_bar_with_search_switch/blob/master/example/lib/main_statefull.dart).
 
 Full example of Stateless widget with **10000 elements** searched in place and with search button outside of app bar is 
 [here: (github)](https://github.com/Alexqwesa/app_bar_with_search_switch/blob/master/example/lib/main_in_place_effective.dart).
 
-**Online example** here: [https://alexqwesa.github.io/app_bar_with_search_switch/](https://alexqwesa.github.io/app_bar_with_search_switch/).
+Full example of Stateless widget there **android back button close search** is [here: (github)](https://github.com/Alexqwesa/app_bar_with_search_switch/blob/master/example/lib/main_android_back_button_clear_search.dart).
 
 And the fragment of example code is here:
 ```dart
@@ -176,8 +177,10 @@ use [customIsSearchModeNotifier](https://pub.dev/documentation/app_bar_with_sear
 
 **How to make android back button close search?** (instead of going to previous screen or exit app)
 
-1. Initialise variable of type [ValueNotifier<bool>](https://api.flutter.dev/flutter/foundation/ValueNotifier-class.html) somewhere up in the widget tree,
-2. Wrap [Scaffold](https://api.flutter.dev/flutter/material/Scaffold-class.html) in [WillPopScope](https://api.flutter.dev/flutter/material/WillPopScope-class.html) widget, 
+1. Initialise variable searchText and isSearchMode of type [ValueNotifier](https://api.flutter.dev/flutter/foundation/ValueNotifier-class.html) somewhere up in the widget tree,
+2. Assign these variables to [customIsSearchModeNotifier](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch/customIsSearchModeNotifier.html), 
+ [customTextNotifier](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch/customTextNotifier.html),
+3. Wrap [WillPopScope](https://api.flutter.dev/flutter/material/WillPopScope-class.html) widget over [Scaffold](https://api.flutter.dev/flutter/material/Scaffold-class.html), 
  and define parameter `onWillPop` as in example below:
 
 ```dart
