@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.3.3
+
+* by default: selectionHandleColor uses theme.splashColor
+
 ## 1.3.2
 
 * textNotifier is now can change state of AppBarWithSearchSwitch
