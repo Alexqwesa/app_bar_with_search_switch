@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.0.0-dev.1
+
+* AppBarSpeechButton - Speech to text recognition for AppBarWithSearchSwitch
+
 ## 1.3.3
 
 * by default: selectionHandleColor uses theme.splashColor

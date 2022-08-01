@@ -79,12 +79,14 @@ class AppBarWithSearchSwitch extends InheritedWidget
     this.customIsSearchModeNotifier,
     this.customIsActiveNotifier, // deprecated: use customIsSearchModeNotifier
     this.customTextNotifier,
+    this.customIsSpeechModeNotifier,
     this.customSubmitNotifier,
     this.customHasText,
     //
     // > [TextEditingController]
     //
     this.customTextEditingController,
+    customSpeech,
     //
     // > standard AppBar fields
     //
@@ -123,11 +125,14 @@ class AppBarWithSearchSwitch extends InheritedWidget
             isSearchMode: customIsSearchModeNotifier ??
                 customIsActiveNotifier ??
                 _isSearchModeGlobalFallBack,
+            isSpeechMode:
+                customIsSpeechModeNotifier ?? _isSpeechModeGlobalFallBack,
             textNotifier: customTextNotifier ?? _textNotifierGlobalFallBack,
             submitNotifier:
                 customSubmitNotifier ?? _submitNotifierGlobalFallBack,
             controller: customTextEditingController ??
                 _textEditingControllerGlobalFallBack,
+            speech: customSpeech,
           ),
         );
 
@@ -281,6 +286,12 @@ class AppBarWithSearchSwitch extends InheritedWidget
   /// Use [isSearchMode] getter to access this field.
   final ValueNotifier<bool>? customIsSearchModeNotifier;
 
+  /// The [ValueNotifier] to be used to indicate: is speech recognition is active.
+  ///
+  /// If null, will be created default one.
+  /// Use [isSpeechMode] getter to access this field.
+  final ValueNotifier<bool>? customIsSpeechModeNotifier;
+
   /// The [ValueNotifier] [hasText] for the [TextField] in search app bar.
   ///
   /// Can be changed by parameter: [customHasText] = `ValueNotifier<bool>(false)`
@@ -331,6 +342,18 @@ class AppBarWithSearchSwitch extends InheritedWidget
 
   static final _isSearchModeGlobalFallBack = ValueNotifier<bool>(false);
 
+  /// Indicator of whenever speech recognition is active.
+  ///
+  /// Can be set directly, like this:
+  /// ```dart
+  /// AppBarWithSearchSwitch.of(context).isSpeechMode.value = true;
+  /// ``
+  /// Can be changed by parameter: [customIsSpeechModeNotifier] = `ValueNotifier<bool>(false)`
+  ValueNotifier<bool> get isSpeechMode =>
+      customIsSpeechModeNotifier ?? _isSpeechModeGlobalFallBack;
+
+  static final _isSpeechModeGlobalFallBack = ValueNotifier<bool>(false);
+
   /// Standard getter of the class.
   ///
   /// Note: there is a standard limitation:
@@ -343,7 +366,7 @@ class AppBarWithSearchSwitch extends InheritedWidget
   /// Currently rebuild is triggered only if [isSearchMode] changed.
   @override
   bool updateShouldNotify(AppBarWithSearchSwitch oldWidget) {
-    return isSearchMode != oldWidget.isSearchMode;
+    return isSearchMode != oldWidget.isSearchMode  ;
   }
 
   /// Width of AppBar, defaults to [double.infinity].
@@ -377,9 +400,14 @@ class AppBarWithSearchSwitch extends InheritedWidget
   /// return Size of this widget with:
   /// - height = toolbarHeight + bottom.height
   /// - width = toolbarWidth
+  ///
+  /// Note: then [isSpeechMode] true - it will use additional height.
   @override
-  Size get preferredSize => Size(toolbarWidth,
-      (toolbarHeight ?? kToolbarHeight) + (bottom?.preferredSize.height ?? 0));
+  Size get preferredSize => Size(
+      toolbarWidth,
+      (toolbarHeight ?? kToolbarHeight) +
+          (bottom?.preferredSize.height ?? 0) +
+          (isSpeechMode.value ? kToolbarHeight * 1.2 : 0));
 
   /// Text in the field.
   ///
@@ -434,6 +462,7 @@ class AppBarWithSearchSwitch extends InheritedWidget
   ///         // onChanged: mainWidget.onChanged,
   ///         onSubmitted: AppBarWithSearchSwitch.of(context)?.submitCallbackForTextField,
   ///         autofocus: true,
+  ///         // or autofocus: !mainWidget.isSpeechMode.value, // don't show keyboard on speech recognition
   ///         controller: mainWidget.textEditingController,
   ///       ),
   ///     );

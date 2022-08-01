@@ -3,11 +3,13 @@
 // is governed by a BSD-style license that can be found in the LICENSE file.
 
 import 'package:flutter/material.dart';
+import 'package:speech_to_text/speech_to_text.dart';
 
 import 'app_bar_with_search_switch.dart';
 import 'clear_or_close_icon_buttons.dart';
 import 'leading_back_button.dart';
 import 'search_text_field.dart';
+import 'speech_to_text/speech_sub_bar.dart';
 
 class AppBarBuilder extends StatefulWidget {
   const AppBarBuilder({
@@ -16,6 +18,8 @@ class AppBarBuilder extends StatefulWidget {
     required this.controller,
     required this.hasText,
     required this.isSearchMode,
+    required this.isSpeechMode,
+    required this.speech,
     required this.textNotifier,
     required this.submitNotifier,
     Key? key,
@@ -29,6 +33,10 @@ class AppBarBuilder extends StatefulWidget {
   final ValueNotifier<String> textNotifier;
   final ValueNotifier<String> submitNotifier;
 
+  /// just indicator wherever speech was provided or needed to be initialized
+  final SpeechToText? speech;
+  final ValueNotifier<bool> isSpeechMode;
+
   @override
   State<AppBarBuilder> createState() => AppBarBuilderState();
 }
@@ -36,19 +44,66 @@ class AppBarBuilder extends StatefulWidget {
 class AppBarBuilderState extends State<AppBarBuilder> {
   bool hasText = false;
 
+  // // Hot reload should always check AppBar height
+  // @override
+  // void reassemble() {
+  //   if (!widget.isSearchMode.value) {
+  //     widget.isSpeechMode.value = false;
+  //   }
+  //   // if (widget.isSpeechMode.value) {
+  //   //   widget.isSearchMode.value = true;
+  //   // }
+  //   super.reassemble();
+  //   showSnackBar();
+  // }
+
   @override
   void initState() {
     super.initState();
     if (widget.showClearButton) {
       widget.controller.addListener(onTextChanged);
       widget.textNotifier.addListener(onTextNotifierChanged);
+      widget.isSpeechMode.addListener(onSpeechChanged);
+      widget.isSearchMode.addListener(onSearchModeChanged);
     }
+    //
+    // > check is custom SpeechToText provided and init global var
+    //
+    speech = (widget.speech != null) ? widget.speech! : SpeechToText();
+    // widget.isSpeechMode.addListener(showSnackBar);
+  }
+
+  void onSearchModeChanged() {
+    if (widget.isSearchMode.value == false) {
+      widget.isSpeechMode.value = false;
+    }
+  }
+
+  void onSpeechChanged() {
+    showSnackBar();
+  }
+
+  /// Force repaint scaffold to update AppBar height
+  void showSnackBar() {
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+      content: SizedBox.shrink(),
+      // content: SpeechRecognizingAppBar(
+      //   isSpeechMode: widget.isSpeechMode,
+      //   textNotifier: widget.textNotifier,
+      // ),
+      duration: Duration(milliseconds: 1),
+      animation: null,
+      elevation: 0,
+      padding: EdgeInsets.zero,
+    ));
   }
 
   @override
   void dispose() {
     widget.controller.removeListener(onTextChanged);
     widget.textNotifier.removeListener(onTextNotifierChanged);
+    widget.isSpeechMode.removeListener(onSpeechChanged);
+    widget.isSearchMode.removeListener(onSearchModeChanged);
     super.dispose();
   }
 
@@ -62,6 +117,22 @@ class AppBarBuilderState extends State<AppBarBuilder> {
     if (oldWidget.textNotifier != widget.textNotifier) {
       oldWidget.textNotifier.removeListener(onTextNotifierChanged);
       widget.textNotifier.addListener(onTextNotifierChanged);
+    }
+    if (oldWidget.isSpeechMode != widget.isSpeechMode) {
+      oldWidget.isSpeechMode.removeListener(onSpeechChanged);
+      if (!widget.isSearchMode.value) {
+        // for hot reload
+        widget.isSpeechMode.value = false;
+      }
+      widget.isSpeechMode.addListener(onSpeechChanged);
+    }
+    if (oldWidget.isSearchMode != widget.isSearchMode) {
+      oldWidget.isSearchMode.removeListener(onSearchModeChanged);
+      widget.isSearchMode.addListener(onSearchModeChanged);
+      if (widget.isSpeechMode.value) {
+        // for hot reload
+        widget.isSearchMode.value = true;
+      }
     }
   }
 
@@ -87,6 +158,12 @@ class AppBarBuilderState extends State<AppBarBuilder> {
 
   @override
   Widget build(BuildContext context) {
+    // return AnimatedBuilder(
+    //   animation: Listenable.merge([
+    //     AppBarWithSearchSwitch.of(context)!.isSearchMode,
+    //     AppBarWithSearchSwitch.of(context)!.isSpeechMode
+    //   ]),
+
     return ValueListenableBuilder(
       valueListenable: AppBarWithSearchSwitch.of(context)!.isSearchMode,
       child: AppBarWithSearchSwitch.of(context)!.appBarBuilder(context),
@@ -99,65 +176,87 @@ class AppBarBuilderState extends State<AppBarBuilder> {
             AppBarWithSearchSwitch.of(context)!.isSearchMode.value;
 
         return !isSearching
+            //
+            // > default app bar
+            //
             ? defaultAppBarWidget!
-            : AppBar(
-                leading: mainWidget.leading != null
-                    ? mainWidget.leading?.call(context)
-                    : LeadingIconBackButton(buttonColor: buttonColor),
-                title: mainWidget.title != null
-                    ? mainWidget.title?.call(context)
-                    : const SearchTextField(),
-                backgroundColor:
-                    mainWidget.keepAppBarColors ? null : theme.canvasColor,
-                // backgroundColor: mainWidget.backgroundColor,
+            //
+            // > search app bar
+            //
+            : Column(
+                children: [
+                  AppBar(
+                    leading: mainWidget.leading != null
+                        ? mainWidget.leading?.call(context)
+                        : LeadingIconBackButton(buttonColor: buttonColor),
+                    title: mainWidget.title != null
+                        ? mainWidget.title?.call(context)
+                        : const SearchTextField(),
+                    backgroundColor:
+                        mainWidget.keepAppBarColors ? null : theme.canvasColor,
+                    // backgroundColor: mainWidget.backgroundColor,
 
-                automaticallyImplyLeading: mainWidget.automaticallyImplyLeading,
-                flexibleSpace: mainWidget.flexibleSpace,
-                bottom: mainWidget.bottom,
-                elevation: mainWidget.elevation,
-                scrolledUnderElevation: mainWidget.scrolledUnderElevation,
-                shadowColor: mainWidget.shadowColor,
-                surfaceTintColor: mainWidget.surfaceTintColor,
-                shape: mainWidget.shape,
-                foregroundColor: mainWidget.foregroundColor,
-                iconTheme: mainWidget.iconTheme,
-                actionsIconTheme: mainWidget.actionsIconTheme,
-                primary: mainWidget.primary,
-                centerTitle: mainWidget.centerTitle,
-                excludeHeaderSemantics: mainWidget.excludeHeaderSemantics,
-                titleSpacing: mainWidget.titleSpacing,
-                toolbarOpacity: mainWidget.toolbarOpacity,
-                bottomOpacity: mainWidget.bottomOpacity,
-                toolbarHeight: mainWidget.toolbarHeight,
-                leadingWidth: mainWidget.leadingWidth,
-                toolbarTextStyle: mainWidget.toolbarTextStyle,
-                titleTextStyle: mainWidget.titleTextStyle,
-                systemOverlayStyle: mainWidget.systemOverlayStyle,
-                actions: [
+                    automaticallyImplyLeading:
+                        mainWidget.automaticallyImplyLeading,
+                    flexibleSpace: mainWidget.flexibleSpace,
+                    bottom: mainWidget.bottom,
+                    elevation: mainWidget.elevation,
+                    scrolledUnderElevation: mainWidget.scrolledUnderElevation,
+                    shadowColor: mainWidget.shadowColor,
+                    surfaceTintColor: mainWidget.surfaceTintColor,
+                    shape: mainWidget.shape,
+                    foregroundColor: mainWidget.foregroundColor,
+                    iconTheme: mainWidget.iconTheme,
+                    actionsIconTheme: mainWidget.actionsIconTheme,
+                    primary: mainWidget.primary,
+                    centerTitle: mainWidget.centerTitle,
+                    excludeHeaderSemantics: mainWidget.excludeHeaderSemantics,
+                    titleSpacing: mainWidget.titleSpacing,
+                    toolbarOpacity: mainWidget.toolbarOpacity,
+                    bottomOpacity: mainWidget.bottomOpacity,
+                    toolbarHeight: mainWidget.toolbarHeight,
+                    leadingWidth: mainWidget.leadingWidth,
+                    toolbarTextStyle: mainWidget.toolbarTextStyle,
+                    titleTextStyle: mainWidget.titleTextStyle,
+                    systemOverlayStyle: mainWidget.systemOverlayStyle,
+                    actions: [
+                      //
+                      // > clear button
+                      //
+                      if (mainWidget.showClearButton &&
+                          !mainWidget.closeOnClearTwice &&
+                          hasText)
+                        ClearIconButton(
+                          mainWidget: mainWidget,
+                          buttonColor: buttonColor,
+                        ),
+                      //
+                      // > clear or close button
+                      //
+                      if (mainWidget.showClearButton &&
+                          mainWidget.closeOnClearTwice)
+                        ClearOrCloseIconButton(
+                          mainWidget: mainWidget,
+                          hasText: hasText,
+                          buttonColor: buttonColor,
+                        ),
+                      //
+                      // > other actions
+                      //
+                      if (mainWidget.actions != null) ...mainWidget.actions!
+                    ],
+                  ),
                   //
-                  // > clear button
+                  // > speech sub bar
                   //
-                  if (mainWidget.showClearButton &&
-                      !mainWidget.closeOnClearTwice &&
-                      hasText)
-                    ClearIconButton(
-                      mainWidget: mainWidget,
-                      buttonColor: buttonColor,
+                  if (AppBarWithSearchSwitch.of(context)!.isSpeechMode.value &&
+                      AppBarWithSearchSwitch.of(context)!.isSearchMode.value)
+                    Expanded(
+                      child: SpeechSubBar(
+                        isSpeechMode: widget.isSpeechMode,
+                        textNotifier: widget.textNotifier,
+                      ),
                     ),
-                  //
-                  // > clear or close button
-                  //
-                  if (mainWidget.showClearButton &&
-                      mainWidget.closeOnClearTwice)
-                    ClearOrCloseIconButton(
-                      mainWidget: mainWidget,
-                      hasText: hasText,
-                      buttonColor: buttonColor,
-                    ),
-                  //
-                  // > other actions
-                  //
-                  if (mainWidget.actions != null) ...mainWidget.actions!
                 ],
               );
       },
