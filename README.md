@@ -158,6 +158,7 @@ And the fragment of example code is here:
 - Animation for Search app bar activation
 - use iconTheme for icons?
 - don't use shared default [ValueNotifier](https://api.flutter.dev/flutter/foundation/ValueNotifier-class.html) and [TextEditingController](https://api.flutter.dev/flutter/widgets/TextEditingController-class.html) ?
+- support CupertinoPageScaffold
 
 ## FAQ
 

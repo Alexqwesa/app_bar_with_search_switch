@@ -23,7 +23,7 @@ class SearchTextField extends StatelessWidget {
             ? theme.copyWith(
                 textSelectionTheme: TextSelectionThemeData(
                   // didn't work, https://github.com/flutter/flutter/issues/74890
-                  selectionHandleColor: Colors.grey,
+                  selectionHandleColor: theme.splashColor,
                   selectionColor: theme.backgroundColor,
                 ),
               )
