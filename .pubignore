@@ -18,6 +18,5 @@ build/
 **/android/
 **/build/
 docs/
-/lib/src/speech_to_text
 /lib/generated_plugin_registrant.dart
 main_for_debug.dart

@@ -1,3 +1,7 @@
+// Copyright (c) 2022, Alexqwesa.
+// All rights reserved. Use of this source code
+// is governed by a BSD-style license that can be found in the LICENSE file.
+
 import 'dart:developer' as dev;
 import 'dart:io';
 
@@ -7,16 +11,22 @@ import 'package:flutter/services.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 
 import './speech_sub_bar.dart';
+import '../app_bar_with_search_switch.dart';
 
+/// Interact with [SpeechToText], init it,
+///
+/// show [SpeechSubBar] and subscribe to [isListeningToSpeech] and [isSpeechMode].
 class SpeechSubBarController extends StatefulWidget {
   final ValueNotifier<bool> isSpeechMode;
   final ValueNotifier<String> textNotifier;
   final SpeechToText speech;
+  final ValueNotifier<bool> isListeningToSpeech;
 
   const SpeechSubBarController({
     required this.textNotifier,
     required this.isSpeechMode,
     required this.speech,
+    required this.isListeningToSpeech,
     Key? key,
   }) : super(key: key);
 
@@ -25,15 +35,13 @@ class SpeechSubBarController extends StatefulWidget {
 }
 
 class _SpeechSubBarControllerState extends State<SpeechSubBarController> {
-  final isListening = ValueNotifier(false);
-
   Future<bool> initSpeechEngine(SpeechToText speech) async {
     if (kIsWeb || Platform.isAndroid || Platform.isIOS) {
       try {
         final available = await speech.initialize(
           onStatus: (status) {
             dev.log('Speech status $status');
-            isListening.value = speech.isListening;
+            widget.isListeningToSpeech.value = speech.isListening;
             if (mounted) {
               setState(() {
                 // just update state
@@ -42,7 +50,7 @@ class _SpeechSubBarControllerState extends State<SpeechSubBarController> {
           },
           onError: (error) {
             dev.log('Speech error $error');
-            isListening.value = speech.isListening;
+            widget.isListeningToSpeech.value = speech.isListening;
             if (mounted) {
               setState(() {
                 // just update state
@@ -70,29 +78,19 @@ class _SpeechSubBarControllerState extends State<SpeechSubBarController> {
   @override
   void initState() {
     super.initState();
-    initSpeechEngine(widget.speech).then((value) {
+    initSpeechEngine(widget.speech).then((value) async {
       if (value) {
         widget.isSpeechMode.addListener(_isSpeechListener);
         if (!widget.speech.isListening) {
-          speechStartListening();
-          isListening.value = widget.speech.isListening;
+          await innerStartListening(
+            speech: widget.speech,
+            isListening: widget.isListeningToSpeech,
+            textNotifier: widget.textNotifier,
+          );
+          widget.isListeningToSpeech.value = widget.speech.isListening;
         }
       }
     });
-  }
-
-  Future<void> speechStartListening() async {
-    final speech = widget.speech;
-    isListening.value = speech.isListening;
-    final res = await speech.listen(
-      onResult: (result) {
-        widget.textNotifier.value =
-            widget.textNotifier.value + result.recognizedWords;
-        isListening.value = speech.isListening;
-      },
-    );
-    isListening.value = speech.isListening;
-    return res;
   }
 
   @override
@@ -106,7 +104,11 @@ class _SpeechSubBarControllerState extends State<SpeechSubBarController> {
 
   void _isSpeechListener() async {
     if (widget.isSpeechMode.value) {
-      await speechStartListening();
+      await innerStartListening(
+        speech: widget.speech,
+        isListening: widget.isListeningToSpeech,
+        textNotifier: widget.textNotifier,
+      );
     } // is setState needed if false?
     if (mounted) {
       setState(() {
@@ -127,11 +129,9 @@ class _SpeechSubBarControllerState extends State<SpeechSubBarController> {
 
   @override
   Widget build(BuildContext context) {
-    return SpeechSubBar(
-      textNotifier: widget.textNotifier,
-      speechStartListening: speechStartListening,
-      isListen: isListening,
-      speech: widget.speech,
-    );
+    final mainWidget = AppBarWithSearchSwitch.of(context)!;
+    return mainWidget.speechSubBar != null
+        ? mainWidget.speechSubBar!.call(context)
+        : const SpeechSubBar();
   }
 }

@@ -1,3 +1,7 @@
+// Copyright (c) 2022, Alexqwesa.
+// All rights reserved. Use of this source code
+// is governed by a BSD-style license that can be found in the LICENSE file.
+
 import 'package:flutter/material.dart';
 
 import 'app_bar_with_search_switch.dart';
@@ -59,10 +63,58 @@ class MyHomePage extends StatelessWidget {
         appBar: AppBarWithSearchSwitch(
           customIsSearchModeNotifier: isSearchMode,
           customTextNotifier: searchText,
+          speechSubBar: (BuildContext context) {
+            final speech = AppBarWithSearchSwitch.of(context)!.speechEngine;
+            final isListening = AppBarWithSearchSwitch.of(context)!.isListeningToSpeech;
+            final textNotifier = AppBarWithSearchSwitch.of(context)!.textNotifier;
+
+            if (!(speech.isListening || speech.isAvailable)) {
+              return const Center(
+                child: Text('Speech recognition is initializing...'),
+              );
+            }
+
+            return GestureDetector(
+              child: Container(
+                alignment: Alignment.center,
+                color: Theme.of(context).primaryColor,
+                child: Column(
+                  children: [
+                    ValueListenableBuilder(
+                      valueListenable: isListening,
+                      builder: (context, _, child) {
+                        return FloatingActionButton(
+                          backgroundColor:
+                          speech.isListening ? Colors.red : Colors.grey,
+                          autofocus: true,
+                          onPressed: () async {
+                            if (speech.isListening) {
+                              await speech.stop();
+                              isListening.value = false; // not necessary, just failsafe
+                            } else {
+                              await innerStartListening(
+                                speech: speech,
+                                isListening: isListening,
+                                textNotifier: textNotifier,
+                              );
+                            }
+                          },
+                          child: const Icon(Icons.mic_rounded),
+                        );
+                      },
+                    ),
+
+                    // Center(
+                    //   child: Text(speech.lastRecognizedWords),
+                    // ),
+                  ],
+                ),
+              ),
+            );
+          },
           appBarBuilder: (context) {
             return AppBar(
-              title:
-                  Text(title),
+              title: Text(title),
               actions: const [
                 AppBarSearchButton(
                     // changeOnlyOnSubmit: true,
@@ -77,51 +129,73 @@ class MyHomePage extends StatelessWidget {
         //
         // > Just some random code to react to input from AppBarWithSearchSwitch.
         //
-        body: GridView.builder(
-          itemCount: words.length * 100,
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: MediaQuery.of(context).size.width ~/ 120,
-            childAspectRatio: 1,
-          ),
-          itemBuilder: (BuildContext context, int i) {
-            return AppBarOnEditListener(
-              child: SizedBox(
-                height: 110,
-                width: 110,
-                child: GestureDetector(
-                  onLongPress: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                          builder: (context) => MyHomePage(
-                                title: words[i % wordsLength],
-                              )),
-                    );
-                  },
-                  child: Card(
-                    child: Column(
-                      children: [
-                        Expanded(
-                          child: Center(
-                            child: Text(
-                              words[i % wordsLength],
-                              style: Theme.of(context).textTheme.headline5,
-                              textAlign: TextAlign.center,
-                            ),
+        body: Column(
+          children: [
+            AppBarOnEditListener(
+              builder: (BuildContext context, searchText, child) {
+                final totalFound = words
+                    .where((element) => element.contains(searchText))
+                    .length;
+
+                return totalFound > 0 && searchText != ''
+                    ? Text(
+                        totalFound.toString(),
+                        style: Theme.of(context).textTheme.headline5,
+                        textAlign: TextAlign.center,
+                      )
+                    : Container();
+              },
+            ),
+            Expanded(
+              child: GridView.builder(
+                itemCount: words.length * 100,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: MediaQuery.of(context).size.width ~/ 120,
+                  childAspectRatio: 1,
+                ),
+                itemBuilder: (BuildContext context, int i) {
+                  return AppBarOnEditListener(
+                    child: SizedBox(
+                      height: 110,
+                      width: 110,
+                      child: GestureDetector(
+                        onLongPress: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                                builder: (context) => MyHomePage(
+                                      title: words[i % wordsLength],
+                                    )),
+                          );
+                        },
+                        child: Card(
+                          child: Column(
+                            children: [
+                              Expanded(
+                                child: Center(
+                                  child: Text(
+                                    words[i % wordsLength],
+                                    style:
+                                        Theme.of(context).textTheme.headline5,
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                      ],
+                      ),
                     ),
-                  ),
-                ),
+                    builder: (BuildContext context, searchText, child) {
+                      return Visibility(
+                        visible: words[i % wordsLength].contains(searchText),
+                        child: child ?? Container(),
+                      );
+                    },
+                  );
+                },
               ),
-              builder: (BuildContext context, searchText, child) {
-                return Visibility(
-                  visible: words[i % wordsLength].contains(searchText),
-                  child: child ?? Container(),
-                );
-              },
-            );
-          },
+            ),
+          ],
         ),
         //
         // > Activate search from random place

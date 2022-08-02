@@ -2,7 +2,9 @@
 
 ## 2.0.0-dev.1
 
-* AppBarSpeechButton - Speech to text recognition for AppBarWithSearchSwitch
+* AppBarSpeechButton - Speech to text recognition for AppBarWithSearchSwitch,
+* new parameters: speechSubBar, speechSubBarHeight and final variable isListeningToSpeech,
+* added innerStartListening function (for speechSubBar)
 
 ## 1.3.3
 

@@ -1,3 +1,7 @@
+// Copyright (c) 2022, Alexqwesa.
+// All rights reserved. Use of this source code
+// is governed by a BSD-style license that can be found in the LICENSE file.
+
 /// # AppBar with search switch
 ///
 /// An AppBar with switch into search field.
@@ -42,3 +46,4 @@ export 'package:app_bar_with_search_switch/src/app_bar_search_button.dart';
 export 'package:app_bar_with_search_switch/src/app_bar_with_search_finder.dart';
 export 'package:app_bar_with_search_switch/src/app_bar_with_search_switch.dart';
 export 'package:app_bar_with_search_switch/src/speech_to_text/app_bar_speech_button.dart';
+export 'package:app_bar_with_search_switch/src/speech_to_text/speech_sub_bar.dart';

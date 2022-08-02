@@ -250,6 +250,7 @@ class AppBarBuilderState extends State<AppBarBuilder> {
                         isSpeechMode: widget.isSpeechMode,
                         textNotifier: widget.textNotifier,
                         speech: mainWidget.speechEngine,
+                        isListeningToSpeech: mainWidget.isListeningToSpeech,
                       ),
                     ),
                 ],

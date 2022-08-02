@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 
 import 'app_bar_builder.dart';
+import 'speech_to_text/speech_sub_bar.dart';
 
 /// The [AppBar] that can switch into search field.
 ///
@@ -91,6 +92,8 @@ class AppBarWithSearchSwitch extends InheritedWidget
     // > [SpeechToText]
     //
     this.customSpeechToText,
+    this.speechSubBar,
+    this.speechSubBarHeight = kToolbarHeight * 1.2,
     //
     // > standard AppBar fields
     //
@@ -259,7 +262,7 @@ class AppBarWithSearchSwitch extends InheritedWidget
   /// This parameter is used then search is active: [isSearchMode] == true.
   final List<Widget>? actions;
 
-  /// The [ValueNotifier] [hasText] for the [TextField] in search app bar.
+  /// Read only [ValueNotifier] for the [TextField] in search app bar.
   ///
   /// If null, will be created default one.
   /// Use [hasText] getter to access or subscribe to this field.
@@ -314,6 +317,21 @@ class AppBarWithSearchSwitch extends InheritedWidget
   }
 
   static late final SpeechToText _speechEngineGlobalFallBack;
+
+  /// Custom widget shown when speech recognition is active.
+  ///
+  /// If null, used [SpeechSubBar], see its help for more info.
+  final Widget Function(BuildContext context)? speechSubBar;
+
+  /// Height of [speechSubBar].
+  ///
+  /// Only used if [isSpeechMode]==true
+  final double speechSubBarHeight;
+
+  /// Read only [ValueNotifier], indicate state of [SpeechToText].
+  ///
+  /// Used internally to sync widgets states.
+  final isListeningToSpeech = ValueNotifier<bool>(false);
 
   /// The [ValueNotifier] [hasText] for the [TextField] in search app bar.
   ///
@@ -424,13 +442,17 @@ class AppBarWithSearchSwitch extends InheritedWidget
   /// - height = toolbarHeight + bottom.height
   /// - width = toolbarWidth
   ///
-  /// Note: then [isSpeechMode] true - it will use additional height.
+  /// Note: if [isSpeechMode] == true - it will add [subBarHeight] pixels to height .
   @override
-  Size get preferredSize => Size(
-      toolbarWidth,
-      (toolbarHeight ?? kToolbarHeight) +
-          (bottom?.preferredSize.height ?? 0) +
-          (isSpeechMode.value ? kToolbarHeight * 1.2 : 0));
+  Size get preferredSize {
+    final subBarHeight = isSpeechMode.value ? speechSubBarHeight : 0;
+
+    return Size(
+        toolbarWidth,
+        (toolbarHeight ?? kToolbarHeight) +
+            (bottom?.preferredSize.height ?? 0) +
+            subBarHeight);
+  }
 
   /// Text in the field.
   ///

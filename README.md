@@ -21,6 +21,9 @@ The [AppBarWithSearchSwitch](https://pub.dev/documentation/app_bar_with_search_s
 is a replacement class for [AppBar](https://api.flutter.dev/flutter/material/AppBar-class.html), essentially, it returns
 two different app bars based on whether search is active.
 
+Note: **version 1.3+ is lightweight version** of this package, **version 2.0+ uses [SpeechToText](https://pub.dev/packages/speech_to_text)** 
+package for speech recognition.
+
 This is complete rewrite of [flutter_search_bar](https://pub.dev/packages/flutter_search_bar) with support of these features:
 
 ## Features
@@ -36,7 +39,7 @@ This is complete rewrite of [flutter_search_bar](https://pub.dev/packages/flutte
   - [AppBarOnEditListener](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarOnEditListener-class.html),
   - [AppBarOnSubmitListener](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarOnSubmitListener-class.html),
   - [AppBarWithSearchFinder](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchFinder-class.html),
-  - [AppBarSpeechButton](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarSpeechButton-class.html), version 2+ only
+  - [AppBarSpeechButton](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarSpeechButton-class.html) ( **in version 2.0+ only** )
 
 
 ## Quick overview
@@ -102,7 +105,15 @@ Here is a list of all other new properties(without mentioned above) with their d
 - // And optional [TextEditingController](https://api.flutter.dev/flutter/widgets/TextEditingController-class.html):
 - this.[customTextEditingController](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch/customTextEditingController.html), 
 - // And optional [SpeechToText](https://pub.dev/packages/speech_to_text), version 2+ only,
-- this.customSpeechToText,
+- this.[customSpeechToText](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch/customSpeechToText.html),
+- this.[speechSubBar](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch/speechSubBar.html),
+- this.[speechSubBarHeight](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch/speechSubBarHeight.html) = kToolbarHeight * 1.2,
+
+For using [SpeechToText](https://pub.dev/packages/speech_to_text) 
+it is required to setup build configurations of your project:
+- [setup permissions](https://pub.dev/packages/speech_to_text#permissions),
+- use newer sdk (compileSdkVersion 21+)
+- and use [SpeechToText](https://pub.dev/packages/speech_to_text) documentation for fine tuning...
 
 ## Examples
 
@@ -243,13 +254,14 @@ use [customIsSearchModeNotifier](https://pub.dev/documentation/app_bar_with_sear
 
 **Speech to text didn't work in emulator, how to fix?**
 
-- check: are you added permission to AndroidManifest.xml,
+- check: are you added [permissions](https://pub.dev/packages/speech_to_text#permissions) to AndroidManifest.xml,
 - check: are you granted permission to you app in Android(see about app page in android settings),
 - check: are emulator settings allow access to microphone,
 - check: is [Google](https://play.google.com/store/apps/details?id=com.google.android.googlequicksearchbox) installed,
 - check: is Google work,
 - check: is you microphone work on host side,
-- to be continue...
+- see [https://pub.dev/packages/speech_to_text#troubleshooting](https://pub.dev/packages/speech_to_text#troubleshooting) 
+ for troubleshooting...
 
 ## Known issues
 
