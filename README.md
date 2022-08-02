@@ -39,7 +39,7 @@ This is complete rewrite of [flutter_search_bar](https://pub.dev/packages/flutte
   - [AppBarOnEditListener](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarOnEditListener-class.html),
   - [AppBarOnSubmitListener](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarOnSubmitListener-class.html),
   - [AppBarWithSearchFinder](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchFinder-class.html),
-  - [AppBarSpeechButton](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarSpeechButton-class.html) ( **in version 2.0+ only** )
+  - [AppBarSpeechButton](https://pub.dev/documentation/app_bar_with_search_switch/2.0.0-dev.2/app_bar_with_search_switch/AppBarSpeechButton-class.html) ( **in version 2.0+ only** )
 
 
 ## Quick overview
