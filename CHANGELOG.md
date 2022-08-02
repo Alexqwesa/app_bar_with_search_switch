@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.3.4
+
+* update README
+
 ## 1.3.3
 
 * by default: selectionHandleColor uses theme.splashColor
