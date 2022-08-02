@@ -239,6 +239,15 @@ use [customIsSearchModeNotifier](https://pub.dev/documentation/app_bar_with_sear
 ... // you code here
 ```
 
+**Speech to text didn't work in emulator, how to fix?**
+
+- check: are you added permission to AndroidManifest.xml,
+- check: are you granted permission to you app in Android(see about app page in android settings),
+- check: are emulator settings allow access to microphone,
+- check: is [Google](https://play.google.com/store/apps/details?id=com.google.android.googlequicksearchbox) installed,
+- check: is Google work,
+- check: is you microphone work on host side,
+- to be continue...
 
 ## Known issues
 
