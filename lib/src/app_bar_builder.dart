@@ -36,6 +36,19 @@ class AppBarBuilder extends StatefulWidget {
 class AppBarBuilderState extends State<AppBarBuilder> {
   bool hasText = false;
 
+  // // Hot reload should always check AppBar height
+  // @override
+  // void reassemble() {
+  //   if (!widget.isSearchMode.value) {
+  //     widget.isSpeechMode.value = false;
+  //   }
+  //   // if (widget.isSpeechMode.value) {
+  //   //   widget.isSearchMode.value = true;
+  //   // }
+  //   super.reassemble();
+  //   showSnackBar();
+  // }
+
   @override
   void initState() {
     super.initState();
@@ -87,19 +100,25 @@ class AppBarBuilderState extends State<AppBarBuilder> {
 
   @override
   Widget build(BuildContext context) {
+    final mainWidget = AppBarWithSearchSwitch.of(context)!;
+
     return ValueListenableBuilder(
-      valueListenable: AppBarWithSearchSwitch.of(context)!.isSearchMode,
-      child: AppBarWithSearchSwitch.of(context)!.appBarBuilder(context),
+      valueListenable: mainWidget.isSearchMode,
+      child: mainWidget.appBarBuilder(context),
       builder: (context, _, defaultAppBarWidget) {
-        final mainWidget = AppBarWithSearchSwitch.of(context)!;
         final theme = Theme.of(context);
         final buttonColor =
             mainWidget.keepAppBarColors ? null : theme.iconTheme.color;
-        final isSearching =
-            AppBarWithSearchSwitch.of(context)!.isSearchMode.value;
+        final isSearching = mainWidget.isSearchMode.value;
 
         return !isSearching
+            //
+            // > default app bar
+            //
             ? defaultAppBarWidget!
+            //
+            // > search app bar
+            //
             : AppBar(
                 leading: mainWidget.leading != null
                     ? mainWidget.leading?.call(context)

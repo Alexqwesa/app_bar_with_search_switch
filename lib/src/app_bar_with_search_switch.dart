@@ -251,7 +251,7 @@ class AppBarWithSearchSwitch extends InheritedWidget
   /// This parameter is used then search is active: [isSearchMode] == true.
   final List<Widget>? actions;
 
-  /// The [ValueNotifier] [hasText] for the [TextField] in search app bar.
+  /// Read only [ValueNotifier] for the [TextField] in search app bar.
   ///
   /// If null, will be created default one.
   /// Use [hasText] getter to access or subscribe to this field.
@@ -434,6 +434,7 @@ class AppBarWithSearchSwitch extends InheritedWidget
   ///         // onChanged: mainWidget.onChanged,
   ///         onSubmitted: AppBarWithSearchSwitch.of(context)?.submitCallbackForTextField,
   ///         autofocus: true,
+  ///         // or autofocus: !mainWidget.isSpeechMode.value, // don't show keyboard on speech recognition
   ///         controller: mainWidget.textEditingController,
   ///       ),
   ///     );
