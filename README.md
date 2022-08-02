@@ -5,6 +5,7 @@
 ## Content
 
 - [Intro](#intro)
+- [Features](#features)
 - [Quick overview](#quick-overview)
 - [Examples](#examples)
 - [Screenshots](#screenshots)
@@ -22,13 +23,13 @@ two different app bars based on whether search is active.
 
 This is complete rewrite of [flutter_search_bar](https://pub.dev/packages/flutter_search_bar) with support of these features:
 
-**Features**:
+## Features
 
 - **support [Stateless](https://api.flutter.dev/flutter/widgets/StatelessWidget-class.html) widgets!**,
 - work with [ValueNotifier](https://api.flutter.dev/flutter/foundation/ValueNotifier-class.html) inside, which can be
   used directly or can easily work with any providers,
 - full customization,
-- it work in place(no Navigation shenanigans),
+- it works in place(no Navigation shenanigans),
 - don't need additional variables somewhere,
 - Also, there are a few **helpers(optional)**:
   - [AppBarSearchButton](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarSearchButton-class.html),
@@ -46,7 +47,7 @@ parameter to build default AppBar with:
 - or with standard search button [AppBarSearchButton](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarSearchButton-class.html).
 
 The [appBarBuilder](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch/appBarBuilder.html) 
-is the only required parameter, all other parameters are optional! 
+**is the only required parameter**, all other parameters are optional! 
 
 Use one of these callbacks to get text from [TextField](https://api.flutter.dev/flutter/material/TextField-class.html):
 
@@ -140,7 +141,7 @@ And the fragment of example code is here:
         },
       ),
       // search in body by any way you want, example:
-      body: AppBarOnEditListener(builder: (context) { return /* your code here */  } ),
+      body: AppBarOnEditListener(builder: (context) { return /* your code here */ ;} ),
     );
   }
 ```
@@ -190,7 +191,7 @@ use [customIsSearchModeNotifier](https://pub.dev/documentation/app_bar_with_sear
   final isSearchMode = ValueNotifier<bool>(false);
   final searchText = ValueNotifier<String>(''); 
 
-@override
+  @override
   Widget build(BuildContext context) {
 
     return WillPopScope(
@@ -221,7 +222,7 @@ use [customIsSearchModeNotifier](https://pub.dev/documentation/app_bar_with_sear
 
 ```dart
 ... // inside a widget
-@override
+  @override
   Widget build(BuildContext context) {
 
     return Scaffold(
