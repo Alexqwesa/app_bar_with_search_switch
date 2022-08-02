@@ -107,7 +107,8 @@ Future<void> innerStartListening(
     required ValueNotifier<bool> isListening,
     required ValueNotifier<String> textNotifier}) async {
   isListening.value = speech.isListening;
-  final previousText = textNotifier.value; // don't duplicate results, but save current field
+  final previousText =
+      textNotifier.value; // don't duplicate results, but save current field
   await speech.listen(
     onResult: (result) {
       textNotifier.value = previousText + result.recognizedWords;

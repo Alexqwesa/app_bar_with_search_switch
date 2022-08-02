@@ -27,13 +27,13 @@ class MyHomePage extends StatelessWidget {
   final String title;
   final searchText = ValueNotifier<String>('');
   final words = ("There is no justice in the laws of nature, no term for fairness in the equations of motion. "
-      "The Universe is neither evil, nor good, it simply does not care. "
-      "The stars don't care, or the Sun, or the sky. "
-      "But they don't have to! WE care! There IS light in the world, and it is US! "
-      "Why does any kind of cynicism appeal to people? Because it seems like a mark of maturity, of sophistication, like you’ve seen everything and know better. "
-      "Or because putting something down feels like pushing yourself up. "
-      "There is light in the world, and it is us! "
-      "World domination is such an ugly phrase. I prefer to call it world optimisation. ")
+          "The Universe is neither evil, nor good, it simply does not care. "
+          "The stars don't care, or the Sun, or the sky. "
+          "But they don't have to! WE care! There IS light in the world, and it is US! "
+          "Why does any kind of cynicism appeal to people? Because it seems like a mark of maturity, of sophistication, like you’ve seen everything and know better. "
+          "Or because putting something down feels like pushing yourself up. "
+          "There is light in the world, and it is us! "
+          "World domination is such an ugly phrase. I prefer to call it world optimisation. ")
       .split(' ');
 
   @override

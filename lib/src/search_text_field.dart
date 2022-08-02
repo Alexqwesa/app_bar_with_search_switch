@@ -56,7 +56,8 @@ class SearchTextField extends StatelessWidget {
           onSubmitted:
               AppBarWithSearchSwitch.of(context)?.submitCallbackForTextField,
           keyboardType: mainWidget.keyboardType,
-          autofocus: !mainWidget.isSpeechMode.value, // don't show keyboard on speech recognition
+          autofocus: !mainWidget
+              .isSpeechMode.value, // don't show keyboard on speech recognition
           controller: mainWidget.textEditingController,
         ),
       ),

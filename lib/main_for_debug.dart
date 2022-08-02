@@ -66,8 +66,10 @@ class MyHomePage extends StatelessWidget {
           // speechSubBarHeight: 0,
           speechSubBar: (BuildContext context) {
             final speech = AppBarWithSearchSwitch.of(context)!.speechEngine;
-            final isListening = AppBarWithSearchSwitch.of(context)!.isListeningToSpeech;
-            final textNotifier = AppBarWithSearchSwitch.of(context)!.textNotifier;
+            final isListening =
+                AppBarWithSearchSwitch.of(context)!.isListeningToSpeech;
+            final textNotifier =
+                AppBarWithSearchSwitch.of(context)!.textNotifier;
 
             if (!(speech.isListening || speech.isAvailable)) {
               return const Center(
@@ -86,12 +88,13 @@ class MyHomePage extends StatelessWidget {
                       builder: (context, _, child) {
                         return FloatingActionButton(
                           backgroundColor:
-                          speech.isListening ? Colors.red : Colors.grey,
+                              speech.isListening ? Colors.red : Colors.grey,
                           autofocus: true,
                           onPressed: () async {
                             if (speech.isListening) {
                               await speech.stop();
-                              isListening.value = false; // not necessary, just failsafe
+                              isListening.value =
+                                  false; // not necessary, just failsafe
                             } else {
                               await innerStartListening(
                                 speech: speech,
@@ -208,7 +211,7 @@ class MyHomePage extends StatelessWidget {
         //     child: const Icon(Icons.search),
         //   ),
         // ),
-        floatingActionButton:  const AppBarSearchButton(),
+        floatingActionButton: const AppBarSearchButton(),
       ),
     );
   }
