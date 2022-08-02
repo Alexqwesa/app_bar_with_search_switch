@@ -8,7 +8,7 @@ import '../app_bar_with_search_switch.dart';
 /// Button that will activate Speech to text recognition for [AppBarWithSearchSwitch].
 ///
 /// Usually you will probably want to use it like this:
-///
+///```dart
 ///      Scaffold(
 ///         appBar: AppBarWithSearchSwitch(
 ///           appBarBuilder: (context) {
@@ -18,6 +18,12 @@ import '../app_bar_with_search_switch.dart';
 ///                 AppBarSearchButton(),
 ///                 AppBarSpeechButton(), // <== this button
 ///               ],
+///```
+///
+/// Note: OnTap it sets fields of [AppBarWithSearchSwitch] to:
+/// - [isSpeechMode]=true
+/// - [isSearchMode]=true
+// todo: add indicator, controller?
 class AppBarSpeechButton extends StatelessWidget {
   const AppBarSpeechButton({Key? key}) : super(key: key);
 
@@ -46,7 +52,6 @@ class AppBarSpeechButton extends StatelessWidget {
         //
         onPressed: () async {
           final mainWidget = AppBarSpeechButton.of(context);
-          // await initSpeechEngine(SpeechToText());
           mainWidget?.isSpeechMode.value = true;
           mainWidget?.isSearchMode.value = true;
         },

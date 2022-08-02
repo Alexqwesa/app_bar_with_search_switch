@@ -36,7 +36,7 @@ This is complete rewrite of [flutter_search_bar](https://pub.dev/packages/flutte
   - [AppBarOnEditListener](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarOnEditListener-class.html),
   - [AppBarOnSubmitListener](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarOnSubmitListener-class.html),
   - [AppBarWithSearchFinder](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchFinder-class.html),
-  - AppBarSpeechButton - coming soon.
+  - [AppBarSpeechButton](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarSpeechButton-class.html), version 2+ only
 
 
 ## Quick overview
@@ -101,6 +101,8 @@ Here is a list of all other new properties(without mentioned above) with their d
 - this.[customSubmitNotifier](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch/customSubmitNotifier.html),
 - // And optional [TextEditingController](https://api.flutter.dev/flutter/widgets/TextEditingController-class.html):
 - this.[customTextEditingController](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch/customTextEditingController.html), 
+- // And optional [SpeechToText](https://pub.dev/packages/speech_to_text), version 2+ only,
+- this.customSpeechToText,
 
 ## Examples
 

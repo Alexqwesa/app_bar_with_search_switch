@@ -3,13 +3,12 @@
 // is governed by a BSD-style license that can be found in the LICENSE file.
 
 import 'package:flutter/material.dart';
-import 'package:speech_to_text/speech_to_text.dart';
 
 import 'app_bar_with_search_switch.dart';
 import 'clear_or_close_icon_buttons.dart';
 import 'leading_back_button.dart';
 import 'search_text_field.dart';
-import 'speech_to_text/speech_sub_bar.dart';
+import 'speech_to_text/speech_sub_bar_controller.dart';
 
 class AppBarBuilder extends StatefulWidget {
   const AppBarBuilder({
@@ -19,7 +18,6 @@ class AppBarBuilder extends StatefulWidget {
     required this.hasText,
     required this.isSearchMode,
     required this.isSpeechMode,
-    required this.speech,
     required this.textNotifier,
     required this.submitNotifier,
     Key? key,
@@ -32,9 +30,6 @@ class AppBarBuilder extends StatefulWidget {
   final ValueNotifier<bool> isSearchMode;
   final ValueNotifier<String> textNotifier;
   final ValueNotifier<String> submitNotifier;
-
-  /// just indicator wherever speech was provided or needed to be initialized
-  final SpeechToText? speech;
   final ValueNotifier<bool> isSpeechMode;
 
   @override
@@ -69,7 +64,6 @@ class AppBarBuilderState extends State<AppBarBuilder> {
     //
     // > check is custom SpeechToText provided and init global var
     //
-    speech = (widget.speech != null) ? widget.speech! : SpeechToText();
     // widget.isSpeechMode.addListener(showSnackBar);
   }
 

@@ -4,6 +4,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:speech_to_text/speech_to_text.dart';
 
 import 'app_bar_builder.dart';
 
@@ -86,7 +87,10 @@ class AppBarWithSearchSwitch extends InheritedWidget
     // > [TextEditingController]
     //
     this.customTextEditingController,
-    customSpeech,
+    //
+    // > [SpeechToText]
+    //
+    this.customSpeechToText,
     //
     // > standard AppBar fields
     //
@@ -132,7 +136,6 @@ class AppBarWithSearchSwitch extends InheritedWidget
                 customSubmitNotifier ?? _submitNotifierGlobalFallBack,
             controller: customTextEditingController ??
                 _textEditingControllerGlobalFallBack,
-            speech: customSpeech,
           ),
         );
 
@@ -292,6 +295,26 @@ class AppBarWithSearchSwitch extends InheritedWidget
   /// Use [isSpeechMode] getter to access this field.
   final ValueNotifier<bool>? customIsSpeechModeNotifier;
 
+  /// The instance of [SpeechToText] for speech recognition.
+  ///
+  /// If null, will be created default one.
+  /// Use [speechEngine] getter to access this field.
+  final SpeechToText? customSpeechToText;
+
+  /// The [ValueNotifier] [hasText] for the [TextField] in search app bar.
+  ///
+  /// Can be changed by parameter: [customHasText] = `ValueNotifier<bool>(false)`
+  SpeechToText get speechEngine {
+    try {
+      return customSpeechToText ?? _speechEngineGlobalFallBack;
+    } catch (e) {
+      _speechEngineGlobalFallBack = SpeechToText();
+      return customSpeechToText ?? _speechEngineGlobalFallBack;
+    }
+  }
+
+  static late final SpeechToText _speechEngineGlobalFallBack;
+
   /// The [ValueNotifier] [hasText] for the [TextField] in search app bar.
   ///
   /// Can be changed by parameter: [customHasText] = `ValueNotifier<bool>(false)`
@@ -366,7 +389,7 @@ class AppBarWithSearchSwitch extends InheritedWidget
   /// Currently rebuild is triggered only if [isSearchMode] changed.
   @override
   bool updateShouldNotify(AppBarWithSearchSwitch oldWidget) {
-    return isSearchMode != oldWidget.isSearchMode  ;
+    return isSearchMode != oldWidget.isSearchMode;
   }
 
   /// Width of AppBar, defaults to [double.infinity].
