@@ -63,7 +63,6 @@ class MyHomePage extends StatelessWidget {
         appBar: AppBarWithSearchSwitch(
           customIsSearchModeNotifier: isSearchMode,
           customTextNotifier: searchText,
-
           appBarBuilder: (context) {
             return AppBar(
               title: Text(title),
@@ -158,7 +157,7 @@ class MyHomePage extends StatelessWidget {
         //     child: const Icon(Icons.search),
         //   ),
         // ),
-        floatingActionButton:  const AppBarSearchButton(),
+        floatingActionButton: const AppBarSearchButton(),
       ),
     );
   }

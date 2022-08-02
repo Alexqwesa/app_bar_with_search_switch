@@ -42,7 +42,6 @@ class _MyHomePageState extends State<MyHomePage> {
           "World domination is such an ugly phrase. I prefer to call it world optimisation. ")
       .split(' ');
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
