@@ -126,9 +126,9 @@ class AppBarBuilderState extends State<AppBarBuilder> {
                 title: mainWidget.title != null
                     ? mainWidget.title?.call(context)
                     : const SearchTextField(),
-                backgroundColor:
-                    mainWidget.keepAppBarColors ? null : theme.canvasColor,
-                // backgroundColor: mainWidget.backgroundColor,
+                // backgroundColor has higher priority then keepAppBarColors
+                backgroundColor: mainWidget.backgroundColor ??
+                    (mainWidget.keepAppBarColors ? null : theme.canvasColor),
 
                 automaticallyImplyLeading: mainWidget.automaticallyImplyLeading,
                 flexibleSpace: mainWidget.flexibleSpace,
