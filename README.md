@@ -242,6 +242,9 @@ use [customIsSearchModeNotifier](https://pub.dev/documentation/app_bar_with_sear
 ... // you code here
 ```
 
+**Can it be used with old flutter sdk versions?**
+
+The release 1.3.5 is a special release with support of old flutter sdk, it tested with flutter 2.10.0
 
 ## Known issues
 

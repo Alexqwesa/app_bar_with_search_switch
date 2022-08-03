@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.3.6
+
+* remove support for old flutter versions
+* update README
+
 ## 1.3.5
 
 * this is special release with **support for old flutter versions**, tested with 2.10.0,
