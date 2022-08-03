@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.3.4
+
+* this is special release with **support for old flutter versions**, tested with 2.10.0
+* use this version if you want to use old flutter sdk
+
 ## 1.3.3
 
 * by default: selectionHandleColor uses theme.splashColor
