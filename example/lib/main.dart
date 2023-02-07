@@ -85,7 +85,7 @@ class MyHomePage extends StatelessWidget {
                                   child: Text(
                                     words[i],
                                     style:
-                                        Theme.of(context).textTheme.headline5,
+                                        Theme.of(context).textTheme.headlineSmall,
                                     textAlign: TextAlign.center,
                                   ),
                                 ),

@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.3.7
+minor: tests cleaned from deprecated code 
+
 ## 1.3.6
 
 * remove support for old flutter versions

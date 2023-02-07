@@ -93,7 +93,7 @@ class MyHomePage extends StatelessWidget {
                         child: Center(
                           child: Text(
                             words[i % wordsLength],
-                            style: Theme.of(context).textTheme.headline5,
+                            style: Theme.of(context).textTheme.headlineSmall,
                             textAlign: TextAlign.center,
                           ),
                         ),
