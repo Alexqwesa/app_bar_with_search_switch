@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.0.0-dev.2
+
+minor: tests and examples cleaned from deprecated code 
+
 ## 2.0.0-dev.1
 
 * AppBarSpeechButton - Speech to text recognition for AppBarWithSearchSwitch,
