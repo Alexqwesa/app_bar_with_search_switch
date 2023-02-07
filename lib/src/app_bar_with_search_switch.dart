@@ -363,7 +363,7 @@ class AppBarWithSearchSwitch extends InheritedWidget
   ///                 hintStyle: TextStyle(
   ///                   color: keepAppBarColors
   ///                       ? Theme.of(context).canvasColor
-  ///                       : Theme.of(context).textTheme.headline6?.color,
+  ///                       : Theme.of(context).textTheme.headlineSmall?.color,
   ///                 ),
   ///                 enabledBorder: InputBorder.none,
   ///                 focusedBorder: InputBorder.none,

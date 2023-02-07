@@ -73,7 +73,8 @@ class _MyHomePageState extends State<MyHomePage> {
                             child: Center(
                               child: Text(
                                 words[i],
-                                style: Theme.of(context).textTheme.headlineSmall,
+                                style:
+                                    Theme.of(context).textTheme.headlineSmall,
                                 textAlign: TextAlign.center,
                               ),
                             ),
