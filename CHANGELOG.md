@@ -1,8 +1,16 @@
 # Changelog
 
-## 2.0.0-dev.2
+## 2.0.0-dev.4
+
+update dependency v2.0.0-dev.4
+
+## 2.0.0-dev.3
 
 minor: tests and examples cleaned from deprecated code 
+
+## 2.0.0-dev.2
+
+minor: warnings cleaned
 
 ## 2.0.0-dev.1
 
