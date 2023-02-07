@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.0.0-dev.5
+
+minor cleanup
+
 ## 2.0.0-dev.4
 
 update dependency v2.0.0-dev.4

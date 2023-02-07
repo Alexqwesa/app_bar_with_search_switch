@@ -44,7 +44,7 @@ class AppBarOnSubmitListener extends StatelessWidget {
         child: Text(
           'Error: This widget should be inside AppBarWithSearchSwitch widget,'
           'Or inside Scaffold that have AppBarWithSearchSwitch',
-          style: Theme.of(context).textTheme.headline4,
+          style: Theme.of(context).textTheme.headlineSmall,
         ),
       );
     }
