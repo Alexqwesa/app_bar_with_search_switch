@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.3.9
+minor cleanup
+
 ## 1.3.8
 minor cleanup
 
