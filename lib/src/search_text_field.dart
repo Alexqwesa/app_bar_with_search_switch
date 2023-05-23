@@ -24,27 +24,29 @@ class SearchTextField extends StatelessWidget {
                 textSelectionTheme: TextSelectionThemeData(
                   // didn't work, https://github.com/flutter/flutter/issues/74890
                   selectionHandleColor: theme.splashColor,
-                  selectionColor: theme.colorScheme.background,
+                  selectionColor: theme.colorScheme.background.withOpacity(0.5),
                 ),
               )
             : theme,
         child: TextField(
           cursorColor: mainWidget.keepAppBarColors
-              ? theme.canvasColor
+              ? theme.appBarTheme.backgroundColor ?? theme.canvasColor
               : theme.textSelectionTheme.cursorColor,
 
           style: theme.textTheme.headlineSmall?.copyWith(
             color: mainWidget.keepAppBarColors
-                ? theme.canvasColor
+                ? theme.appBarTheme.foregroundColor ?? theme.canvasColor
                 : theme.textTheme.headlineSmall?.color,
           ),
           decoration: mainWidget.searchInputDecoration ??
               InputDecoration(
                 hintText: mainWidget.fieldHintText,
                 hintStyle: TextStyle(
-                  color: mainWidget.keepAppBarColors
-                      ? theme.canvasColor
-                      : theme.textTheme.headlineSmall?.color,
+                  color: (mainWidget.keepAppBarColors
+                          ? theme.appBarTheme.foregroundColor ??
+                              theme.canvasColor
+                          : theme.textTheme.headlineSmall?.color)
+                      ?.withOpacity(0.8),
                 ),
                 enabledBorder: InputBorder.none,
                 focusedBorder: InputBorder.none,
