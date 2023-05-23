@@ -1,13 +1,20 @@
 # Changelog
 
+## 1.4.0
+
+* fix for dark theme: use theme.appBarTheme colors by default and fallback to theme.canvasColor (which was used before)
+
 ## 1.3.9
-minor cleanup
+
+* minor cleanup
 
 ## 1.3.8
-minor cleanup
+
+* minor cleanup
 
 ## 1.3.7
-minor: tests cleaned from deprecated code 
+
+* minor: tests cleaned from deprecated code
 
 ## 1.3.6
 
