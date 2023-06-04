@@ -53,9 +53,13 @@ jobs:
       - name: Git add  docs
         run:  git add -A docs/
       - name: Uplad docs
-        uses: actions-go/push@master
+        uses: actions-x/commit@v6
         with:
-          create-commit: true
-          commit-message: '[Auto] update online example'
-          remote: origin
-          fail-if-empty: true
+          # email: me@example.com
+          name: '[Auto] update online example'
+          branch: master
+          files: docs/
+          force: true
+          # repository: https://github.com/Example/SomeOtherRepository
+          # token: ${{ secrets.MY_SECRET_TOKEN }}
+          # directory: path/to/different/repo
