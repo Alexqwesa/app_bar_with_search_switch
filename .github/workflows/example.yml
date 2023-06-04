@@ -50,8 +50,8 @@ jobs:
         run: |
           rm -rf docs/
           mv './example/build/web/' 'docs/'
-      - name: Git add  docs
-        run:  git add -A docs/
+      #- name: Git add  docs
+      #  run:  git add -A docs/
       - name: Uplad docs
         uses: actions-x/commit@v6
         with:
