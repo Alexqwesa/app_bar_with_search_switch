@@ -4,10 +4,10 @@ description: An extension for AppBar witch can switch it into search field.
 repository: https://github.com/Alexqwesa/app_bar_with_search_switch
 #author: Alexqwesa <alexo.veto@gmail.com>
 
-version: 1.4.0
+version: 1.5.0
 
 environment:
-  sdk: ">=2.12.0 <3.0.0"
+  sdk: ">=2.12.0 <4.0.0"
 
 dependencies:
   flutter:

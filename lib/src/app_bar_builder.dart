@@ -110,76 +110,113 @@ class AppBarBuilderState extends State<AppBarBuilder> {
         final buttonColor =
             mainWidget.keepAppBarColors ? null : theme.iconTheme.color;
         final isSearching = mainWidget.isSearchMode.value;
+        final child = _AppBarSwitch(
+          key: ValueKey(isSearching),
+          isSearching: isSearching,
+          mainWidget: mainWidget,
+          buttonColor: buttonColor,
+          theme: theme,
+          hasText: hasText,
+          defaultAppBarWidget: defaultAppBarWidget!,
+        );
 
-        return !isSearching
-            //
-            // > default app bar
-            //
-            ? defaultAppBarWidget!
-            //
-            // > search app bar
-            //
-            : AppBar(
-                leading: mainWidget.leading != null
-                    ? mainWidget.leading?.call(context)
-                    : LeadingIconBackButton(buttonColor: buttonColor),
-                title: mainWidget.title != null
-                    ? mainWidget.title?.call(context)
-                    : const SearchTextField(),
-                // backgroundColor has higher priority then keepAppBarColors
-                backgroundColor: mainWidget.backgroundColor ??
-                    (mainWidget.keepAppBarColors ? null : theme.canvasColor),
-
-                automaticallyImplyLeading: mainWidget.automaticallyImplyLeading,
-                flexibleSpace: mainWidget.flexibleSpace,
-                bottom: mainWidget.bottom,
-                elevation: mainWidget.elevation,
-                scrolledUnderElevation: mainWidget.scrolledUnderElevation,
-                shadowColor: mainWidget.shadowColor,
-                surfaceTintColor: mainWidget.surfaceTintColor,
-                shape: mainWidget.shape,
-                foregroundColor: mainWidget.foregroundColor,
-                iconTheme: mainWidget.iconTheme,
-                actionsIconTheme: mainWidget.actionsIconTheme,
-                primary: mainWidget.primary,
-                centerTitle: mainWidget.centerTitle,
-                excludeHeaderSemantics: mainWidget.excludeHeaderSemantics,
-                titleSpacing: mainWidget.titleSpacing,
-                toolbarOpacity: mainWidget.toolbarOpacity,
-                bottomOpacity: mainWidget.bottomOpacity,
-                toolbarHeight: mainWidget.toolbarHeight,
-                leadingWidth: mainWidget.leadingWidth,
-                toolbarTextStyle: mainWidget.toolbarTextStyle,
-                titleTextStyle: mainWidget.titleTextStyle,
-                systemOverlayStyle: mainWidget.systemOverlayStyle,
-                actions: [
-                  //
-                  // > clear button
-                  //
-                  if (mainWidget.showClearButton &&
-                      !mainWidget.closeOnClearTwice &&
-                      hasText)
-                    ClearIconButton(
-                      mainWidget: mainWidget,
-                      buttonColor: buttonColor,
-                    ),
-                  //
-                  // > clear or close button
-                  //
-                  if (mainWidget.showClearButton &&
-                      mainWidget.closeOnClearTwice)
-                    ClearOrCloseIconButton(
-                      mainWidget: mainWidget,
-                      hasText: hasText,
-                      buttonColor: buttonColor,
-                    ),
-                  //
-                  // > other actions
-                  //
-                  if (mainWidget.actions != null) ...mainWidget.actions!
-                ],
-              );
+        if (mainWidget.animation != null) {
+          return mainWidget.animation!(child);
+        } else {
+          return child;
+        }
       },
     );
+  }
+}
+
+class _AppBarSwitch extends StatelessWidget {
+  const _AppBarSwitch({
+    Key? key,
+    required this.isSearching,
+    required this.mainWidget,
+    required this.buttonColor,
+    required this.theme,
+    required this.hasText,
+    required this.defaultAppBarWidget,
+  }) : super(key: key);
+
+  final bool isSearching;
+  final Widget defaultAppBarWidget;
+
+  final AppBarWithSearchSwitch mainWidget;
+  final Color? buttonColor;
+  final ThemeData theme;
+  final bool hasText;
+
+  @override
+  Widget build(BuildContext context) {
+    return !isSearching
+        //
+        // > default app bar
+        //
+        ? defaultAppBarWidget
+        //
+        // > search app bar
+        //
+        : AppBar(
+            leading: mainWidget.leading != null
+                ? mainWidget.leading?.call(context)
+                : LeadingIconBackButton(buttonColor: buttonColor),
+            title: mainWidget.title != null
+                ? mainWidget.title?.call(context)
+                : const SearchTextField(),
+            // backgroundColor has higher priority then keepAppBarColors
+            backgroundColor: mainWidget.backgroundColor ??
+                (mainWidget.keepAppBarColors ? null : theme.canvasColor),
+
+            automaticallyImplyLeading: mainWidget.automaticallyImplyLeading,
+            flexibleSpace: mainWidget.flexibleSpace,
+            bottom: mainWidget.bottom,
+            elevation: mainWidget.elevation,
+            scrolledUnderElevation: mainWidget.scrolledUnderElevation,
+            shadowColor: mainWidget.shadowColor,
+            surfaceTintColor: mainWidget.surfaceTintColor,
+            shape: mainWidget.shape,
+            foregroundColor: mainWidget.foregroundColor,
+            iconTheme: mainWidget.iconTheme,
+            actionsIconTheme: mainWidget.actionsIconTheme,
+            primary: mainWidget.primary,
+            centerTitle: mainWidget.centerTitle,
+            excludeHeaderSemantics: mainWidget.excludeHeaderSemantics,
+            titleSpacing: mainWidget.titleSpacing,
+            toolbarOpacity: mainWidget.toolbarOpacity,
+            bottomOpacity: mainWidget.bottomOpacity,
+            toolbarHeight: mainWidget.toolbarHeight,
+            leadingWidth: mainWidget.leadingWidth,
+            toolbarTextStyle: mainWidget.toolbarTextStyle,
+            titleTextStyle: mainWidget.titleTextStyle,
+            systemOverlayStyle: mainWidget.systemOverlayStyle,
+            actions: [
+              //
+              // > clear button
+              //
+              if (mainWidget.showClearButton &&
+                  !mainWidget.closeOnClearTwice &&
+                  hasText)
+                ClearIconButton(
+                  mainWidget: mainWidget,
+                  buttonColor: buttonColor,
+                ),
+              //
+              // > clear or close button
+              //
+              if (mainWidget.showClearButton && mainWidget.closeOnClearTwice)
+                ClearOrCloseIconButton(
+                  mainWidget: mainWidget,
+                  hasText: hasText,
+                  buttonColor: buttonColor,
+                ),
+              //
+              // > other actions
+              //
+              if (mainWidget.actions != null) ...mainWidget.actions!
+            ],
+          );
   }
 }

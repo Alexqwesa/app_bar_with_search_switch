@@ -95,6 +95,7 @@ Here is a list of all other new properties(without mentioned above) with their d
 - this.[keyboardType](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch/keyboardType.html) = TextInputType.text,
 - this.[toolbarWidth](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch/toolbarWidth.html) = double.infinity,
 - this.[searchInputDecoration](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch/searchInputDecoration.html),
+- this.[animation](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch/animation.html) - (**new in 1.5+**),
 - // And optional [ValueNotifier](https://api.flutter.dev/flutter/foundation/ValueNotifier-class.html) s 
  (can be used to control state of [AppBarWithSearchSwitch](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch-class.html)): 
 - this.[customIsSearchModeNotifier](https://pub.dev/documentation/app_bar_with_search_switch/latest/app_bar_with_search_switch/AppBarWithSearchSwitch/customIsSearchModeNotifier.html),
@@ -156,13 +157,13 @@ And the fragment of example code is here:
 
 ## TODO
 
-- Add speech to text support,
-- Add effective riverpod example,
-- Add option for placement of SearchButton and MicrophoneButton outside of AppBar (optional GlobalKey?)
-- Animation for Search app bar activation
-- use iconTheme for icons?
-- don't use shared default [ValueNotifier](https://api.flutter.dev/flutter/foundation/ValueNotifier-class.html) and [TextEditingController](https://api.flutter.dev/flutter/widgets/TextEditingController-class.html) ?
-- support CupertinoPageScaffold
+[x] Add speech to text support - done in version 2.0+,
+[ ] Add riverpod example,
+[x] Add option for placement of SearchButton and MicrophoneButton outside of AppBar (optional GlobalKey?) - see FAQ
+[x] Animation for Search app bar activation - done in versions 1.5+
+[ ] use iconTheme for icons?
+[ ] don't use shared default [ValueNotifier](https://api.flutter.dev/flutter/foundation/ValueNotifier-class.html) and [TextEditingController](https://api.flutter.dev/flutter/widgets/TextEditingController-class.html) ?
+[ ] support CupertinoPageScaffold
 
 ## FAQ
 

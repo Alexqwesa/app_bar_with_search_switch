@@ -5,6 +5,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import 'app_bar_animation.dart';
 import 'app_bar_builder.dart';
 
 /// The [AppBar] that can switch into search field.
@@ -73,6 +74,7 @@ class AppBarWithSearchSwitch extends InheritedWidget
     this.keyboardType = TextInputType.text,
     this.toolbarWidth = double.infinity,
     this.searchInputDecoration,
+    this.animation,
     //
     // > [ValueNotifier]s
     //
@@ -371,6 +373,48 @@ class AppBarWithSearchSwitch extends InheritedWidget
   ///               ),
   ///```
   final InputDecoration? searchInputDecoration;
+
+  /// A function that return an Animation Widget to animate transition to and from SearchMode of AppBarWithSearchSwitch.
+  ///
+  /// There are two prebuild animation widgets:
+  ///  - [AppBarAnimationSlideLeft],
+  ///  - [AppBarAnimationSlideDown].
+  ///
+  /// But you can build you own animation widget, if you want.
+  ///
+  /// **Usage of prebuilt animation widgets:**
+  /// ```dart
+  ///         appBar: AppBarWithSearchSwitch(
+  ///           animation: (child) => AppBarAnimationSlideLeft(child: child, milliseconds: 600),
+  ///          //animation: (child) => AppBarAnimationSlideLeft(child: child, milliseconds: 600, withFade: false, percents: 1.0,),
+  ///           appBarBuilder: (context) {
+  ///             return AppBar(
+  ///               title: Text(title),
+  ///               actions: const [
+  ///                 AppBarSearchButton(),
+  ///               ],
+  ///             );
+  ///           },
+  ///         ),
+  ///         ...
+  /// ```
+  ///
+  /// **Usage of your own animation widget:**
+  /// ```dart
+  ///         appBar: AppBarWithSearchSwitch(
+  ///           animation: (child) {
+  ///             return AnimatedSwitcher(
+  ///               duration: Duration(milliseconds: 600),
+  ///               transitionBuilder: (Widget child, Animation<double> animation) {
+  ///                 return  FadeTransition(opacity: animation, child: child);
+  ///                 },
+  ///               child: child,
+  ///             );
+  ///           }
+  ///           appBarBuilder: (context) {
+  ///           ...
+  /// ```
+  final Widget Function(Widget child)? animation;
 
   /// Standard overridden method of [PreferredSizeWidget].
   ///
