@@ -168,12 +168,53 @@ class AppBarBuilderState extends State<AppBarBuilder> {
         final buttonColor =
             mainWidget.keepAppBarColors ? null : theme.iconTheme.color;
         final isSearching = mainWidget.isSearchMode.value;
+        final child = _AppBarSwitch(
+          key: ValueKey(isSearching),
+          isSearching: isSearching,
+          mainWidget: mainWidget,
+          buttonColor: buttonColor,
+          theme: theme,
+          hasText: hasText,
+          defaultAppBarWidget: defaultAppBarWidget!,
+        );
+
+        if (mainWidget.animation != null) {
+          return mainWidget.animation!(child);
+        } else {
+          return child;
+        }
+      },
+    );
+  }
+}
+
+class _AppBarSwitch extends StatelessWidget {
+  const _AppBarSwitch({
+    Key? key,
+    required this.isSearching,
+    required this.mainWidget,
+    required this.buttonColor,
+    required this.theme,
+    required this.hasText,
+    required this.defaultAppBarWidget,
+  }) : super(key: key);
+
+  final bool isSearching;
+  final Widget defaultAppBarWidget;
+
+  final AppBarWithSearchSwitch mainWidget;
+  final Color? buttonColor;
+  final ThemeData theme;
+  final bool hasText;
+
+  @override
+  Widget build(BuildContext context) {
 
         return !isSearching
             //
             // > default app bar
             //
-            ? defaultAppBarWidget!
+            ? defaultAppBarWidget
             //
             // > search app bar
             //
@@ -247,15 +288,14 @@ class AppBarBuilderState extends State<AppBarBuilder> {
                       mainWidget.isSearchMode.value)
                     Expanded(
                       child: SpeechSubBarController(
-                        isSpeechMode: widget.isSpeechMode,
-                        textNotifier: widget.textNotifier,
+                        isSpeechMode: mainWidget.isSpeechMode,
+                        textNotifier: mainWidget.textNotifier,
                         speech: mainWidget.speechEngine,
                         isListeningToSpeech: mainWidget.isListeningToSpeech,
                       ),
                     ),
                 ],
               );
-      },
-    );
+
   }
 }

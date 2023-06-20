@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.0.0-dev.7
+
+* added AppBarWithSearchSwitch.**animation** parameter, which can be used for any **custom animation**,
+also there are two ready to use animations: [AppBarAnimationSlideLeft], [AppBarAnimationSlideDown].
+
 ## 2.0.0-dev.6
 
 * fix for dark theme: use theme.appBarTheme colors by default and fallback to theme.canvasColor (which was used before)
