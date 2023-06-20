@@ -1,8 +1,8 @@
 # Changelog
 
-## 2.0.0-dev.8
+## 2.0.0-dev.8, 2.0.0-dev.9
 
-* minor fix documentation links
+* minor fixes, documentation links
 
 ## 2.0.0-dev.7
 
