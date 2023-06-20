@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.0.0-dev.8
+
+* minor fix documentation links
+
 ## 2.0.0-dev.7
 
 * added AppBarWithSearchSwitch.**animation** parameter, which can be used for any **custom animation**,
