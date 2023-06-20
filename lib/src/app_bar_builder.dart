@@ -209,93 +209,90 @@ class _AppBarSwitch extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return !isSearching
+        //
+        // > default app bar
+        //
+        ? defaultAppBarWidget
+        //
+        // > search app bar
+        //
+        : Column(
+            children: [
+              AppBar(
+                leading: mainWidget.leading != null
+                    ? mainWidget.leading?.call(context)
+                    : LeadingIconBackButton(buttonColor: buttonColor),
+                title: mainWidget.title != null
+                    ? mainWidget.title?.call(context)
+                    : const SearchTextField(),
+                backgroundColor:
+                    mainWidget.keepAppBarColors ? null : theme.canvasColor,
+                // backgroundColor: mainWidget.backgroundColor,
 
-        return !isSearching
-            //
-            // > default app bar
-            //
-            ? defaultAppBarWidget
-            //
-            // > search app bar
-            //
-            : Column(
-                children: [
-                  AppBar(
-                    leading: mainWidget.leading != null
-                        ? mainWidget.leading?.call(context)
-                        : LeadingIconBackButton(buttonColor: buttonColor),
-                    title: mainWidget.title != null
-                        ? mainWidget.title?.call(context)
-                        : const SearchTextField(),
-                    backgroundColor:
-                        mainWidget.keepAppBarColors ? null : theme.canvasColor,
-                    // backgroundColor: mainWidget.backgroundColor,
-
-                    automaticallyImplyLeading:
-                        mainWidget.automaticallyImplyLeading,
-                    flexibleSpace: mainWidget.flexibleSpace,
-                    bottom: mainWidget.bottom,
-                    elevation: mainWidget.elevation,
-                    scrolledUnderElevation: mainWidget.scrolledUnderElevation,
-                    shadowColor: mainWidget.shadowColor,
-                    surfaceTintColor: mainWidget.surfaceTintColor,
-                    shape: mainWidget.shape,
-                    foregroundColor: mainWidget.foregroundColor,
-                    iconTheme: mainWidget.iconTheme,
-                    actionsIconTheme: mainWidget.actionsIconTheme,
-                    primary: mainWidget.primary,
-                    centerTitle: mainWidget.centerTitle,
-                    excludeHeaderSemantics: mainWidget.excludeHeaderSemantics,
-                    titleSpacing: mainWidget.titleSpacing,
-                    toolbarOpacity: mainWidget.toolbarOpacity,
-                    bottomOpacity: mainWidget.bottomOpacity,
-                    toolbarHeight: mainWidget.toolbarHeight,
-                    leadingWidth: mainWidget.leadingWidth,
-                    toolbarTextStyle: mainWidget.toolbarTextStyle,
-                    titleTextStyle: mainWidget.titleTextStyle,
-                    systemOverlayStyle: mainWidget.systemOverlayStyle,
-                    actions: [
-                      //
-                      // > clear button
-                      //
-                      if (mainWidget.showClearButton &&
-                          !mainWidget.closeOnClearTwice &&
-                          hasText)
-                        ClearIconButton(
-                          mainWidget: mainWidget,
-                          buttonColor: buttonColor,
-                        ),
-                      //
-                      // > clear or close button
-                      //
-                      if (mainWidget.showClearButton &&
-                          mainWidget.closeOnClearTwice)
-                        ClearOrCloseIconButton(
-                          mainWidget: mainWidget,
-                          hasText: hasText,
-                          buttonColor: buttonColor,
-                        ),
-                      //
-                      // > other actions
-                      //
-                      if (mainWidget.actions != null) ...mainWidget.actions!
-                    ],
-                  ),
+                automaticallyImplyLeading: mainWidget.automaticallyImplyLeading,
+                flexibleSpace: mainWidget.flexibleSpace,
+                bottom: mainWidget.bottom,
+                elevation: mainWidget.elevation,
+                scrolledUnderElevation: mainWidget.scrolledUnderElevation,
+                shadowColor: mainWidget.shadowColor,
+                surfaceTintColor: mainWidget.surfaceTintColor,
+                shape: mainWidget.shape,
+                foregroundColor: mainWidget.foregroundColor,
+                iconTheme: mainWidget.iconTheme,
+                actionsIconTheme: mainWidget.actionsIconTheme,
+                primary: mainWidget.primary,
+                centerTitle: mainWidget.centerTitle,
+                excludeHeaderSemantics: mainWidget.excludeHeaderSemantics,
+                titleSpacing: mainWidget.titleSpacing,
+                toolbarOpacity: mainWidget.toolbarOpacity,
+                bottomOpacity: mainWidget.bottomOpacity,
+                toolbarHeight: mainWidget.toolbarHeight,
+                leadingWidth: mainWidget.leadingWidth,
+                toolbarTextStyle: mainWidget.toolbarTextStyle,
+                titleTextStyle: mainWidget.titleTextStyle,
+                systemOverlayStyle: mainWidget.systemOverlayStyle,
+                actions: [
                   //
-                  // > speech sub bar
+                  // > clear button
                   //
-                  if (mainWidget.isSpeechMode.value &&
-                      mainWidget.isSearchMode.value)
-                    Expanded(
-                      child: SpeechSubBarController(
-                        isSpeechMode: mainWidget.isSpeechMode,
-                        textNotifier: mainWidget.textNotifier,
-                        speech: mainWidget.speechEngine,
-                        isListeningToSpeech: mainWidget.isListeningToSpeech,
-                      ),
+                  if (mainWidget.showClearButton &&
+                      !mainWidget.closeOnClearTwice &&
+                      hasText)
+                    ClearIconButton(
+                      mainWidget: mainWidget,
+                      buttonColor: buttonColor,
                     ),
+                  //
+                  // > clear or close button
+                  //
+                  if (mainWidget.showClearButton &&
+                      mainWidget.closeOnClearTwice)
+                    ClearOrCloseIconButton(
+                      mainWidget: mainWidget,
+                      hasText: hasText,
+                      buttonColor: buttonColor,
+                    ),
+                  //
+                  // > other actions
+                  //
+                  if (mainWidget.actions != null) ...mainWidget.actions!
                 ],
-              );
-
+              ),
+              //
+              // > speech sub bar
+              //
+              if (mainWidget.isSpeechMode.value &&
+                  mainWidget.isSearchMode.value)
+                Expanded(
+                  child: SpeechSubBarController(
+                    isSpeechMode: mainWidget.isSpeechMode,
+                    textNotifier: mainWidget.textNotifier,
+                    speech: mainWidget.speechEngine,
+                    isListeningToSpeech: mainWidget.isListeningToSpeech,
+                  ),
+                ),
+            ],
+          );
   }
 }

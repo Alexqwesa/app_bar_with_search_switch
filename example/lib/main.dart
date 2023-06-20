@@ -49,6 +49,8 @@ class MyHomePage extends StatelessWidget {
         // onSubmitted: (text) {
         //   searchText.value = text;
         // },
+        animation: (child) => AppBarAnimationSlideLeft(
+            milliseconds: 600, withFade: false, percents: 1.0, child: child),
         appBarBuilder: (context) {
           return AppBar(
             title: Text(title),

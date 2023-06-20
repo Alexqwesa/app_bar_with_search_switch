@@ -65,7 +65,12 @@ class MyHomePage extends StatelessWidget {
           customTextNotifier: searchText,
           // animation: (child) => AppBarAnimationSlideDown(child: child, milliseconds: 600),
           // animation: (child) => AppBarAnimationSlideLeft(child: child, milliseconds: 600),
-          animation: (child) => AppBarAnimationSlideLeft(child: child, milliseconds: 600, withFade: false, percents: 1.0,),
+          animation: (child) => AppBarAnimationSlideLeft(
+            child: child,
+            milliseconds: 600,
+            withFade: false,
+            percents: 1.0,
+          ),
           // speechSubBarHeight: 0,
           speechSubBar: (BuildContext context) {
             final speech = AppBarWithSearchSwitch.of(context)!.speechEngine;

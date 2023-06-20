@@ -44,6 +44,8 @@ class MyHomePage extends StatelessWidget {
       // *** The Widget AppBarWithSearchSwitch
       //
       appBar: AppBarWithSearchSwitch(
+        animation: (child) =>
+            AppBarAnimationSlideLeft(milliseconds: 600, child: child),
         appBarBuilder: (context) {
           return AppBar(
             title: const Text('AppBarWithSearchSwitch: More than 10000 words'),
