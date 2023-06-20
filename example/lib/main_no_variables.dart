@@ -45,6 +45,7 @@ class MyHomePage extends StatelessWidget {
       // *** The Widget AppBarWithSearchSwitch
       //
       appBar: AppBarWithSearchSwitch(
+        animation: (child) => AppBarAnimationSlideDown(child: child),
         onChanged: (text) {
           searchText.value = text;
         },

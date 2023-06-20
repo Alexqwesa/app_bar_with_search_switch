@@ -46,6 +46,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBarWithSearchSwitch(
+        animation: (child) => AppBarAnimationSlideDown(child: child),
         onChanged: (text) {
           setState(() => searchText = text);
         },

@@ -21,7 +21,7 @@ The [AppBarWithSearchSwitch](https://pub.dev/documentation/app_bar_with_search_s
 is a replacement class for [AppBar](https://api.flutter.dev/flutter/material/AppBar-class.html), essentially, it returns
 two different app bars based on whether search is active.
 
-Note: **version 1.3+ is lightweight version** of this package, **version 2.0+ uses [SpeechToText](https://pub.dev/packages/speech_to_text)** 
+Note: **version 1.5+ is lightweight version** of this package, **version 2.0+ uses [SpeechToText](https://pub.dev/packages/speech_to_text)** 
 package for speech recognition.
 
 This is complete rewrite of [flutter_search_bar](https://pub.dev/packages/flutter_search_bar) with support of these features:
@@ -157,13 +157,13 @@ And the fragment of example code is here:
 
 ## TODO
 
-[x] Add speech to text support - done in version 2.0+,
-[ ] Add riverpod example,
-[x] Add option for placement of SearchButton and MicrophoneButton outside of AppBar (optional GlobalKey?) - see FAQ
-[x] Animation for Search app bar activation - done in versions 1.5+
-[ ] use iconTheme for icons?
-[ ] don't use shared default [ValueNotifier](https://api.flutter.dev/flutter/foundation/ValueNotifier-class.html) and [TextEditingController](https://api.flutter.dev/flutter/widgets/TextEditingController-class.html) ?
-[ ] support CupertinoPageScaffold
+- [x] Add speech to text support - done in version 2.0+,
+- [ ] Add riverpod example,
+- [x] Add option for placement of SearchButton and MicrophoneButton outside of AppBar (optional GlobalKey?) - see FAQ
+- [x] Animation for Search app bar activation - done in versions 1.5+
+- [ ] use iconTheme for icons?
+- [ ] don't use shared default [ValueNotifier](https://api.flutter.dev/flutter/foundation/ValueNotifier-class.html) and [TextEditingController](https://api.flutter.dev/flutter/widgets/TextEditingController-class.html) ?
+- [ ] support CupertinoPageScaffold
 
 ## FAQ
 
