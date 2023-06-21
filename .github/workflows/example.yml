@@ -56,10 +56,10 @@ jobs:
         uses: actions-x/commit@v6
         with:
           # email: me@example.com
-          name: '[Auto] update online example'
+          # name: '[Auto] update online example'
           branch: master
-          files: docs/
+          files: docs
           force: true
-          # repository: https://github.com/Example/SomeOtherRepository
+          repository: https://github.com/Alexqwesa/app_bar_with_search_switch
           # token: ${{ secrets.MY_SECRET_TOKEN }}
           # directory: path/to/different/repo
