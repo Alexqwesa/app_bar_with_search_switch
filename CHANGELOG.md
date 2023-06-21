@@ -1,5 +1,10 @@
 # Changelog
 
+
+## 1.5.1
+
+* changes in AppBarAnimationSlideDown and AppBarAnimationSlideLeft: new parameters **switchInCurve** and **switchOutCurve**
+
 ## 1.5.0
 
 * added AppBarWithSearchSwitch.**animation** parameter, which can be used for any **custom animation**,

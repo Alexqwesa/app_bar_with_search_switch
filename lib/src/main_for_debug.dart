@@ -63,12 +63,13 @@ class MyHomePage extends StatelessWidget {
         appBar: AppBarWithSearchSwitch(
           customIsSearchModeNotifier: isSearchMode,
           customTextNotifier: searchText,
-          // animation: (child) => AppBarAnimationSlideDown(child: child, milliseconds: 600),
-          // animation: (child) => AppBarAnimationSlideLeft(child: child, milliseconds: 600),
+          // animation: (child) => AppBarAnimationSlideDown(child: child, milliseconds: 400),
+          // animation: (child) => AppBarAnimationSlideLeft(child: child, milliseconds: 400),
           animation: (child) => AppBarAnimationSlideLeft(
-            milliseconds: 600,
-            withFade: false,
-            percents: 1.0,
+            // milliseconds: 400,
+            // withFade: false,
+            // percents: 0.25,
+            // percents: .80,
             child: child,
           ),
           appBarBuilder: (context) {
