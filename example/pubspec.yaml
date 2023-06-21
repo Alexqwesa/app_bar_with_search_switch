@@ -1,7 +1,7 @@
 name: example
 description: A new Flutter package project.
 version: 0.0.1
-homepage:
+homepage: https://github.com/Alexqwesa/app_bar_with_search_switch
 
 environment:
   sdk: ">=2.17.6 <3.0.0"
@@ -9,6 +9,8 @@ environment:
 
 dependencies:
   app_bar_with_search_switch: any
+#  app_bar_with_search_switch:
+#    path: ../
   flutter:
     sdk: flutter
 

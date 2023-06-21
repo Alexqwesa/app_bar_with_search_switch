@@ -128,28 +128,46 @@ class AppBarAnimationSlideLeft extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedSwitcher(
-      duration: Duration(milliseconds: milliseconds),
-      switchInCurve: switchInCurve,
-      switchOutCurve: switchOutCurve,
-      transitionBuilder: (Widget child, Animation<double> animation) {
-        final second = (child.key as ValueKey<bool>?);
-        final animationOffset = animation.drive(
-          Tween<Offset>(
-            begin: Offset(percents * ((second?.value ?? true) ? 1 : -1), 0.0),
-            end: const Offset(0.0, 0.0),
+    return Stack(
+      children: [
+        Container(
+          color: Theme.of(context).appBarTheme.backgroundColor ??
+              Theme.of(context).primaryColor,
+          child: SafeArea(
+            child: SizedBox.expand(
+              child: Container(
+                color: Theme.of(context).appBarTheme.foregroundColor ??
+                    Theme.of(context).canvasColor,
+                child: SizedBox.expand(),
+              ),
+            ),
           ),
-        );
-        return SlideTransition(
-            position: animationOffset,
-            child: withFade
-                ? FadeTransition(
-                    opacity: animation,
-                    child: child,
-                  )
-                : child);
-      },
-      child: child,
+        ),
+        AnimatedSwitcher(
+          duration: Duration(milliseconds: milliseconds),
+          switchInCurve: switchInCurve,
+          switchOutCurve: switchOutCurve,
+          transitionBuilder: (Widget child, Animation<double> animation) {
+            final second = (child.key as ValueKey<bool>?);
+            final animationOffset = animation.drive(
+              Tween<Offset>(
+                begin:
+                    Offset(percents * ((second?.value ?? true) ? 1 : -1), 0.0),
+                end: const Offset(0.0, 0.0),
+              ),
+            );
+            return SlideTransition(
+                position: animationOffset,
+                child: withFade
+                    ? FadeTransition(
+                        opacity: animation,
+                        child: child,
+                      )
+                    : child);
+          },
+          child: child,
+        ),
+      ],
     );
   }
 }
