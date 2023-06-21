@@ -24,7 +24,7 @@ also there are two ready to use animations: [AppBarAnimationSlideLeft], [AppBarA
 
 ## 1.3.7
 
-* minor: tests cleaned from deprecated code
+* minor: tests were cleaned from deprecated code
 
 ## 1.3.6
 
