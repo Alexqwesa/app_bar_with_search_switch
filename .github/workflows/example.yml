@@ -50,12 +50,16 @@ jobs:
         run: |
           rm -rf docs/
           mv './example/build/web/' 'docs/'
-      - name: Git add  docs
-        run:  git add -A docs/
-      - name: Uplad docs
-        uses: actions-go/push@master
+      #- name: Git add  docs
+      #  run:  git add -A docs/
+      - name: Upload docs
+        uses: actions-x/commit@v6
         with:
-          create-commit: true
-          commit-message: '[Auto] update online example'
-          remote: origin
-          fail-if-empty: false
+          # email: me@example.com
+          # name: '[Auto] update online example'
+          branch: master
+          files: docs
+          force: true
+          repository: https://github.com/Alexqwesa/app_bar_with_search_switch
+          token: ${{ secrets.TOKEN }}
+          # directory: path/to/different/repo
