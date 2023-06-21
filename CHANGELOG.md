@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.0.0-dev.10
+
+* changes in AppBarAnimationSlideDown and AppBarAnimationSlideLeft: new parameters **switchInCurve** and **switchOutCurve**
+
 ## 2.0.0-dev.8, 2.0.0-dev.9
 
 * minor fixes, documentation links

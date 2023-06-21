@@ -20,21 +20,41 @@ class AppBarAnimationSlideDown extends StatelessWidget {
   const AppBarAnimationSlideDown({
     Key? key,
     required this.child,
-    this.milliseconds = 500,
+    this.milliseconds = 400,
     this.withFade = true,
     this.percents = 0.75,
+    this.switchInCurve = Curves.easeInSine,
+    this.switchOutCurve = Curves.easeOutSine,
   }) : super(key: key);
 
-  /// The child will be an actual AppBar
+  /// The child will be an actual AppBar.
   final Widget child;
+
+  /// Duration of animation in milliseconds.
   final int milliseconds;
+
+  /// Add Fade effect (default true).
   final bool withFade;
+
+  /// How much to slide in range 0.0...1.0 (1.0==100%).
   final double percents;
+
+  /// The animation curve to use when transitioning in a new child.
+  ///
+  /// Default is Curves.easeInSine.
+  final Curve switchInCurve;
+
+  /// The animation curve to use when transitioning a previous child out.
+  ///
+  /// Default is Curves.easeOutSine.
+  final Curve switchOutCurve;
 
   @override
   Widget build(BuildContext context) {
     return AnimatedSwitcher(
       duration: Duration(milliseconds: milliseconds),
+      switchInCurve: switchInCurve,
+      switchOutCurve: switchOutCurve,
       transitionBuilder: (Widget child, Animation<double> animation) {
         final animationOffset = animation.drive(
           Tween<Offset>(
@@ -77,21 +97,41 @@ class AppBarAnimationSlideLeft extends StatelessWidget {
   const AppBarAnimationSlideLeft({
     Key? key,
     required this.child,
-    this.milliseconds = 500,
+    this.milliseconds = 400,
     this.withFade = true,
     this.percents = 0.15,
+    this.switchInCurve = Curves.easeInSine,
+    this.switchOutCurve = Curves.easeOutSine,
   }) : super(key: key);
 
-  /// The child will be an actual AppBar
+  /// The child will be an actual AppBar.
   final Widget child;
+
+  /// Duration of animation in milliseconds.
   final int milliseconds;
+
+  /// Add Fade effect (default true).
   final bool withFade;
+
+  /// How much to slide in range 0.0...1.0 (1.0==100%).
   final double percents;
+
+  /// The animation curve to use when transitioning in a new child.
+  ///
+  /// Default is Curves.easeInSine.
+  final Curve switchInCurve;
+
+  /// The animation curve to use when transitioning a previous child out.
+  ///
+  /// Default is Curves.easeOutSine.
+  final Curve switchOutCurve;
 
   @override
   Widget build(BuildContext context) {
     return AnimatedSwitcher(
       duration: Duration(milliseconds: milliseconds),
+      switchInCurve: switchInCurve,
+      switchOutCurve: switchOutCurve,
       transitionBuilder: (Widget child, Animation<double> animation) {
         final second = (child.key as ValueKey<bool>?);
         final animationOffset = animation.drive(
