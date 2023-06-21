@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 /// Usage:
 /// ```dart
 ///         appBar: AppBarWithSearchSwitch(
-///           animation: (child) => AppBarAnimationSlideDown(child: child, milliseconds: 600),
+///           animation: (child) => AppBarAnimationSlideDown(child: child, milliseconds: 400),
 ///           appBarBuilder: (context) {
 ///             return AppBar(
 ///               title: Text(title),
@@ -81,8 +81,8 @@ class AppBarAnimationSlideDown extends StatelessWidget {
 /// Usage:
 /// ```dart
 ///         appBar: AppBarWithSearchSwitch(
-///           animation: (child) => AppBarAnimationSlideLeft(child: child, milliseconds: 600),
-///          //animation: (child) => AppBarAnimationSlideLeft(child: child, milliseconds: 600, withFade: false, percents: 1.0,),
+///           animation: (child) => AppBarAnimationSlideLeft(child: child, milliseconds: 400),
+///          //animation: (child) => AppBarAnimationSlideLeft(child: child, milliseconds: 400, withFade: false, percents: 1.0,),
 ///           appBarBuilder: (context) {
 ///             return AppBar(
 ///               title: Text(title),

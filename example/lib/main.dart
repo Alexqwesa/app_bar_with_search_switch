@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'AppBarWithSearch widget stateless'),
+      home: MyHomePage(title: 'AppBarWithSearch widget main'),
     );
   }
 }
@@ -49,8 +49,7 @@ class MyHomePage extends StatelessWidget {
         // onSubmitted: (text) {
         //   searchText.value = text;
         // },
-        animation: (child) => AppBarAnimationSlideLeft(
-            milliseconds: 600, withFade: false, percents: 1.0, child: child),
+        animation: (child) => AppBarAnimationSlideLeft(child: child),
         appBarBuilder: (context) {
           return AppBar(
             title: Text(title),
