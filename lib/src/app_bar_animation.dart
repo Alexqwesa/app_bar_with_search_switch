@@ -136,7 +136,7 @@ class AppBarAnimationSlideLeft extends StatelessWidget {
           child: SafeArea(
             child: SizedBox.expand(
               child: Container(
-                color: Theme.of(context).appBarTheme.foregroundColor ??
+                color: Theme.of(context).appBarTheme.backgroundColor ??
                     Theme.of(context).canvasColor,
                 child: SizedBox.expand(),
               ),
