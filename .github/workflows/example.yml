@@ -61,5 +61,5 @@ jobs:
           files: docs
           force: true
           repository: https://github.com/Alexqwesa/app_bar_with_search_switch
-          # token: ${{ secrets.MY_SECRET_TOKEN }}
+          token: ${{ secrets.TOKEN }}
           # directory: path/to/different/repo
