@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-/// The second animation for [AppBarWithSearchSwitch].animation
+/// The Slide down animation for [AppBarWithSearchSwitch].[animation]
 ///
 /// Usage:
 /// ```dart
@@ -76,7 +76,7 @@ class AppBarAnimationSlideDown extends StatelessWidget {
   }
 }
 
-/// The second animation for [AppBarWithSearchSwitch].animation
+/// The slide left animation for [AppBarWithSearchSwitch].[animation]
 ///
 /// Usage:
 /// ```dart
@@ -136,8 +136,20 @@ class AppBarAnimationSlideLeft extends StatelessWidget {
           child: SafeArea(
             child: SizedBox.expand(
               child: Container(
-                color: Theme.of(context).appBarTheme.backgroundColor ??
-                    Theme.of(context).canvasColor,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      Theme.of(context).appBarTheme.backgroundColor ??
+                          Theme.of(context).canvasColor,
+                      Theme.of(context).appBarTheme.foregroundColor ??
+                          Theme.of(context).primaryColor,
+                      Theme.of(context).appBarTheme.backgroundColor ??
+                          Theme.of(context).canvasColor,
+                    ],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                ),
                 child: SizedBox.expand(),
               ),
             ),
