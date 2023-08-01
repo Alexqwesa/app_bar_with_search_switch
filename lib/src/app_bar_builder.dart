@@ -2,11 +2,11 @@
 // All rights reserved. Use of this source code
 // is governed by a BSD-style license that can be found in the LICENSE file.
 
+import 'package:app_bar_with_search_switch/app_bar_with_search_switch.dart';
 import 'package:flutter/material.dart';
 
-import 'app_bar_with_search_switch.dart';
-import 'clear_or_close_icon_buttons.dart';
-import 'leading_back_button.dart';
+import 'buttons/clear_or_close_icon_buttons.dart';
+import 'buttons/leading_back_button.dart';
 import 'search_text_field.dart';
 import 'speech_to_text/speech_sub_bar_controller.dart';
 
