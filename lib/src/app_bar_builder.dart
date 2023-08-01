@@ -5,8 +5,8 @@
 import 'package:flutter/material.dart';
 
 import 'app_bar_with_search_switch.dart';
-import 'clear_or_close_icon_buttons.dart';
-import 'leading_back_button.dart';
+import 'buttons/clear_or_close_icon_buttons.dart';
+import 'buttons/leading_back_button.dart';
 import 'search_text_field.dart';
 
 class AppBarBuilder extends StatefulWidget {

@@ -4,7 +4,7 @@
 
 import 'package:flutter/material.dart';
 
-import 'app_bar_with_search_switch.dart';
+import '../app_bar_with_search_switch.dart';
 
 /// A default implementation of Search button for [AppBarWithSearchSwitch].
 ///
