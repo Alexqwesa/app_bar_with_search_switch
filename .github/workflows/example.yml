@@ -51,6 +51,8 @@ jobs:
           mv './example/build/web/' 'docs/'
       #- name: Git add  docs
       #  run:  git add -A docs/
+      - name: git fetch
+        run:  git fetch
       - name: Upload docs
         uses: actions-x/commit@v6
         with:
