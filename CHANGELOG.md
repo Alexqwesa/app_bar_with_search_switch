@@ -1,13 +1,21 @@
 # Changelog
 
+## 2.0.0-dev.12
+
+* update documentation,
+* new parameter for [AppBarAnimationSlideLeft].boxDecorationBehind,
+* a new tear-off constructors: [AppBarAnimationSlideLeft].call, [AppBarAnimationSlideDown].call,
+* required Dart Sdk >= 2.15.0 (for factory constructor tear-off).
+
 ## 2.0.0-dev.11
 
 * added AppBarWithSearchSwitch.**animationOfSpeechBar** (the same as **animation** but for transition
-to search mode with speech to text support)
+  to search mode with speech to text support)
 
 ## 2.0.0-dev.10
 
-* changes in AppBarAnimationSlideDown and AppBarAnimationSlideLeft: new parameters **switchInCurve** and **switchOutCurve**
+* changes in AppBarAnimationSlideDown and AppBarAnimationSlideLeft: new parameters **switchInCurve** and
+  **switchOutCurve**
 
 ## 2.0.0-dev.8, 2.0.0-dev.9
 
@@ -16,7 +24,7 @@ to search mode with speech to text support)
 ## 2.0.0-dev.7
 
 * added AppBarWithSearchSwitch.**animation** parameter, which can be used for any **custom animation**,
-also there are two ready to use animations: [AppBarAnimationSlideLeft], [AppBarAnimationSlideDown].
+  also there are two ready to use animations: [AppBarAnimationSlideLeft], [AppBarAnimationSlideDown].
 
 ## 2.0.0-dev.6
 

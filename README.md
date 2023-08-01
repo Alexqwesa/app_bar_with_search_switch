@@ -34,7 +34,7 @@ This is complete rewrite of [flutter_search_bar](https://pub.dev/packages/flutte
 - full customization,
 - it works in place(no Navigation shenanigans),
 - don't need additional variables somewhere,
-- support custom animation (and have nice prebuilt animations: [AppBarAnimationSlideDown](https://pub.dev/documentation/app_bar_with_search_switch/2.0.0-dev.10/app_bar_with_search_switch/AppBarAnimationSlideDown-class.html) and [AppBarAnimationSlideLeft](https://pub.dev/documentation/app_bar_with_search_switch/2.0.0-dev.10/app_bar_with_search_switch/AppBarAnimationSlideLeft-class.html) )
+- support custom animation (and have nice prebuilt animations: [AppBarAnimationSlideDown](https://pub.dev/documentation/app_bar_with_search_switch/2.0.0-dev.10/app_bar_with_search_switch/AppBarAnimationSlideDown-class.html) and [AppBarAnimationSlideLeft](https://pub.dev/documentation/app_bar_with_search_switch/2.0.0-dev.10/app_bar_with_search_switch/AppBarAnimationSlideLeft-class.html) ) (**new in 2.0.0-dev.11+**),
 - Also, there are a few **helpers(optional)**:
   - [AppBarSearchButton](https://pub.dev/documentation/app_bar_with_search_switch/2.0.0-dev.10/app_bar_with_search_switch/AppBarSearchButton-class.html),
   - [AppBarOnEditListener](https://pub.dev/documentation/app_bar_with_search_switch/2.0.0-dev.10/app_bar_with_search_switch/AppBarOnEditListener-class.html),
