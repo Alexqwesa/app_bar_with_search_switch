@@ -160,11 +160,10 @@ class AppBarAnimationSlideLeft extends StatelessWidget {
           switchInCurve: switchInCurve,
           switchOutCurve: switchOutCurve,
           transitionBuilder: (Widget child, Animation<double> animation) {
-            final second = (child.key as ValueKey<bool>?);
+            final playForward = (child.key as ValueKey<bool>?)?.value ?? true;
             final animationOffset = animation.drive(
               Tween<Offset>(
-                begin:
-                    Offset(percents * ((second?.value ?? true) ? 1 : -1), 0.0),
+                begin: Offset(percents * (playForward ? 1 : -1), 0.0),
                 end: const Offset(0.0, 0.0),
               ),
             );
