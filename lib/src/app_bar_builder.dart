@@ -38,6 +38,7 @@ class AppBarBuilder extends StatefulWidget {
 
 class AppBarBuilderState extends State<AppBarBuilder> {
   bool hasText = false;
+  bool isLastSpeechMode = false;
 
   // // Hot reload should always check AppBar height
   // @override
@@ -68,8 +69,9 @@ class AppBarBuilderState extends State<AppBarBuilder> {
   }
 
   void onSearchModeChanged() {
-    if (widget.isSearchMode.value == false) {
+    if (widget.isSearchMode.value == false && widget.isSpeechMode.value) {
       widget.isSpeechMode.value = false;
+      isLastSpeechMode = true;
     }
   }
 
@@ -167,10 +169,9 @@ class AppBarBuilderState extends State<AppBarBuilder> {
         final theme = Theme.of(context);
         final buttonColor =
             mainWidget.keepAppBarColors ? null : theme.iconTheme.color;
-        final isSearching = mainWidget.isSearchMode.value;
-        final child = _AppBarSwitch(
-          key: ValueKey(isSearching),
-          isSearching: isSearching,
+        Widget child = _AppBarSwitch(
+          // key: ValueKey(mainWidget.isSearchMode.value;),
+          isSearching: mainWidget.isSearchMode.value,
           mainWidget: mainWidget,
           buttonColor: buttonColor,
           theme: theme,
@@ -178,11 +179,22 @@ class AppBarBuilderState extends State<AppBarBuilder> {
           defaultAppBarWidget: defaultAppBarWidget!,
         );
 
-        if (mainWidget.animation != null) {
-          return mainWidget.animation!(child);
-        } else {
-          return child;
+        if (mainWidget.animationOfSpeechBar != null) {
+          child = mainWidget.animationOfSpeechBar!(SizedBox(
+            key: ValueKey(mainWidget.isSpeechMode.value),
+            child: child,
+          ));
         }
+
+        if (mainWidget.animation != null) {
+          child = mainWidget.animation!(SizedBox(
+            key: ValueKey(mainWidget.isSearchMode.value &&
+                !mainWidget.isSpeechMode.value),
+            child: child,
+          ));
+        }
+
+        return child;
       },
     );
   }

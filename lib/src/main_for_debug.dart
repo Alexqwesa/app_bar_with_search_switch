@@ -65,7 +65,8 @@ class MyHomePage extends StatelessWidget {
           customTextNotifier: searchText,
           // animation: (child) => AppBarAnimationSlideDown(child: child, milliseconds: 400),
           // animation: (child) => AppBarAnimationSlideLeft(child: child, milliseconds: 400),
-          animation: (child) => AppBarAnimationSlideLeft(
+          animation: (child) => AppBarAnimationSlideLeft(child: child),
+          animationOfSpeechBar: (child) => AppBarAnimationSlideDown(
             child: child,
             // milliseconds: 400,
             // withFade: false,
@@ -73,58 +74,58 @@ class MyHomePage extends StatelessWidget {
             // percents: .80,
           ),
           // speechSubBarHeight: 0,
-          speechSubBar: (BuildContext context) {
-            final speech = AppBarWithSearchSwitch.of(context)!.speechEngine;
-            final isListening =
-                AppBarWithSearchSwitch.of(context)!.isListeningToSpeech;
-            final textNotifier =
-                AppBarWithSearchSwitch.of(context)!.textNotifier;
-
-            if (!(speech.isListening || speech.isAvailable)) {
-              return const Center(
-                child: Text('Speech recognition is initializing...'),
-              );
-            }
-
-            return GestureDetector(
-              child: Container(
-                alignment: Alignment.center,
-                color: Theme.of(context).primaryColor,
-                child: Column(
-                  children: [
-                    ValueListenableBuilder(
-                      valueListenable: isListening,
-                      builder: (context, _, child) {
-                        return FloatingActionButton(
-                          backgroundColor:
-                              speech.isListening ? Colors.red : Colors.grey,
-                          autofocus: true,
-                          onPressed: () async {
-                            if (speech.isListening) {
-                              await speech.stop();
-                              isListening.value =
-                                  false; // not necessary, just failsafe
-                            } else {
-                              await innerStartListening(
-                                speech: speech,
-                                isListening: isListening,
-                                textNotifier: textNotifier,
-                              );
-                            }
-                          },
-                          child: const Icon(Icons.mic_rounded),
-                        );
-                      },
-                    ),
-
-                    // Center(
-                    //   child: Text(speech.lastRecognizedWords),
-                    // ),
-                  ],
-                ),
-              ),
-            );
-          },
+          // speechSubBar: (BuildContext context) {
+          //   final speech = AppBarWithSearchSwitch.of(context)!.speechEngine;
+          //   final isListening =
+          //       AppBarWithSearchSwitch.of(context)!.isListeningToSpeech;
+          //   final textNotifier =
+          //       AppBarWithSearchSwitch.of(context)!.textNotifier;
+          //
+          //   if (!(speech.isListening || speech.isAvailable)) {
+          //     return const Center(
+          //       child: Text('Speech recognition is initializing...'),
+          //     );
+          //   }
+          //
+          //   return GestureDetector(
+          //     child: Container(
+          //       alignment: Alignment.center,
+          //       color: Theme.of(context).primaryColor,
+          //       child: Column(
+          //         children: [
+          //           ValueListenableBuilder(
+          //             valueListenable: isListening,
+          //             builder: (context, _, child) {
+          //               return FloatingActionButton(
+          //                 backgroundColor:
+          //                     speech.isListening ? Colors.red : Colors.grey,
+          //                 autofocus: true,
+          //                 onPressed: () async {
+          //                   if (speech.isListening) {
+          //                     await speech.stop();
+          //                     isListening.value =
+          //                         false; // not necessary, just failsafe
+          //                   } else {
+          //                     await innerStartListening(
+          //                       speech: speech,
+          //                       isListening: isListening,
+          //                       textNotifier: textNotifier,
+          //                     );
+          //                   }
+          //                 },
+          //                 child: const Icon(Icons.mic_rounded),
+          //               );
+          //             },
+          //           ),
+          //
+          //           // Center(
+          //           //   child: Text(speech.lastRecognizedWords),
+          //           // ),
+          //         ],
+          //       ),
+          //     ),
+          //   );
+          // },
           appBarBuilder: (context) {
             return AppBar(
               title: Text(title),

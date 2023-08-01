@@ -77,6 +77,7 @@ class AppBarWithSearchSwitch extends InheritedWidget
     this.toolbarWidth = double.infinity,
     this.searchInputDecoration,
     this.animation,
+    this.animationOfSpeechBar,
     //
     // > [ValueNotifier]s
     //
@@ -479,6 +480,49 @@ class AppBarWithSearchSwitch extends InheritedWidget
   ///           ...
   /// ```
   final Widget Function(Widget child)? animation;
+
+  /// A function that return an Animation Widget to animate transition to and from
+  /// SpeechMode(SearchMode with STT) of AppBarWithSearchSwitch.
+  ///
+  /// There are two prebuild animation widgets:
+  ///  - [AppBarAnimationSlideLeft],
+  ///  - [AppBarAnimationSlideDown].
+  ///
+  /// But you can build you own animation widget, if you want.
+  ///
+  /// **Usage of prebuilt animation widgets:**
+  /// ```dart
+  ///         appBar: AppBarWithSearchSwitch(
+  ///           animation: (child) => AppBarAnimationSlideLeft(child: child, milliseconds: 600),
+  ///          //animation: (child) => AppBarAnimationSlideLeft(child: child, milliseconds: 600, withFade: false, percents: 1.0,),
+  ///           appBarBuilder: (context) {
+  ///             return AppBar(
+  ///               title: Text(title),
+  ///               actions: const [
+  ///                 AppBarSearchButton(),
+  ///               ],
+  ///             );
+  ///           },
+  ///         ),
+  ///         ...
+  /// ```
+  ///
+  /// **Usage of your own animation widget:**
+  /// ```dart
+  ///         appBar: AppBarWithSearchSwitch(
+  ///           animation: (child) {
+  ///             return AnimatedSwitcher(
+  ///               duration: Duration(milliseconds: 600),
+  ///               transitionBuilder: (Widget child, Animation<double> animation) {
+  ///                 return  FadeTransition(opacity: animation, child: child);
+  ///                 },
+  ///               child: child,
+  ///             );
+  ///           }
+  ///           appBarBuilder: (context) {
+  ///           ...
+  /// ```
+  final Widget Function(Widget child)? animationOfSpeechBar;
 
   /// Standard overridden method of [PreferredSizeWidget].
   ///
