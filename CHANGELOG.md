@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.0.0-dev.11
+
+* added AppBarWithSearchSwitch.**animationOfSpeechBar** (the same as **animation** but for transition
+to search mode with speech to text support)
+
 ## 2.0.0-dev.10
 
 * changes in AppBarAnimationSlideDown and AppBarAnimationSlideLeft: new parameters **switchInCurve** and **switchOutCurve**
