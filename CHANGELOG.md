@@ -1,16 +1,20 @@
 # Changelog
 
+## 1.5.3
+
+* update documentation,
+
 ## 1.5.2
 
 * update documentation, minor changes,
-* new parameter for [AppBarAnimationSlideLeft].boxDecorationBehind,
+* new parameter: [AppBarAnimationSlideLeft].boxDecorationBehind,
 * a new tear-off constructors: [AppBarAnimationSlideLeft].call, [AppBarAnimationSlideDown].call,
 * required Dart Sdk >= 2.15.0 (for factory constructor tear-off).
 
 ## 1.5.1
 
-* changes in AppBarAnimationSlideDown and AppBarAnimationSlideLeft: new parameters **switchInCurve** and 
-  **switchOutCurve**
+* changes in AppBarAnimationSlideDown and AppBarAnimationSlideLeft: new parameters **switchInCurve** and
+**switchOutCurve**
 
 ## 1.5.0
 
