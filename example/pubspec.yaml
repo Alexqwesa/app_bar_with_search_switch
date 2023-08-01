@@ -8,7 +8,7 @@ environment:
   flutter: ">=2.17.0"
 
 dependencies:
-  app_bar_with_search_switch: any
+  app_bar_with_search_switch: 2.0.0-dev.11
 #  app_bar_with_search_switch:
 #    path: ../
   flutter:
