@@ -47,12 +47,17 @@ jobs:
         run: flutter build web --release  --base-href /app_bar_with_search_switch/
       - name: Move web to docs
         run: |
-          rm -rf docs/
-          mv './example/build/web/' 'docs/'
-      #- name: Git add  docs
-      #  run:  git add -A docs/
-      - name: git fetch
-        run:  git fetch
+          mv './example/build/web/' '../docs/'
+          rm -rf .
+      - uses: actions/checkout@v3
+      - name: Move docs
+        run: |
+          rm -rf ./docs/
+          mv '../docs/' .
+#       - name: Git add  docs
+#        run:  git add -A docs/
+#       - name: git fetch
+#         run:  git fetch
       - name: Upload docs
         uses: actions-x/commit@v6
         with:
@@ -64,7 +69,5 @@ jobs:
           repository: https://github.com/Alexqwesa/app_bar_with_search_switch
           token: ${{ secrets.TOKEN }}
           # directory: path/to/different/repo
-      - name: git push
-        run:  |
-          git push origin master --allow-unrelated-histories
+
         
