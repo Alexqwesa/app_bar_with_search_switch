@@ -56,6 +56,7 @@ class MyHomePage extends StatelessWidget {
           return AppBar(
             title: Text(title),
             actions: const [
+              AppBarSpeechButton(),
               AppBarSearchButton(),
               // or
               // IconButton(onPressed: AppBarWithSearchSwitch.of(context)?startSearch, icon: Icon(Icons.search)),
