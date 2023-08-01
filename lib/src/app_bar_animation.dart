@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 /// Usage:
 /// ```dart
 ///         appBar: AppBarWithSearchSwitch(
+///           animation: AppBarAnimationSlideDown.call
+///           // or customize:
 ///           animation: (child) => AppBarAnimationSlideDown(child: child, milliseconds: 400),
 ///           appBarBuilder: (context) {
 ///             return AppBar(
@@ -26,6 +28,9 @@ class AppBarAnimationSlideDown extends StatelessWidget {
     this.switchInCurve = Curves.easeInSine,
     this.switchOutCurve = Curves.easeOutSine,
   }) : super(key: key);
+
+  factory AppBarAnimationSlideDown.call(child) =>
+      AppBarAnimationSlideDown(child: child);
 
   /// The child will be an actual AppBar.
   final Widget child;
@@ -81,8 +86,9 @@ class AppBarAnimationSlideDown extends StatelessWidget {
 /// Usage:
 /// ```dart
 ///         appBar: AppBarWithSearchSwitch(
-///           animation: (child) => AppBarAnimationSlideLeft(child: child, milliseconds: 400),
-///          //animation: (child) => AppBarAnimationSlideLeft(child: child, milliseconds: 400, withFade: false, percents: 1.0,),
+///           animation: AppBarAnimationSlideLeft.call
+///           // or customize:
+///           //animation: (child) => AppBarAnimationSlideLeft(child: child, milliseconds: 400, withFade: false, percents: 1.0,),
 ///           appBarBuilder: (context) {
 ///             return AppBar(
 ///               title: Text(title),
@@ -102,7 +108,11 @@ class AppBarAnimationSlideLeft extends StatelessWidget {
     this.percents = 0.15,
     this.switchInCurve = Curves.easeInSine,
     this.switchOutCurve = Curves.easeOutSine,
-  }) : super(key: key);
+  })  : boxDecorationBehind = boxDecorationBehindAppBar,
+        super(key: key);
+
+  factory AppBarAnimationSlideLeft.call(child) =>
+      AppBarAnimationSlideLeft(child: child);
 
   /// The child will be an actual AppBar.
   final Widget child;
@@ -126,6 +136,12 @@ class AppBarAnimationSlideLeft extends StatelessWidget {
   /// Default is Curves.easeOutSine.
   final Curve switchOutCurve;
 
+  /// The [BoxDecoration] that will be shown behind AppBar during transition.
+  ///
+  /// Default: [boxDecorationBehindAppBar]  - LinearGradient
+  /// Use `null` for static color.
+  final BoxDecoration Function(BuildContext context)? boxDecorationBehind;
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -136,20 +152,7 @@ class AppBarAnimationSlideLeft extends StatelessWidget {
           child: SafeArea(
             child: SizedBox.expand(
               child: Container(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      Theme.of(context).appBarTheme.backgroundColor ??
-                          Theme.of(context).canvasColor,
-                      Theme.of(context).appBarTheme.foregroundColor ??
-                          Theme.of(context).primaryColor,
-                      Theme.of(context).appBarTheme.backgroundColor ??
-                          Theme.of(context).canvasColor,
-                    ],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
-                ),
+                decoration: boxDecorationBehind?.call(context),
                 child: SizedBox.expand(),
               ),
             ),
@@ -181,4 +184,22 @@ class AppBarAnimationSlideLeft extends StatelessWidget {
       ],
     );
   }
+}
+
+/// Default [BoxDecoration] with [LinearGradient] shown during transition.
+BoxDecoration boxDecorationBehindAppBar(BuildContext context) {
+  return BoxDecoration(
+    gradient: LinearGradient(
+      colors: [
+        Theme.of(context).appBarTheme.backgroundColor ??
+            Theme.of(context).canvasColor,
+        Theme.of(context).appBarTheme.foregroundColor ??
+            Theme.of(context).primaryColor,
+        Theme.of(context).appBarTheme.backgroundColor ??
+            Theme.of(context).canvasColor,
+      ],
+      begin: Alignment.topLeft,
+      end: Alignment.bottomRight,
+    ),
+  );
 }

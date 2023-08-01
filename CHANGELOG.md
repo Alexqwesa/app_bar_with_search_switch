@@ -1,14 +1,21 @@
 # Changelog
 
+## 1.5.2
+
+* update documentation, minor changes,
+* new parameter for [AppBarAnimationSlideLeft].boxDecorationBehind,
+* a new tear-off constructors: [AppBarAnimationSlideLeft].call, [AppBarAnimationSlideDown].call,
+* required Dart Sdk >= 2.15.0 (for factory constructor tear-off).
 
 ## 1.5.1
 
-* changes in AppBarAnimationSlideDown and AppBarAnimationSlideLeft: new parameters **switchInCurve** and **switchOutCurve**
+* changes in AppBarAnimationSlideDown and AppBarAnimationSlideLeft: new parameters **switchInCurve** and 
+  **switchOutCurve**
 
 ## 1.5.0
 
 * added AppBarWithSearchSwitch.**animation** parameter, which can be used for any **custom animation**,
-also there are two ready to use animations: [AppBarAnimationSlideLeft], [AppBarAnimationSlideDown].
+  also there are two ready to use animations: [AppBarAnimationSlideLeft], [AppBarAnimationSlideDown].
 
 ## 1.4.0
 

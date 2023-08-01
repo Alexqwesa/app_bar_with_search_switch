@@ -385,8 +385,9 @@ class AppBarWithSearchSwitch extends InheritedWidget
   /// **Usage of prebuilt animation widgets:**
   /// ```dart
   ///         appBar: AppBarWithSearchSwitch(
-  ///           animation: (child) => AppBarAnimationSlideLeft(child: child, milliseconds: 600),
-  ///          //animation: (child) => AppBarAnimationSlideLeft(child: child, milliseconds: 600, withFade: false, percents: 1.0,),
+  ///          animation: AppBarAnimationSlideLeft.call
+  ///          // or customize:
+  ///          // animation: (child) => AppBarAnimationSlideLeft(child: child, milliseconds: 600, withFade: false, percents: 1.0,),
   ///           appBarBuilder: (context) {
   ///             return AppBar(
   ///               title: Text(title),
@@ -406,7 +407,7 @@ class AppBarWithSearchSwitch extends InheritedWidget
   ///             return AnimatedSwitcher(
   ///               duration: Duration(milliseconds: 600),
   ///               transitionBuilder: (Widget child, Animation<double> animation) {
-  ///                 return  FadeTransition(opacity: animation, child: child);
+  ///                 return FadeTransition(opacity: animation, child: child);
   ///                 },
   ///               child: child,
   ///             );

@@ -65,13 +65,14 @@ class MyHomePage extends StatelessWidget {
           customTextNotifier: searchText,
           // animation: (child) => AppBarAnimationSlideDown(child: child, milliseconds: 400),
           // animation: (child) => AppBarAnimationSlideLeft(child: child, milliseconds: 400),
-          animation: (child) => AppBarAnimationSlideLeft(
-            // milliseconds: 400,
-            // withFade: false,
-            // percents: 0.25,
-            // percents: .80,
-            child: child,
-          ),
+          animation: AppBarAnimationSlideLeft.call,
+          // animation: (child) => AppBarAnimationSlideLeft(
+          // milliseconds: 400,
+          // withFade: false,
+          // percents: 0.25,
+          // percents: .80,
+          // child: child,
+          // ),
           appBarBuilder: (context) {
             return AppBar(
               title: Text(title),
