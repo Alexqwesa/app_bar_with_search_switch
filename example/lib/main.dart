@@ -50,7 +50,7 @@ class MyHomePage extends StatelessWidget {
         //   searchText.value = text;
         // },
         animation: AppBarAnimationSlideLeft.call,
-        animationOfSpeechBar: AppBarAnimationSlideDown.call,
+        animationOfSpeechBar: AppBarAnimationSlideDown.call, // v2+ only
         appBarBuilder: (context) {
           return AppBar(
             title: Text(title),
@@ -58,6 +58,7 @@ class MyHomePage extends StatelessWidget {
               AppBarSearchButton(),
               // or
               // IconButton(onPressed: AppBarWithSearchSwitch.of(context)?startSearch, icon: Icon(Icons.search)),
+              AppBarSpeechButton(),
             ],
           );
         },
