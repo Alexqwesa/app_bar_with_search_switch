@@ -50,7 +50,7 @@ class MyHomePage extends StatelessWidget {
         //   searchText.value = text;
         // },
         animation: (child) => AppBarAnimationSlideLeft(child: child),
-        // animationOfSpeechBar: (child) => AppBarAnimationSlideDown(child: child),
+        animationOfSpeechBar: (child) => AppBarAnimationSlideDown(child: child),
         appBarBuilder: (context) {
           return AppBar(
             title: Text(title),
