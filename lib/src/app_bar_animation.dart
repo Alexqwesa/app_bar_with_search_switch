@@ -108,8 +108,8 @@ class AppBarAnimationSlideLeft extends StatelessWidget {
     this.percents = 0.15,
     this.switchInCurve = Curves.easeInSine,
     this.switchOutCurve = Curves.easeOutSine,
-  })  : boxDecorationBehind = boxDecorationBehindAppBar,
-        super(key: key);
+    this.background = backgroundBoxDecoration,
+  }) : super(key: key);
 
   factory AppBarAnimationSlideLeft.call(child) =>
       AppBarAnimationSlideLeft(child: child);
@@ -138,9 +138,9 @@ class AppBarAnimationSlideLeft extends StatelessWidget {
 
   /// The [BoxDecoration] that will be shown behind AppBar during transition.
   ///
-  /// Default: [boxDecorationBehindAppBar]  - LinearGradient
+  /// Default: [backgroundBoxDecoration]  - LinearGradient
   /// Use `null` for static color.
-  final BoxDecoration Function(BuildContext context)? boxDecorationBehind;
+  final BoxDecoration Function(BuildContext context)? background;
 
   @override
   Widget build(BuildContext context) {
@@ -152,7 +152,7 @@ class AppBarAnimationSlideLeft extends StatelessWidget {
           child: SafeArea(
             child: SizedBox.expand(
               child: Container(
-                decoration: boxDecorationBehind?.call(context),
+                decoration: background?.call(context),
                 child: SizedBox.expand(),
               ),
             ),
@@ -187,7 +187,7 @@ class AppBarAnimationSlideLeft extends StatelessWidget {
 }
 
 /// Default [BoxDecoration] with [LinearGradient] shown during transition.
-BoxDecoration boxDecorationBehindAppBar(BuildContext context) {
+BoxDecoration backgroundBoxDecoration(BuildContext context) {
   return BoxDecoration(
     gradient: LinearGradient(
       colors: [
