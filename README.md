@@ -159,12 +159,8 @@ And the fragment of example code is here:
 ## TODO
 
 - [x] Add speech to text support - done in version 2.0+,
-- [ ] Add riverpod example,
-- [x] Add option for placement of SearchButton and MicrophoneButton outside of AppBar (optional GlobalKey?) - see FAQ
 - [x] Animation for Search app bar activation - done in versions 1.5+
-- [ ] use iconTheme for icons?
 - [ ] don't use shared default [ValueNotifier](https://api.flutter.dev/flutter/foundation/ValueNotifier-class.html) and [TextEditingController](https://api.flutter.dev/flutter/widgets/TextEditingController-class.html) ?
-- [ ] support CupertinoPageScaffold
 
 ## FAQ
 
