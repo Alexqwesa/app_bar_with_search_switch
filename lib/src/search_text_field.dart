@@ -52,11 +52,10 @@ class SearchTextField extends StatelessWidget {
                 focusedBorder: InputBorder.none,
                 border: InputBorder.none,
               ),
-          // don't use onChanged: it don't catch cases then textEditController changed directly,
-          // instead we already subscribed to textEditController in initState.
-          // onChanged: mainWidget.onChanged,
-          onSubmitted:
-              AppBarWithSearchSwitch.of(context)?.submitCallbackForTextField,
+          // Don't use parameter `onChanged` here:
+          // - it don't catch cases then textEditController changed directly,
+          // - it already subscribed to textEditController.
+          onSubmitted: mainWidget.submitCallbackForTextField,
           keyboardType: mainWidget.keyboardType,
           autofocus: true,
           controller: mainWidget.textEditingController,
