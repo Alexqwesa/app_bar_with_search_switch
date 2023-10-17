@@ -1,12 +1,18 @@
 # Changelog
 
+## 2.0.0-dev.15
+
+* [AppBarWithSearchSwitch].titleTextStyle now also applied to default 
+TextField (in search mode),
+* update documentation.
+
 ## 2.0.0-dev.14
 
-* new parameter for [AppBarAnimationSlideLeft].background,
+* new parameter for [AppBarAnimationSlideLeft].background.
 
 ## 2.0.0-dev.13
 
-* minor: update documentation
+* minor: update documentation.
 
 ## 2.0.0-dev.12
 

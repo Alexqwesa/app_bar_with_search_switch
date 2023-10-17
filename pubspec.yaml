@@ -4,7 +4,7 @@ description: An extension for AppBar witch can switch it into search field.
 repository: https://github.com/Alexqwesa/app_bar_with_search_switch
 #author: Alexqwesa <alexo.veto@gmail.com>
 
-version: 2.0.0-dev.14
+version: 2.0.0-dev.15
 
 environment:
   sdk: ">=2.15.0 <4.0.0"
