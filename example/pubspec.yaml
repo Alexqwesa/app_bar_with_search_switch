@@ -1,16 +1,17 @@
-name: example
+name: example_of_app_bar_with_search_switch
 description: A new Flutter package project.
 version: 0.0.1
 homepage: https://github.com/Alexqwesa/app_bar_with_search_switch
+publish_to: none
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
   flutter: ">=2.10.0"
 
 dependencies:
-  app_bar_with_search_switch: any
-#  app_bar_with_search_switch:
-#    path: ../
+  #  app_bar_with_search_switch: any
+  app_bar_with_search_switch:
+    path: ../
   flutter:
     sdk: flutter
 
