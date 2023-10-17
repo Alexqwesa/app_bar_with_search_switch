@@ -33,11 +33,17 @@ class SearchTextField extends StatelessWidget {
               ? theme.appBarTheme.backgroundColor ?? theme.canvasColor
               : theme.textSelectionTheme.cursorColor,
 
-          style: theme.textTheme.headlineSmall?.copyWith(
-            color: mainWidget.keepAppBarColors
-                ? theme.appBarTheme.foregroundColor ?? theme.canvasColor
-                : theme.textTheme.headlineSmall?.color,
-          ),
+          style: mainWidget.titleTextStyle?.copyWith(
+                color: mainWidget.keepAppBarColors // maybe better without this?
+                    ? theme.appBarTheme.foregroundColor ?? theme.canvasColor
+                    : mainWidget.titleTextStyle!.color,
+              ) ??
+              theme.textTheme.titleLarge?.copyWith(
+                color: mainWidget.keepAppBarColors
+                    ? theme.appBarTheme.foregroundColor ?? theme.canvasColor
+                    : theme.textTheme.titleLarge?.color,
+                fontWeight: FontWeight.w400,
+              ),
           decoration: mainWidget.searchInputDecoration ??
               InputDecoration(
                 hintText: mainWidget.fieldHintText,

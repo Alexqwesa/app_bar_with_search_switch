@@ -253,6 +253,8 @@ class AppBarWithSearchSwitch extends InheritedWidget
   /// See [AppBar] documentation for help.
   ///
   /// This parameter is used then search is active: [isSearchMode] == true.
+  ///
+  /// It is applied to default [TextField] that shown when [isSearchMode] == true.
   final TextStyle? titleTextStyle;
 
   /// See [AppBar] documentation for help.
