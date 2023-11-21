@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.6.0
+## 1.6.2
 
 * [AppBarWithSearchSwitch].titleTextStyle now also applied to default 
 TextField (in search mode),
