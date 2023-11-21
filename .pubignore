@@ -20,3 +20,6 @@ build/
 docs/
 /lib/generated_plugin_registrant.dart
 main_for_debug.dart
+
+example/lib/main_android_back_button_clear_search.dart
+# todo: WillPopScope -> PopScope
