@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.0.0-dev.17
+
+* fix for material3: use ThemeData.useMaterial3 to detect input field text color.
+
 ## 2.0.0-dev.16
 
 * [AppBarWithSearchSwitch].titleTextStyle now also applied to default 
