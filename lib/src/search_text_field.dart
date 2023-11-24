@@ -40,7 +40,12 @@ class SearchTextField extends StatelessWidget {
               ) ??
               theme.textTheme.titleLarge?.copyWith(
                 color: mainWidget.keepAppBarColors
-                    ? theme.appBarTheme.foregroundColor ?? theme.canvasColor
+                    ? theme.appBarTheme.foregroundColor ??
+                        theme.appBarTheme.toolbarTextStyle?.color ??
+                        theme.appBarTheme.titleTextStyle?.color ??
+                        (theme.useMaterial3
+                            ? theme.textTheme.titleLarge?.color
+                            : theme.canvasColor)
                     : theme.textTheme.titleLarge?.color,
                 fontWeight: FontWeight.w400,
               ),
