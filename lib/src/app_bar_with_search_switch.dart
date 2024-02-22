@@ -126,6 +126,7 @@ class AppBarWithSearchSwitch extends InheritedWidget
     this.toolbarTextStyle,
     this.titleTextStyle,
     this.systemOverlayStyle,
+    this.theme,
   }) : super(
           key: key,
           child: AppBarBuilder(
@@ -617,8 +618,37 @@ class AppBarWithSearchSwitch extends InheritedWidget
   /// Clear TextEditController on close.
   final bool clearOnClose;
 
+  /// Theme for AppBar, when [isSearchMode] == true.
+  ///
+  /// Since you can't just wrap [AppBarWithSearchSwitch] with [Theme] widget - this parameter
+  /// will make it for you.
+  ///
+  /// Example:
+  /// ```dart
+  /// ...
+  ///     appBar: AppBarWithSearchSwitch(
+  ///        theme: Theme.of(context).copyWith(
+  ///                textSelectionTheme: TextSelectionThemeData(
+  ///                   selectionHandleColor: Theme.of(context).splashColor,
+  ///                   selectionColor: Theme.of(context).colorScheme.background.withOpacity(0.5),
+  ///                   cursorColor: Theme.of(context).colorScheme.background,
+  ///                 ),
+  ///        ),
+  ///        appBarBuilder: (context) {
+  ///          return AppBar(
+  ///            title: Text('Your text here'),
+  ///
+  /// ```
+  ///
+  /// See also: [titleTextStyle], [searchInputDecoration], or just write your own with [title].
+  final ThemeData? theme;
+
+  /// It was used for old Material Theme 2:
+  ///
   /// Whether the text field should take place "in the existing app bar",
-  /// meaning whether it has the same background or a flipped one. Defaults to true.
+  /// meaning: whether it has the same background or a flipped one. Defaults to true.
+  ///
+  /// Since v1.8.0(2.0.0-dev.18) will almost no effect on Material Theme 3.
   final bool keepAppBarColors;
 
   /// Whether or not the search bar should close on submit. Defaults to true.
