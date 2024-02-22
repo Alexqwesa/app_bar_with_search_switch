@@ -470,6 +470,7 @@ class AppBarWithSearchSwitch extends InheritedWidget
   ///     return Directionality(
   ///       textDirection: Directionality.of(context),
   ///       child: TextField(
+  ///         focusNode: mainWidget.searchFocusNode,
   ///         keyboardType: mainWidget.keyboardType,
   ///         decoration: InputDecoration(
   ///           hintText: mainWidget.fieldHintText,
@@ -660,4 +661,12 @@ class AppBarWithSearchSwitch extends InheritedWidget
   /// Use [isSearchMode] getter to access this field.
   @Deprecated('Please, use customIsSearchModeNotifier')
   final ValueNotifier<bool>? customIsActiveNotifier;
+
+  final _searchFocusNode = ValueNotifier<FocusNode?>(null);
+
+  /// Get [FocusNode] that will be activated when [isSearchMode] == true
+  FocusNode? get searchFocusNode => _searchFocusNode.value;
+
+  /// For inner use.
+  set searchFocusNode(FocusNode? value) => _searchFocusNode.value = value;
 }
