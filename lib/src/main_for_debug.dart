@@ -62,6 +62,31 @@ class MyHomePage extends StatelessWidget {
         // *** The Widget AppBarWithSearchSwitch
         //
         appBar: AppBarWithSearchSwitch(
+          //         title: (context) {
+          // final mainWidget = AppBarWithSearchSwitch.of(context)!;
+          //
+          //   return Directionality(
+          //     textDirection: Directionality.of(context),
+          //     child: TextField(
+          //       focusNode: mainWidget.searchFocusNode,
+          //       keyboardType: mainWidget.keyboardType,
+          //       decoration: InputDecoration(
+          //         hintText: mainWidget.fieldHintText,
+          //         enabledBorder: InputBorder.none,
+          //         focusedBorder: InputBorder.none,
+          //         border: InputBorder.none,
+          //       ),
+          //       // Don't use parameter `onChanged` here:
+          //       // - it don't catch cases then textEditController changed directly,
+          //       // - it already subscribed to textEditController.
+          //       onSubmitted: mainWidget.submitCallbackForTextField,
+          //       autofocus: true,
+          //       // or autofocus: !mainWidget.isSpeechMode.value, // don't show keyboard on speech recognition
+          //       controller: mainWidget.textEditingController,
+          //     ),
+          //   );
+          // },
+
           customIsSearchModeNotifier: isSearchMode,
           customTextNotifier: searchText,
           // animation: (child) => AppBarAnimationSlideDown(child: child, milliseconds: 400),

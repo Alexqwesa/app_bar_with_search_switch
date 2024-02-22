@@ -7,8 +7,11 @@ import 'package:flutter/material.dart';
 import 'app_bar_with_search_switch.dart';
 
 class SearchTextField extends StatelessWidget {
+  final FocusNode focusNode;
+
   const SearchTextField({
     Key? key,
+    required this.focusNode,
   }) : super(key: key);
 
   @override
@@ -28,6 +31,7 @@ class SearchTextField extends StatelessWidget {
               )
             : theme,
         child: TextField(
+          focusNode: focusNode,
           cursorColor: (mainWidget.keepAppBarColors && !theme.useMaterial3)
               ? theme.appBarTheme.backgroundColor ?? theme.canvasColor
               : theme.textSelectionTheme.cursorColor,

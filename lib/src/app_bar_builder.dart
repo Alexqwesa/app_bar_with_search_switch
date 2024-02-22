@@ -39,6 +39,7 @@ class AppBarBuilder extends StatefulWidget {
 class AppBarBuilderState extends State<AppBarBuilder> {
   bool hasText = false;
   bool isLastSpeechMode = false;
+  late final FocusNode searchFocusNode;
 
   // // Hot reload should always check AppBar height
   // @override
@@ -56,12 +57,14 @@ class AppBarBuilderState extends State<AppBarBuilder> {
   @override
   void initState() {
     super.initState();
-    if (widget.showClearButton) {
-      widget.controller.addListener(onTextChanged);
-      widget.textNotifier.addListener(onTextNotifierChanged);
-      widget.isSpeechMode.addListener(onSpeechChanged);
-      widget.isSearchMode.addListener(onSearchModeChanged);
-    }
+    // if (widget.showClearButton) {
+    widget.controller.addListener(onTextChanged);
+    widget.textNotifier.addListener(onTextNotifierChanged);
+    widget.isSpeechMode.addListener(onSpeechChanged);
+    widget.isSearchMode.addListener(onSearchModeChanged);
+    // }
+    widget.isSearchMode.addListener(onSearchMode);
+    searchFocusNode = FocusNode();
     //
     // > check is custom SpeechToText provided and init global var
     //
@@ -100,6 +103,8 @@ class AppBarBuilderState extends State<AppBarBuilder> {
     widget.textNotifier.removeListener(onTextNotifierChanged);
     widget.isSpeechMode.removeListener(onSpeechChanged);
     widget.isSearchMode.removeListener(onSearchModeChanged);
+    widget.isSearchMode.removeListener(onSearchMode);
+    searchFocusNode.dispose();
     super.dispose();
   }
 
@@ -130,6 +135,19 @@ class AppBarBuilderState extends State<AppBarBuilder> {
         widget.isSearchMode.value = true;
       }
     }
+    if (oldWidget.isSearchMode != widget.isSearchMode) {
+      oldWidget.isSearchMode.removeListener(onSearchMode);
+      widget.isSearchMode.addListener(onSearchMode);
+    }
+  }
+
+  void onSearchMode() {
+    AppBarWithSearchSwitch.of(context)?.searchFocusNode = searchFocusNode;
+    if (widget.isSearchMode.value &&
+        searchFocusNode.canRequestFocus &&
+        !widget.isSpeechMode.value) {
+      searchFocusNode.requestFocus();
+    }
   }
 
   void onTextNotifierChanged() {
@@ -148,7 +166,9 @@ class AppBarBuilderState extends State<AppBarBuilder> {
       });
       widget.hasText.value = hasText;
     }
-    widget.textNotifier.value = controller.text;
+    if (widget.textNotifier.value != controller.text) {
+      widget.textNotifier.value = controller.text;
+    }
     widget.onChange?.call(controller.text);
   }
 
@@ -177,6 +197,7 @@ class AppBarBuilderState extends State<AppBarBuilder> {
           theme: theme,
           hasText: hasText,
           defaultAppBarWidget: defaultAppBarWidget!,
+          focusNode: searchFocusNode,
         );
 
         if (mainWidget.animationOfSpeechBar != null) {
@@ -209,9 +230,11 @@ class _AppBarSwitch extends StatelessWidget {
     required this.theme,
     required this.hasText,
     required this.defaultAppBarWidget,
+    required this.focusNode,
   }) : super(key: key);
 
   final bool isSearching;
+  final FocusNode focusNode;
   final Widget defaultAppBarWidget;
 
   final AppBarWithSearchSwitch mainWidget;
@@ -237,7 +260,7 @@ class _AppBarSwitch extends StatelessWidget {
                     : LeadingIconBackButton(buttonColor: buttonColor),
                 title: mainWidget.title != null
                     ? mainWidget.title?.call(context)
-                    : const SearchTextField(),
+                    : SearchTextField(focusNode: focusNode),
                 backgroundColor:
                     mainWidget.keepAppBarColors ? null : theme.canvasColor,
                 // backgroundColor: mainWidget.backgroundColor,
