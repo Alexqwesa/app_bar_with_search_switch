@@ -32,7 +32,7 @@ class SearchTextField extends StatelessWidget {
               ? theme.appBarTheme.backgroundColor ?? theme.canvasColor
               : theme.textSelectionTheme.cursorColor,
 
-          style:  mainWidget.titleTextStyle?.copyWith(
+          style: mainWidget.titleTextStyle?.copyWith(
                 color: (mainWidget.keepAppBarColors && !theme.useMaterial3)
                     ? theme.appBarTheme.foregroundColor ?? theme.canvasColor
                     : mainWidget.titleTextStyle!.color,

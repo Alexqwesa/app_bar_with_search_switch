@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.8.1
+## 1.8.2
 
 * [AppBarWithSearchSwitch].keepAppBarColors will not affect Material 3 Theme,
 it was used to autodetect default colors for Material 2, 
