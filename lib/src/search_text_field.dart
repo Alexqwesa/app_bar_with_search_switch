@@ -14,27 +14,26 @@ class SearchTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final mainWidget = AppBarWithSearchSwitch.of(context)!;
-    final theme = Theme.of(context);
+    final theme = mainWidget.theme ?? Theme.of(context);
 
     return Directionality(
       textDirection: Directionality.of(context),
       child: Theme(
-        data: mainWidget.keepAppBarColors
+        data: (mainWidget.keepAppBarColors && !theme.useMaterial3)
             ? theme.copyWith(
                 textSelectionTheme: TextSelectionThemeData(
-                  // didn't work, https://github.com/flutter/flutter/issues/74890
                   selectionHandleColor: theme.splashColor,
                   selectionColor: theme.colorScheme.background.withOpacity(0.5),
                 ),
               )
             : theme,
         child: TextField(
-          cursorColor: mainWidget.keepAppBarColors
+          cursorColor: (mainWidget.keepAppBarColors && !theme.useMaterial3)
               ? theme.appBarTheme.backgroundColor ?? theme.canvasColor
               : theme.textSelectionTheme.cursorColor,
 
-          style: mainWidget.titleTextStyle?.copyWith(
-                color: mainWidget.keepAppBarColors // maybe better without this?
+          style:  mainWidget.titleTextStyle?.copyWith(
+                color: (mainWidget.keepAppBarColors && !theme.useMaterial3)
                     ? theme.appBarTheme.foregroundColor ?? theme.canvasColor
                     : mainWidget.titleTextStyle!.color,
               ) ??
@@ -53,11 +52,11 @@ class SearchTextField extends StatelessWidget {
               InputDecoration(
                 hintText: mainWidget.fieldHintText,
                 hintStyle: TextStyle(
-                  color: (mainWidget.keepAppBarColors
+                  color: ((mainWidget.keepAppBarColors && !theme.useMaterial3)
                           ? theme.appBarTheme.foregroundColor ??
                               theme.canvasColor
                           : theme.textTheme.headlineSmall?.color)
-                      ?.withOpacity(0.8),
+                      ?.withOpacity(0.7),
                 ),
                 enabledBorder: InputBorder.none,
                 focusedBorder: InputBorder.none,

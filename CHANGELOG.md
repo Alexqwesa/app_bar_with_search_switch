@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.8.1
+
+* [AppBarWithSearchSwitch].keepAppBarColors will not affect Material 3 Theme,
+it was used to autodetect default colors for Material 2, 
+but in Material 3 it only bring confusions...
+* [AppBarWithSearchSwitch].theme - Since you can't just wrap [AppBarWithSearchSwitch] with [Theme] widget - 
+this parameter will make it for you.
+
 ## 1.7.0
 
 * fix for material3: use ThemeData.useMaterial3 to detect input field text color.
