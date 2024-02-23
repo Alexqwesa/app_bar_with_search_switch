@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.8.3
+## 1.8.4
 
 * Fixed: TextField.autofocus in SearchBar sometimes didn't worked(when switching with keyboard) 
 

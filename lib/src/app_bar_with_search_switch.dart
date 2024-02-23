@@ -665,6 +665,8 @@ class AppBarWithSearchSwitch extends InheritedWidget
   final _searchFocusNode = ValueNotifier<FocusNode?>(null);
 
   /// Get [FocusNode] that will be activated when [isSearchMode] == true
+  ///
+  /// See example here: [title]
   FocusNode? get searchFocusNode => _searchFocusNode.value;
 
   /// For inner use.
