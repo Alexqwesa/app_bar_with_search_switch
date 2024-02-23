@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.8.3
+
+* Fixed: TextField.autofocus in SearchBar sometimes didn't worked(when switching with keyboard) 
+
 ## 1.8.2
 
 * [AppBarWithSearchSwitch].keepAppBarColors will not affect Material 3 Theme,

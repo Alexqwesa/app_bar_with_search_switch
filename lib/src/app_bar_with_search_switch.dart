@@ -512,9 +512,9 @@ class AppBarWithSearchSwitch extends InheritedWidget
   ///     appBar: AppBarWithSearchSwitch(
   ///        theme: Theme.of(context).copyWith(
   ///                textSelectionTheme: TextSelectionThemeData(
-  ///                   selectionHandleColor: Theme.of(context).splashColor,
-  ///                   selectionColor: Theme.of(context).colorScheme.background.withOpacity(0.5),
-  ///                   cursorColor: Theme.of(context).colorScheme.background,
+  ///                   selectionHandleColor: Theme.of(context).primary,
+  ///                   selectionColor: Theme.of(context).colorScheme.primary.withOpacity(0.5),
+  ///                   cursorColor: Theme.of(context).colorScheme.primary,
   ///                 ),
   ///        ),
   ///        appBarBuilder: (context) {
