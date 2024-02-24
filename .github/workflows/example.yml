@@ -42,7 +42,7 @@ jobs:
       - name: Analyze project source
         working-directory: ./example
         run: |
-          flutter outdated
+          flutter pub outdated
           flutter --version
           flutter analyze || true
       - name: Build example
