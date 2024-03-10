@@ -71,7 +71,8 @@ class SearchTextField extends StatelessWidget {
           // - it already subscribed to textEditController.
           onSubmitted: mainWidget.submitCallbackForTextField,
           keyboardType: mainWidget.keyboardType,
-          autofocus: true,
+          autofocus: !mainWidget
+              .isSpeechMode.value, // don't show keyboard on speech recognition
           controller: mainWidget.textEditingController,
         ),
       ),
