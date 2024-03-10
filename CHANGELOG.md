@@ -1,6 +1,6 @@
 # Changelog
 
-## 2.0.0-dev.19
+## 2.0.0-dev.20
 
 * Fixed: TextField.autofocus in SearchBar sometimes didn't worked(when switching with keyboard)
 
