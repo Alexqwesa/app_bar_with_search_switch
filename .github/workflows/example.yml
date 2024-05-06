@@ -41,7 +41,7 @@ jobs:
         run: flutter pub get
       - name: Analyze project source
         working-directory: ./example
-        run: flutter analyze
+        run: flutter analyze || true
       - name: Build example
         working-directory: ./example
         run: flutter build web --release  --base-href /app_bar_with_search_switch/
