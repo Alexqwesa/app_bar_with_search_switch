@@ -59,7 +59,7 @@ jobs:
         with:
           # email: me@example.com
           # name: '[Auto] update online example'
-          branch: master
+          branch: v2.0(with_stt)
           files: docs
           force: true
           repository: https://github.com/Alexqwesa/app_bar_with_search_switch
