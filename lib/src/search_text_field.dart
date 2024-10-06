@@ -26,7 +26,7 @@ class SearchTextField extends StatelessWidget {
             ? theme.copyWith(
                 textSelectionTheme: TextSelectionThemeData(
                   selectionHandleColor: theme.splashColor,
-                  selectionColor: theme.colorScheme.background.withOpacity(0.5),
+                  selectionColor: theme.colorScheme.surface.withOpacity(0.5),
                 ),
               )
             : theme,

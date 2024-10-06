@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.8.6
+
+* Replace outdated [Theme.colorScheme.background] to [surface].
+
 ## 1.8.5
 
 * Fixed: TextField.autofocus in SearchBar sometimes didn't worked(when switching with keyboard) 
