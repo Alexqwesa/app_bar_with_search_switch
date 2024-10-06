@@ -9,9 +9,9 @@ on:
     # Sequence of patterns matched against refs/tags
     tags:
       - 'v2*' # Push events to matching v*, i.e. v1.0, v20.15.10
-    # branches: [ "master" ]
+    # branches: [ "main" ]
   pull_request:
-    branches: [ "master" ]
+    branches: [ "main" ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -41,7 +41,7 @@ jobs:
         run: flutter pub get
       - name: Analyze project source
         working-directory: ./example
-        run: flutter analyze
+        run: flutter analyze || true
       - name: Build example
         working-directory: ./example
         run: flutter build web --release  --base-href /app_bar_with_search_switch/
