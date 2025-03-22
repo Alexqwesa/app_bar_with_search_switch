@@ -54,6 +54,8 @@ class AppBarSearchButton extends StatelessWidget {
   /// Default: Colors.redAccent, used only if [buttonHasTwoStates] = true,
   final Color searchActiveButtonColor;
 
+  final Color? searchIconColor;
+
   const AppBarSearchButton({
     Key? key,
     this.toolTipLastText = 'Last input text: ',
@@ -63,6 +65,7 @@ class AppBarSearchButton extends StatelessWidget {
     this.searchIcon = Icons.search,
     this.searchActiveIcon = Icons.search_off,
     this.searchActiveButtonColor = Colors.redAccent,
+    this.searchIconColor = Colors.white,
   }) : super(key: key);
 
   @override
@@ -94,6 +97,7 @@ class AppBarSearchButton extends StatelessWidget {
         toolTipStartText: toolTipStartText,
         appBar: appBar,
         searchIcon: searchIcon,
+        searchIconColor: searchIconColor,
       );
     } else {
       return ValueListenableBuilder(
@@ -106,6 +110,7 @@ class AppBarSearchButton extends StatelessWidget {
                   toolTipStartText: toolTipStartText,
                   appBar: appBar,
                   searchIcon: searchIcon,
+                  searchIconColor: searchIconColor,
                 )
               : Padding(
                   padding: const EdgeInsets.all(4.0),
@@ -131,16 +136,19 @@ class _StartSearchButton extends StatelessWidget {
     required this.toolTipStartText,
     required this.appBar,
     required this.searchIcon,
+    required this.searchIconColor,
   }) : super(key: key);
 
   final IconData searchIcon;
   final String toolTipStartText;
   final AppBarWithSearchSwitch appBar;
+  final Color? searchIconColor;
 
   @override
   Widget build(BuildContext context) {
     return IconButton(
       icon: Icon(searchIcon),
+      color: searchIconColor,
       tooltip: toolTipStartText,
       onPressed: () {
         appBar.triggerSearch();
